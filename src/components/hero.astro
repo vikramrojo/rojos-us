@@ -1,0 +1,43 @@
+---
+import cypressLogo from '@/assets/cypress.svg?raw'
+import launchdarklyLogo from '@/assets/launchdarkly.svg?raw'
+import workosLogo from '@/assets/workos.svg?raw'
+---
+
+<section
+  id="hero-section"
+  class="relative overflow-hidden py-16 rounded-lg p-6"
+>
+  <canvas
+    id="hero-canvas"
+    class="pointer-events-none absolute inset-0 h-full w-full mix-blend-screen"
+  ></canvas>
+  <div
+    class="container relative z-10 mx-auto"
+  >
+    <p class="py-6 text-xl">
+      I'm Vikram Rojo (he/him), a designer who pairs product strategy with
+      agentic production at high-growth enterprise startups. I use AI to
+      expand what gets prototyped and user experience to evaluate what works.
+      Here's my <a href="/resume.md" class="underline hover:no-underline"
+        >resume.md</a
+      >.
+    </p>
+    <p class="mb-2">Trusted with product design at:</p>
+    <div class="flex flex-wrap items-center gap-8 md:gap-16">
+      <div class="logo-invert h-6 [&>svg]:h-full [&>svg]:w-auto">
+        <Fragment set:html={workosLogo} />
+      </div>
+      <div class="logo-invert h-7 [&>svg]:h-full [&>svg]:w-auto">
+        <Fragment set:html={launchdarklyLogo} />
+      </div>
+      <div class="logo-invert h-8 [&>svg]:h-full [&>svg]:w-auto">
+        <Fragment set:html={cypressLogo} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/textmode.js@latest/dist/textmode.umd.js"
+></script>
+<script is:inline src="/scripts/sketch.js"></script>

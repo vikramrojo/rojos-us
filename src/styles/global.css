@@ -4,8 +4,8 @@
 
 @theme inline {
   --font-sans:
-    Geist, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    var(--font-azeret-mono), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-mono:
     Geist Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
@@ -24,14 +24,6 @@
 
   --color-border: var(--border);
   --color-ring: var(--ring);
-}
-
-@font-face {
-  font-family: 'Geist';
-  src: url('/fonts/GeistVF.woff2') format('woff2-variations');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
 }
 
 @font-face {
@@ -66,12 +58,17 @@
   --ring: oklch(0.556 0 0);
 }
 
+/* Invert white logo SVGs in light mode so they appear black */
+:root:not([data-theme='dark']) .logo-invert svg {
+  filter: invert(1);
+}
+
 @layer base {
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    @apply border-border outline-ring/50 tracking-tight;
+    @apply border-border outline-ring/50 tracking-tighter font-light;
   }
 }

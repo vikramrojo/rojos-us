@@ -1,5 +1,4 @@
 ---
-import Link from '@/components/link.astro'
 import { Badge } from '@/components/ui/badge'
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
@@ -13,14 +12,8 @@ interface Props {
 const { project } = Astro.props
 ---
 
-<div
-  class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
->
-  <Link
-    href={project.data.link}
-    class="flex flex-col gap-4 sm:flex-row"
-    external
-  >
+<div class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out">
+  <div class="flex flex-col gap-4 sm:flex-row">
     {
       project.data.image && (
         <div class="w-full sm:max-w-3xs sm:shrink-0">
@@ -35,10 +28,10 @@ const { project } = Astro.props
       )
     }
     <div class="grow">
-      <h3 class="mb-1 text-lg font-medium">
+      <h3 class="mb-1 font-medium">
         {project.data.name}
       </h3>
-      <p class="text-muted-foreground mb-2 text-sm">
+      <p class="text-muted-foreground mb-2">
         {project.data.description}
       </p>
       {
@@ -66,5 +59,5 @@ const { project } = Astro.props
         )
       }
     </div>
-  </Link>
+  </div>
 </div>

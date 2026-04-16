@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config'
+import { defineConfig, fontProviders, passthroughImageService } from 'astro/config'
 
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
@@ -20,7 +20,18 @@ import type { ExpressiveCodeTheme } from 'rehype-expressive-code'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  site: 'https://astro-erudite.vercel.app',
+  site: 'https://rojos.us',
+  fonts: [
+    {
+      name: 'Azeret Mono',
+      cssVariable: '--font-azeret-mono',
+      provider: fontProviders.google(),
+      weights: [200],
+    },
+  ],
+  image: {
+    service: passthroughImageService(),
+  },
   integrations: [mdx(), react(), sitemap(), icon()],
   vite: {
     plugins: [tailwindcss()],

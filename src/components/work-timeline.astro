@@ -1,0 +1,104 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content'
+
+async function fetchLinkMeta(
+  url: string,
+): Promise<{ title: string; favicon: string }> {
+  const hostname = new URL(url).hostname
+  const favicon = `https://www.google.com/s2/favicons?domain=${hostname}&sz=32`
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(3000) })
+    const html = await res.text()
+    const match = html.match(/<title[^>]*>([^<]+)<\/title>/i)
+    const title = match ? match[1].trim() : hostname
+    return { title, favicon }
+  } catch {
+    return { title: hostname, favicon }
+  }
+}
+
+const entries: CollectionEntry<'projects'>[] = (
+  await getCollection('projects')
+).sort((a, b) => {
+  const aDate = a.data.startDate?.getTime() ?? 0
+  const bDate = b.data.startDate?.getTime() ?? 0
+  return bDate - aDate
+})
+
+const rendered = await Promise.all(
+  entries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+    linkMeta: await Promise.all((entry.data.links ?? []).map(fetchLinkMeta)),
+  })),
+)
+---
+
+<ul class="ml-3 flex flex-col border-l">
+  {
+    rendered.map(({ entry, Content, linkMeta }, i) => {
+      const start = entry.data.startDate?.toLocaleDateString('en-US', {
+        month: 'short',
+        year: 'numeric',
+      })
+      const end = !entry.data.endDate
+        ? 'Present'
+        : entry.data.endDate.toLocaleDateString('en-US', {
+            month: 'short',
+            year: 'numeric',
+          })
+
+      const descParts = entry.data.description.split(' – ')
+      const role = descParts[0] ?? ''
+
+      return (
+        <li class="relative pl-6" style={i > 0 ? 'margin-top: 2.5rem' : ''}>
+          <div class="bg-primary absolute -left-[5px] top-5 h-2.5 w-2.5"/>
+          <div class="border p-6 rounded-tl-lg rounded-tr-lg">
+            <h3 class="font-semibold">
+              {entry.data.name}
+              {role && (
+                <span class="text-muted-foreground font-normal"> — {role}</span>
+              )}
+            </h3>
+            <p class="text-muted-foreground">
+              {start} – {end}
+            </p>
+          </div>
+          <div class="border border-t-0 rounded-bl-lg rounded-br-lg p-6">
+            <div class="[&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-5">
+              <Content />
+            </div>
+            {linkMeta.length > 0 && (
+              <details class="mt-4">
+                <summary class="text-muted-foreground cursor-pointer select-none">
+                  See {linkMeta.length}{' '}
+                  {linkMeta.length > 1 ? 'releases' : 'release'}
+                </summary>
+                <div class="mt-2 flex flex-col gap-2">
+                  {linkMeta.map((meta, j) => (
+                    <a
+                      href={entry.data.links![j]}
+                      target="_blank"
+                      rel="noopener"
+                      class="text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors"
+                    >
+                      <img
+                        src={meta.favicon}
+                        alt=""
+                        width="16"
+                        height="16"
+                        class="h-4 w-4 shrink-0"
+                      />
+                      {meta.title}
+                    </a>
+                  ))}
+                </div>
+              </details>
+            )}
+          </div>
+        </li>
+      )
+    })
+  }
+</ul>

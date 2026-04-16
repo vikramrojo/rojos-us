@@ -40,11 +40,20 @@ const projects = defineCollection({
       name: z.string(),
       description: z.string(),
       tags: z.array(z.string()),
-      image: image(),
-      link: z.url(),
+      image: image().optional(),
+      links: z.array(z.url()).optional(),
       startDate: z.coerce.date().optional(),
       endDate: z.coerce.date().optional(),
     }),
 })
 
-export const collections = { blog, authors, projects }
+const about = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/about' }),
+  schema: z.object({
+    title: z.string(),
+    order: z.number(),
+    icon: z.string().optional(),
+  }),
+})
+
+export const collections = { blog, authors, projects, about }

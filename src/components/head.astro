@@ -1,5 +1,6 @@
 ---
 import { SITE } from '@/consts'
+import { Font } from 'astro:assets'
 import { ClientRouter } from 'astro:transitions'
 import Favicons from './favicons.astro'
 ---
@@ -42,6 +43,7 @@ import Favicons from './favicons.astro'
     href={new URL('rss.xml', Astro.site)}
   />
 
+  <Font cssVariable="--font-azeret-mono" preload />
   <Favicons />
   <ClientRouter />
 
