@@ -1,8 +1,3 @@
-/**
- * Hero canvas — subtle grayscale flow field
- * Mouse position pulls the wave origin.
- */
-
 const canvas = document.getElementById("hero-canvas");
 const section = document.getElementById("hero-section");
 
@@ -14,7 +9,7 @@ const tm = window.textmode.create({
     canvas,
     width: canvas.width,
     height: canvas.height,
-    fontSize: 16,
+    fontSize: 8,
     loadingScreen: {
         transition: 'none',
         renderer: () => {}
@@ -37,9 +32,19 @@ section.addEventListener("mouseleave", () => {
     targetNY = 0.5;
 });
 
-// Inner ring: mid-weight texture. Outer ring: sparse punctuation.
-const INNER_CHARS = [' ', '░', '░', '▒', '▒', '▓'];
-const OUTER_CHARS = [' ', ' ', '·', ':', '∘', '+'];
+const DITHER_CHARS = [' ', '.', '-', '=', '+', '*'];
+
+function cellNoise(x, y, time) {
+    const value = Math.sin(x * 12.9898 + y * 78.233 + time * 4.928) * 43758.5453;
+    return value - Math.floor(value);
+}
+
+function getDitherIntensity(nx, ny, time) {
+    const wave = Math.sin((nx + time * 0.12) * 7.5 + Math.sin((ny + time * 0.08) * 5.7) * 1.8) * 0.5 + 0.5;
+    const band = Math.cos((ny + time * 0.14) * 4.5) * 0.2 + 0.5;
+    const drift = cellNoise(nx * 4.3, ny * 3.9, time * 0.3) * 0.06;
+    return Math.min(1, Math.max(0, wave * 0.68 + band * 0.12 + drift));
+}
 
 tm.draw(() => {
     mouseNX += (targetNX - mouseNX) * 0.04;
@@ -47,7 +52,7 @@ tm.draw(() => {
 
     tm.background(0, 0, 0, 0);
 
-    const time = tm.frameCount * 0.008;
+    const time = tm.frameCount * 0.01;
     const ox = mouseNX - 0.5;
     const oy = mouseNY - 0.5;
 
@@ -55,48 +60,25 @@ tm.draw(() => {
         for (let gridX = 0; gridX < tm.grid.cols; gridX++) {
             const nx = gridX / tm.grid.cols - 0.5;
             const ny = gridY / tm.grid.rows - 0.5;
+            const distToCursor = Math.sqrt((nx - ox) ** 2 + (ny - oy) ** 2);
+            const clearRadius = 0.24;
+            const clearFalloff = 0.28;
+            const clearing = Math.max(0, 1 - distToCursor / clearRadius) / (1 + distToCursor / clearFalloff);
+            const clearAmount = clearing * 0.65;
 
-            const dx = nx - ox * 0.4;
-            const dy = ny - oy * 0.3;
-            const baseDist = Math.sqrt(dx * dx + dy * dy);
+            // soft vignette: fade toward lighter chars at edges
+            const edgeX = Math.abs(nx) * 2;
+            const edgeY = Math.abs(ny) * 2;
+            const edgeDist = Math.max(edgeX, edgeY);
+            const vignette = Math.pow(Math.max(0, edgeDist - 0.55) / 0.45, 1.6) * 0.7;
 
-            // Warp the distance field with slow angle-based noise → blobs not circles
-            const angle = Math.atan2(dy, dx);
-            const warp =
-                Math.sin(angle * 3 + time * 0.7) * 0.055 +
-                Math.sin(angle * 5 - time * 0.4) * 0.03 +
-                Math.sin(angle * 7 + time * 0.9) * 0.018;
-            const dist = Math.max(0, baseDist + warp);
+            const intensity = Math.min(1, Math.max(0,
+                getDitherIntensity(nx, ny, time) - clearAmount - vignette
+            ));
 
-            // Inner ripple — tight, fast
-            const inner = Math.sin(dist * 18 - time * 3.5) * 0.5 + 0.5;
-            const innerProx = Math.max(0, 1 - dist * 4);
-
-            // Outer ripple — slower, wider wavelength, offset phase
-            const outer = Math.sin(dist * 8 - time * 1.8 + 1.2) * 0.5 + 0.5;
-            const outerProx = Math.max(0, 1 - dist * 1.6) * (1 - innerProx);
-
-            // Ambient drift fills the void beyond both rings
-            const drift = Math.sin(nx * 5 + ny * 3 + time) * 0.5 + 0.5;
-            const ambient = (1 - innerProx) * (1 - outerProx) * drift * 0.25;
-
-            if (innerProx > 0.05) {
-                const intensity = inner * innerProx;
-                const charIndex = Math.floor(intensity * (INNER_CHARS.length - 1));
-                const brightness = Math.floor(intensity * 90) + 15;
-                tm.charColor(brightness, brightness, brightness);
-                tm.char(INNER_CHARS[charIndex]);
-            } else if (outerProx > 0.05) {
-                const intensity = outer * outerProx;
-                const charIndex = Math.floor(intensity * (OUTER_CHARS.length - 1));
-                const brightness = Math.floor(intensity * 50) + 10;
-                tm.charColor(brightness, brightness, brightness);
-                tm.char(OUTER_CHARS[charIndex]);
-            } else {
-                const brightness = Math.floor(ambient * 35) + 5;
-                tm.charColor(brightness, brightness, brightness);
-                tm.char(ambient > 0.08 ? '·' : ' ');
-            }
+            const charIndex = Math.round(intensity * (DITHER_CHARS.length - 1));
+            tm.charColor(120, 120, 120);
+            tm.char(DITHER_CHARS[charIndex]);
 
             const cx = (gridX + 1) - tm.grid.cols / 2;
             const cy = gridY - tm.grid.rows / 2;
