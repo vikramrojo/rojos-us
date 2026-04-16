@@ -3,7 +3,7 @@ import type { IconMap, SocialLink, Site } from '@/types'
 export const SITE: Site = {
   title: 'V–R',
   description:
-    'Dominic Vikram Rojo, a designer who pairs product strategy with agentic production at high-growth enterprise startups.',
+    'Vikram Rojo, a designer who pairs product strategy with agentic production at high-growth enterprise startups.',
   href: 'https://rojos.us',
   author: 'vikram',
   locale: 'en-US',
