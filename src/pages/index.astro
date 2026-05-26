@@ -5,6 +5,7 @@ import Hero from '@/components/hero.astro'
 import AboutSections from '@/components/about-sections.astro'
 import WorkTimeline from '@/components/work-timeline.astro'
 import Contact from '@/components/contact.astro'
+import PdfViewer from '@/components/pdf-viewer'
 ---
 
 <Layout>
@@ -18,6 +19,14 @@ import Contact from '@/components/contact.astro'
     <div class="flex-1 border-t"></div>
   </div>
   <AboutSections />
+    <div
+    class="mt-8 flex items-center gap-4 text-sm uppercase tracking-widest text-muted-foreground md:mt-20"
+    id="portfolio"
+  >
+    <span>Portfolio</span>
+    <div class="flex-1 border-t"></div>
+  </div>
+  <PdfViewer client:only="react" src="/pitch/workos-webhooks-deckset.pdf" />  
   <div
     class="mt-8 flex items-center gap-4 text-sm uppercase tracking-widest text-muted-foreground md:mt-20"
     id="work"
