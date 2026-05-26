@@ -56,4 +56,14 @@ const about = defineCollection({
   }),
 })
 
-export const collections = { blog, authors, projects, about }
+const pitch = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/pitch' }),
+  schema: z.object({
+    title: z.string(),
+    pdf: z.string().startsWith('/'),
+    company: z.string(),
+    role: z.string(),
+  }),
+})
+
+export const collections = { blog, authors, projects, about, pitch }

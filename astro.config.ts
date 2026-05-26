@@ -32,7 +32,12 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
-  integrations: [mdx(), react(), sitemap(), icon()],
+  integrations: [
+    mdx(),
+    react(),
+    sitemap({ filter: (page) => !page.includes('/pitch/') }),
+    icon(),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
