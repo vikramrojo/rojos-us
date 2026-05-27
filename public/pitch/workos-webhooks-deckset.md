@@ -1,4 +1,4 @@
-theme: rojo-us
+theme: rojos-us
 autoscale: true
 footer: WorkOS Case Study
 build-lists: false
