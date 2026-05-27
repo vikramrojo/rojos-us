@@ -19,11 +19,11 @@ const { Content } = await render(entry)
 <Layout>
   <PageHead
     slot="head"
-    title={`${entry.data.role} — ${entry.data.company}`}
+    title={`${entry.data.role} ??? ${entry.data.company}`}
     noindex
   />
   <div class="flex flex-col gap-8">
-    <div class="md:-mx-16 lg:-mx-32 xl:-mx-48">
+    <div class="lg:-mx-16 xl:-mx-48">
       <PdfViewer client:only="react" src={entry.data.pdf} />
     </div>
     <article class="prose max-w-none">

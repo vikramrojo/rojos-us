@@ -1,5 +1,10 @@
 {
   "worktree": {
     "setup": "pnpm i"
+  },
+  "metadataGeneration": {
+    "branchName": {
+      "instructions": "vikramrojo/"
+    }
   }
 }

@@ -26,7 +26,22 @@ import PdfViewer from '@/components/pdf-viewer'
     <span>Portfolio</span>
     <div class="flex-1 border-t"></div>
   </div>
-  <PdfViewer client:only="react" src="/pitch/workos-webhooks-deckset.pdf" />  
+  <div class="xl:-mx-48">
+    <div role="tablist" class="tabs">
+      <input type="radio" name="portfolio_tabs" class="tab" aria-label="Marketing" checked="checked" />
+      <div class="tab-content bg-base-100 border-base-300 border p-6">
+        <PdfViewer client:only="react" src="/pitch/minka-repositioning-deckset.pdf" />
+      </div>
+      <input type="radio" name="portfolio_tabs" class="tab" aria-label="Product" />
+      <div class="tab-content bg-base-100 border-base-300 border p-6">
+        <PdfViewer client:only="react" src="/pitch/workos-webhooks-deckset.pdf" />
+      </div>
+      <input type="radio" name="portfolio_tabs" class="tab" aria-label="Engineering" />
+      <div class="tab-content bg-base-100 border-base-300 border p-6">
+        <PdfViewer client:only="react" src="/pitch/wondo-beta-deckset.pdf" />
+      </div>
+    </div>
+  </div>
   <div
     class="mt-8 flex items-center gap-4 text-sm uppercase tracking-widest text-muted-foreground md:mt-20"
     id="work"
