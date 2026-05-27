@@ -55,7 +55,7 @@ export default function PdfViewer({ src, className }: Props) {
     <div className={cn('flex flex-col gap-3', className)}>
       <div
         ref={containerRef}
-        className="bg-background flex min-h-[300px] w-full items-center justify-center overflow-hidden rounded-md border"
+        className="bg-background flex w-full items-center justify-center overflow-hidden rounded-md border"
       >
         <Document
           file={src}
