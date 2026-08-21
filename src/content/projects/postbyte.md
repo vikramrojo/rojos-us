@@ -1,6 +1,6 @@
 ---
-name: "Postbyte, Product Engineering"
-description: "Building an agentic software factory—reusable TanStack + Cloudflare + Capacitor and native Swift scaffolds to ship personal and consulting products across web and iOS"
+name: "Postbyte LLC, Design Engineering"
+description: "Building an agentic software factory with reusable TanStack + Cloudflare + Capacitor and native Swift scaffolds to ship personal and consulting products cross platform"
 tags:
   - Product Design
   - Engineering
