@@ -1,6 +1,6 @@
 ---
 name: "Multiple"
-description: "Product Designer and Frontend Developer – Summary of earlier experiences at Gigster, Persista, Verdigris, Altius Education, and Pryor Design."
+description: "Summary of earlier experiences at Gigster, Persista, Verdigris, Altius Education, and Pryor Design."
 tags:
   - Product Design
   - Developer Tools

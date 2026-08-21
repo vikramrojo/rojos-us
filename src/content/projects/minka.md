@@ -1,6 +1,6 @@
 ---
-name: "Minka"
-description: "Brand and GTM Lead – Led company-wide rebrand and GTM strategy, defining visual identity, pricing, and pipeline growth initiatives across all customer touchpoints."
+name: "Minka, Brand and GTM Lead"
+description: "Led company-wide rebrand and GTM strategy, defining visual identity, pricing, advertising and pipeline growth."
 tags:
   - GTM
   - Brand

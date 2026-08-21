@@ -1,6 +1,6 @@
 ---
-name: "LaunchDarkly"
-description: "Senior Product Designer – Established design team foundations including research practices and a component library, while shipping key experimentation and feature management capabilities."
+name: "LaunchDarkly, Senior Product Designer"
+description: "Established design team foundations including research practices and a component library, while shipping key experimentation and feature management capabilities."
 tags:
   - Product Design
   - Design Systems

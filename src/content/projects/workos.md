@@ -1,6 +1,6 @@
 ---
-name: "WorkOS"
-description: "Senior Product Designer – Joined as first design hire at an enterprise auth API company, operating in a dual designer/PM capacity while shipping foundational authentication features."
+name: "WorkOS, Senior Product Designer"
+description: "Joined as first design hire at an enterprise auth API company, operating in a dual designer/PM capacity while shipping foundational authentication features."
 tags:
   - Product Design
   - Auth
