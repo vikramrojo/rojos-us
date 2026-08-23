@@ -14,8 +14,8 @@
 @layer site-base, largen.reset, largen.tokens, largen.paint, largen.tone,
   largen.elements, largen.components, largen.modifiers, site-overrides;
 
-@import './largen/largen.css';
-@import './largen/theme-dark.css';
+@import 'largen';
+@import 'largen/themes/dark.css';
 @import './site-theme.css';
 @import './components/prose.css';
 @import './components/controls.css';

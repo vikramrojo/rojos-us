@@ -9,7 +9,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore"
+    "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore",
+    "verify": "largen verify src/styles/components/*.css"
   },
   "dependencies": {
     "@astrojs/check": "0.9.7",
@@ -25,6 +26,7 @@
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
     "astro": "6.0.2",
+    "largen": "^0.3.0",
     "pdfjs-dist": "5.4.296",
     "react": "19.0.0",
     "react-dom": "19.0.0",

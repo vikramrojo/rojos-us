@@ -47,6 +47,9 @@ importers:
       astro:
         specifier: 6.0.2
         version: 6.0.2(@types/node@24.12.2)(rollup@4.60.1)(typescript@5.9.3)(yaml@2.8.3)
+      largen:
+        specifier: ^0.3.0
+        version: 0.3.0
       pdfjs-dist:
         specifier: 5.4.296
         version: 5.4.296
@@ -1782,6 +1785,10 @@ packages:
   kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
+
+  largen@0.3.0:
+    resolution: {integrity: sha512-NanhAx/q8az0yUDbYuZvAxHBqy/BRTNgY46B2IzdvsJfVkDCKZi1M0xsmd0MaUff24z7AdGqNAJGf2gnhd97Dw==}
+    hasBin: true
 
   longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
@@ -4633,6 +4640,8 @@ snapshots:
       commander: 8.3.0
 
   kleur@4.1.5: {}
+
+  largen@0.3.0: {}
 
   longest-streak@3.1.0: {}
 
