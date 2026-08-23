@@ -130,7 +130,7 @@
   --font-sans: var(--font-ui);
 }
 
-@layer site.base {
+@layer site-base {
   /*
    * Replaces global.css's `@layer base { * { @apply tracking-tighter font-light } }`.
    *
@@ -149,21 +149,42 @@
     --weight: var(--weight-light);
   }
 
+  /* Was typography.css's `@layer base` block. */
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
   /* KaTeX needs normal tracking to align. */
   :where(.katex-display) {
     letter-spacing: normal;
   }
+}
 
+@layer site-overrides {
   /*
-   * largen's reset opts into antialiased smoothing; this site never did, and
-   * it visibly thins text on macOS. Opt back out to hold the current look.
+   * largen's reset opts into antialiased smoothing; this site never did, and it
+   * visibly thins every glyph on the page. Lives here rather than in site-base
+   * because site-base sorts before largen.reset — putting it there loses.
    */
   body {
     -webkit-font-smoothing: auto;
   }
-}
 
-@layer site.overrides {
   /*
    * Temporary compatibility with the markup Tailwind and shadcn produced.
    *
@@ -186,9 +207,44 @@
     opacity: 1;
   }
 
-  /* largen gives links a .2em underline offset; this site used the UA default. */
-  :where(a) {
+  /*
+   * largen gives links a .2em underline offset; this site used the UA default.
+   * Scoped out of .prose, which sets its own 3px offset — site.overrides is the
+   * last layer, so an unscoped rule here silently beats the component.
+   */
+  :where(a):not(.prose *) {
     text-underline-offset: auto;
     text-decoration-thickness: auto;
+  }
+
+  /*
+   * largen.elements assigns slots to bare <a> and <button>, and the paint rule
+   * now sits after Tailwind's preflight, so those slots paint over it — a ghost
+   * button acquires a solid fill, a link acquires the tone colour. Preflight
+   * cannot contest this: it sets `background-color`, largen sets `--bg`, and
+   * nothing overrides the custom property.
+   *
+   * `initial` is the fix. These slots are registered `syntax:"*"` with no
+   * initial-value, so their initial value IS the guaranteed-invalid value —
+   * which is precisely the state `var(--bg, revert-layer)` tests for. Setting
+   * them back to `initial` makes the fallback fire and hands each property to
+   * preflight, exactly as before largen was loaded.
+   *
+   * Scoped out of migrated components; add to the :not() list as each lands,
+   * and delete the whole rule with Tailwind.
+   */
+  :where(a, button, [type='button'], [type='submit'], [type='reset']):not(
+    .prose,
+    .prose *
+  ) {
+    --bg: initial;
+    --fg: initial;
+    --border-color: initial;
+    --border-width: initial;
+    --border-style: initial;
+    --radius: initial;
+    --pad: initial;
+    --gap: initial;
+    --transition: initial;
   }
 }

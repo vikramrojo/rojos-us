@@ -1,23 +1,49 @@
 /*
  * The stylesheet. Imported once, from layouts/layout.astro.
  *
- * The layer statement below fixes cascade order for everything that follows.
- * Two placements are deliberate:
+ * ── On the layer names ────────────────────────────────────────────────────
+ * `site-base` and `site-overrides` are flat on purpose. Written as `site.base`
+ * and `site.overrides` they become sublayers of a `site` parent, and a parent
+ * layer's position is fixed by its FIRST mention with its sublayers ordered
+ * inside it — so every `largen.*` sublayer sorts before every `site.*` one no
+ * matter how the two are interleaved in this statement. The visible symptom was
+ * `site-base`'s `* { --weight }` silently beating `.prose kbd`'s, i.e. one
+ * layer quietly outranking a later-declared one. Flat names sort exactly where
+ * they are written.
  *
- *   site.base       sits between largen.tone and largen.elements, so global
- *                   defaults (letter-spacing, font-weight) lose to element and
- *                   component rules — the position Tailwind's `base` had.
+ * ── On the order ──────────────────────────────────────────────────────────
+ *   theme, base       Tailwind's variables and preflight go FIRST, so preflight
+ *                     no longer resets the components authored below it. Left
+ *                     to Tailwind these land last, and preflight flattens every
+ *                     heading, list and border in `.prose` — layer order beats
+ *                     specificity, so no selector weight can fix it.
  *
- *   site.overrides  sits last, for the few rules that must beat a variant.
+ *   site-base         Global type defaults. After preflight (where the Tailwind
+ *                     original sat) and before largen, so element and component
+ *                     rules both win over it.
  *
- * While Tailwind is still installed it declares its own layers on first
- * @import, which sort after every layer named here. That is what keeps the
- * remaining utility classes winning over largen mid-migration, and it is why
- * this file must be imported BEFORE global.css.
+ *   largen.paint      Must follow preflight or the slots never apply. Safe
+ *                     there: an unset slot is guaranteed-invalid, so
+ *                     `var(--pad, revert-layer)` hands the property back to
+ *                     preflight for anything not yet migrated.
+ *
+ *   site-overrides    After largen.modifiers, so the temporary compat rules in
+ *                     site-theme.css can undo largen's element styling — but
+ *                     before Tailwind's utilities, which must keep winning for
+ *                     un-migrated markup.
+ *
+ *   components,       Tailwind's, last, so every utility class still applies.
+ *   utilities         This is what lets the migration proceed one component at
+ *                     a time.
+ *
+ * When Tailwind goes, drop `theme, base, components, utilities` from this list
+ * and the compat block with them.
  */
-@layer largen.reset, largen.tokens, largen.paint, largen.tone, site.base,
-  largen.elements, largen.components, largen.modifiers, site.overrides;
+@layer theme, base, site-base, largen.reset, largen.tokens, largen.paint,
+  largen.tone, largen.elements, largen.components, largen.modifiers,
+  site-overrides, components, utilities;
 
 @import './largen/largen.css';
 @import './largen/theme-dark.css';
 @import './site-theme.css';
+@import './components/prose.css';

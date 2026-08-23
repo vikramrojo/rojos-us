@@ -1,0 +1,382 @@
+/*
+ * prose — long-form rendered markdown.
+ *
+ * Ported 1:1 from the Tailwind original (src/styles/typography.css), using the
+ * values Tailwind actually compiled rather than re-deriving them, so this is a
+ * visual no-op. Tailwind's spacing unit was .25rem: every `my-5` and friend
+ * below is that arithmetic already done.
+ *
+ * The `:not(:where(.not-prose, .not-prose *))` guard is kept verbatim on every
+ * rule. Writing it as `:not(.not-prose, ...)` would look tidier but would raise
+ * the selector's specificity, which is exactly what the :where() wrapper exists
+ * to prevent.
+ *
+ * Colours go through slots (--fg, --bg) so the paint rule applies them, and
+ * resolve against --ink / --surface / --ink-muted, never a literal.
+ */
+
+@layer largen.components {
+  .prose {
+    --fg: var(--ink);
+    --font-size: 1rem;
+    line-height: 1.75rem;
+  }
+
+  .prose :where(p):not(:where(.not-prose, .not-prose *)) {
+    --fg: color-mix(in oklab, var(--ink) 80%, transparent);
+    margin-block: 1.25rem;
+  }
+
+  .prose :where(h1, h2, h3, h4, h5, h6):not(:where(.not-prose, .not-prose *)) {
+    --fg: var(--ink);
+    --weight: var(--weight-medium);
+    scroll-margin-top: 8rem;
+  }
+
+  @media (min-width: 80rem) {
+    .prose
+      :where(h1, h2, h3, h4, h5, h6):not(:where(.not-prose, .not-prose *)) {
+      scroll-margin-top: 5rem;
+    }
+  }
+
+  .prose :first-child:not(:where(.not-prose, .not-prose *)) {
+    margin-top: 0;
+  }
+
+  /* Posts do not author an <h1>; blog/[...id].astro generates it. */
+  .prose :where(h1):not(:where(.not-prose, .not-prose *)) {
+    --font-size: 2.25rem;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    line-height: calc(2.5 / 2.25);
+  }
+
+  .prose :where(h2):not(:where(.not-prose, .not-prose *)) {
+    --font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    line-height: calc(2 / 1.5);
+  }
+
+  .prose :where(h3):not(:where(.not-prose, .not-prose *)) {
+    --font-size: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    line-height: calc(1.75 / 1.25);
+  }
+
+  .prose :where(h4):not(:where(.not-prose, .not-prose *)) {
+    --font-size: 1.125rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+    line-height: calc(1.75 / 1.125);
+  }
+
+  .prose :where(h5, h6):not(:where(.not-prose, .not-prose *)) {
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose :where(a):not(:where(.not-prose, .not-prose *)) {
+    --fg: var(--ink);
+    --weight: var(--weight-medium);
+    overflow-wrap: break-word;
+    text-decoration-line: underline;
+    text-decoration-color: var(--ink-muted);
+    text-underline-offset: 3px;
+    /* largen.elements sets from-font; the original left this at the UA default. */
+    text-decoration-thickness: auto;
+    transition:
+      color 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+      text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .prose :where(a):not(:where(.not-prose, .not-prose *)):hover {
+    text-decoration-color: var(--ink);
+  }
+
+  .prose :where(strong):not(:where(.not-prose, .not-prose *)) {
+    --fg: var(--ink);
+    --weight: var(--weight-medium);
+  }
+
+  .prose :where(ul):not(:where(.not-prose, .not-prose *)) {
+    margin-block: 1.25rem;
+    margin-left: 1.5rem;
+    list-style-type: disc;
+  }
+
+  .prose :where(ol):not(:where(.not-prose, .not-prose *)) {
+    margin-block: 1.25rem;
+    margin-left: 1.5rem;
+    list-style-type: decimal;
+  }
+
+  .prose :where(ol):not(:where(.not-prose, .not-prose *))[type='A'] {
+    list-style-type: upper-alpha;
+  }
+  .prose :where(ol):not(:where(.not-prose, .not-prose *))[type='I'] {
+    list-style-type: upper-roman;
+  }
+  .prose :where(ol):not(:where(.not-prose, .not-prose *))[type='a'] {
+    list-style-type: lower-alpha;
+  }
+  .prose :where(ol):not(:where(.not-prose, .not-prose *))[type='i'] {
+    list-style-type: lower-roman;
+  }
+
+  .prose :where(ul, ol):not(:where(.not-prose, .not-prose *)) > li {
+    margin-top: 0.5rem;
+  }
+
+  /*
+   * Both forms are needed, and the descendant one is the one that does the
+   * work: the bullet is painted by `li::marker`, so `ul::marker` alone styles
+   * nothing. Tailwind's marker: variant emitted both, which is easy to miss
+   * when reading the compiled output.
+   */
+  .prose
+    :where(ul, ol, ul ul, ol ol, ul ol, ol ul):not(
+      :where(.not-prose, .not-prose *)
+    )
+    ::marker,
+  .prose
+    :where(ul, ol, ul ul, ol ol, ul ol, ol ul):not(
+      :where(.not-prose, .not-prose *)
+    )::marker {
+    color: color-mix(in oklab, var(--ink) 30%, transparent);
+  }
+
+  .prose :where(li):not(:where(.not-prose, .not-prose *)) {
+    --fg: color-mix(in oklab, var(--ink) 80%, transparent);
+    padding-left: 0.5rem;
+  }
+
+  .prose :where(li):not(:where(.not-prose, .not-prose *)) > p {
+    margin-block: 0;
+  }
+
+  .prose
+    :where(ul ul, ol ol, ul ol, ol ul):not(:where(.not-prose, .not-prose *)) {
+    margin-block: 0.5rem;
+    margin-left: 1.5rem;
+  }
+
+  .prose :where(code):not(:where(.not-prose, .not-prose *)),
+  .prose :where(.shiki):not(:where(pre *, .not-prose, .not-prose *)) {
+    --bg: color-mix(in oklab, var(--surface) 50%, transparent);
+    --fg: var(--ink);
+    --radius: var(--radius-sm);
+    --pad: 0.2rem 0.3rem;
+    --font-size: 0.875rem;
+    --weight: var(--weight-medium);
+    line-height: calc(1.25 / 0.875);
+    overflow-wrap: break-word;
+    position: relative;
+  }
+
+  .prose :where(.shiki code):not(:where(.not-prose, .not-prose *)) {
+    --bg: transparent;
+    --pad: 0;
+  }
+
+  [data-theme='dark']
+    .prose
+    :where(.shiki span):not(:where(pre *, .not-prose, .not-prose *)) {
+    --fg: var(--shiki-dark);
+  }
+
+  .prose :where(blockquote):not(:where(.not-prose, .not-prose *)) {
+    margin-block: 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--line);
+  }
+
+  .prose :where(blockquote):not(:where(.not-prose, .not-prose *)) * {
+    --fg: var(--ink-muted);
+  }
+
+  .prose :where(hr):not(:where(.not-prose, .not-prose *)) {
+    margin-block: 2rem;
+    border: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .prose :where(table):not(:where(.not-prose, .not-prose *)) {
+    --font-size: 0.875rem;
+    margin-inline: auto;
+    margin-block: 1.5rem;
+    max-width: fit-content;
+    line-height: calc(1.25 / 0.875);
+    display: block;
+    overflow-x: auto;
+  }
+
+  .prose :where(thead):not(:where(.not-prose, .not-prose *)) {
+    border-bottom: 1px solid
+      color-mix(in oklab, var(--ink-muted) 30%, transparent);
+  }
+
+  .prose :where(tr):not(:where(.not-prose, .not-prose *)) {
+    border-block: 1px solid
+      color-mix(in oklab, var(--ink-muted) 30%, transparent);
+  }
+
+  .prose :where(tr):not(:where(.not-prose, .not-prose *)):first-child {
+    border-top-width: 0;
+  }
+
+  .prose :where(tr):not(:where(.not-prose, .not-prose *)):last-child {
+    border-bottom-width: 0;
+  }
+
+  /*
+   * border-block-end: 0 undoes largen.elements, which gives every th/td a
+   * bottom rule. Here the rules belong to thead and tr, so a cell-level border
+   * doubles the line under the last row — and, because the table is the tallest
+   * thing on the page, shifts everything below it by a pixel.
+   */
+  .prose :where(th, td):not(:where(.not-prose, .not-prose *)) {
+    border-block-end: 0;
+  }
+
+  .prose :where(th):not(:where(.not-prose, .not-prose *)) {
+    --pad: 0.5rem 1rem;
+    --weight: var(--weight-medium);
+    text-align: left;
+  }
+
+  .prose :where(td):not(:where(.not-prose, .not-prose *)) {
+    --fg: color-mix(in oklab, var(--ink) 80%, transparent);
+    --pad: 0.5rem 1rem;
+    vertical-align: top;
+    overflow-wrap: break-word;
+    text-align: left;
+  }
+
+  .prose :where(th, td):not(:where(.not-prose, .not-prose *))[align='center'] {
+    text-align: center;
+  }
+
+  .prose :where(th, td):not(:where(.not-prose, .not-prose *))[align='right'] {
+    text-align: right;
+  }
+
+  .prose
+    :where(img, video, figure, .expressive-code):not(
+      :where(.not-prose, .not-prose *)
+    ) {
+    margin-inline: auto;
+    margin-block: 1.5rem;
+  }
+
+  .prose :where(pre):not(:where(.not-prose, .not-prose *)) {
+    overflow-y: auto;
+    max-height: min(68vh, 1000px);
+  }
+
+  .prose
+    :where(pre):not(
+      :where(.not-prose, .not-prose *)
+    )::-webkit-scrollbar-corner {
+    display: none;
+  }
+
+  .prose :where(kbd):not(:where(.not-prose, .not-prose *)) {
+    --bg: var(--surface);
+    --fg: var(--ink);
+    --radius: var(--radius-md);
+    --pad: 0.25rem 0.5rem;
+    --font-size: 0.75rem;
+    --weight: var(--weight-medium);
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: var(--line);
+    line-height: calc(1 / 0.75);
+  }
+
+  .prose :where(.katex-display):not(:where(.not-prose, .not-prose *)) {
+    --fg: color-mix(in oklab, var(--ink) 80%, transparent);
+    margin-block: 1.5rem;
+    padding-block: 0.5rem;
+    letter-spacing: normal;
+    overflow: auto hidden;
+  }
+
+  /*
+   * The compact treatment shared by blockquotes, table cells and the body of a
+   * <details>. Was Tailwind's `@utility small`; thes are carried
+   * over because they are what let it beat the element rules above.
+   */
+  .prose :where(blockquote, td):not(:where(.not-prose, .not-prose *)),
+  .prose :where(summary):not(:where(.not-prose, .not-prose *)) ~ * {
+    --font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .prose :where(blockquote, td):not(:where(.not-prose, .not-prose *)) code,
+  .prose :where(summary):not(:where(.not-prose, .not-prose *)) ~ * code {
+    --font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+  }
+
+  .prose
+    :where(blockquote, td):not(:where(.not-prose, .not-prose *))
+    :is(
+      img,
+      video,
+      figure,
+      details,
+      blockquote,
+      .katex-display,
+      .expressive-code
+    ),
+  .prose
+    :where(summary):not(:where(.not-prose, .not-prose *))
+    ~ *
+    :is(
+      img,
+      video,
+      figure,
+      details,
+      blockquote,
+      .katex-display,
+      .expressive-code
+    ) {
+    margin-block: 1rem;
+  }
+
+  .prose
+    :where(blockquote, td):not(:where(.not-prose, .not-prose *))
+    :is(li, ol),
+  .prose :where(summary):not(:where(.not-prose, .not-prose *)) ~ * :is(li, ol) {
+    margin-top: 0;
+  }
+
+  .prose :where(blockquote, td):not(:where(.not-prose, .not-prose *)) p,
+  .prose :where(summary):not(:where(.not-prose, .not-prose *)) ~ * p {
+    margin-block: 0.5rem;
+  }
+
+  .prose :where(blockquote, td):not(:where(.not-prose, .not-prose *)) ul,
+  .prose :where(summary):not(:where(.not-prose, .not-prose *)) ~ * ul {
+    margin-block: 0;
+  }
+
+  .prose :where(td):not(:where(.not-prose, .not-prose *)) > :first-child,
+  .prose
+    :where(summary):not(:where(.not-prose, .not-prose *))
+    ~ *
+    > :first-child {
+    margin-top: 0;
+  }
+
+  .prose :where(td):not(:where(.not-prose, .not-prose *)) > :last-child,
+  .prose
+    :where(summary):not(:where(.not-prose, .not-prose *))
+    ~ *
+    > :last-child {
+    margin-bottom: 0;
+  }
+}
