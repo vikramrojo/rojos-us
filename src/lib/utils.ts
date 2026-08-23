@@ -26,12 +26,14 @@ export function readingTime(wordCount: number): string {
   return `${readingTimeMinutes} min read`
 }
 
-export function getHeadingMargin(depth: number): string {
-  const margins: Record<number, string> = {
-    3: 'ml-4',
-    4: 'ml-8',
-    5: 'ml-12',
-    6: 'ml-16',
-  }
-  return margins[depth] || ''
+/**
+ * The indent level for a TOC entry, as a `data-depth` value.
+ *
+ * Returns undefined for depths that are not indented, so the attribute is
+ * omitted entirely rather than rendered empty. Styling lives in
+ * styles/components/toc.css; this used to return Tailwind class names, which
+ * meant markup classes were being generated from TypeScript.
+ */
+export function getHeadingDepth(depth: number): number | undefined {
+  return depth >= 3 && depth <= 6 ? depth : undefined
 }

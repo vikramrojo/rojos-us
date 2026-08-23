@@ -1,6 +1,5 @@
 ---
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { cn, getHeadingMargin } from '@/lib/utils'
+import { cn, getHeadingDepth } from '@/lib/utils'
 import type { MarkdownHeading } from 'astro'
 import { ChevronDown } from '@lucide/astro'
 
@@ -55,23 +54,20 @@ const { headings } = Astro.props
           </div>
         </summary>
 
-        <ScrollArea
-          client:load
-          className="mx-auto max-w-3xl"
-          data-toc-header-scroll
-        >
-          <div class="max-h-[30vh]">
+        <div class="mx-auto max-w-3xl" data-toc-header-scroll>
+          <div
+            class="scroll-area max-h-[30vh]"
+            data-scroll-viewport
+            data-mask-deep
+          >
             <ul
               class="flex list-none flex-col gap-y-2 px-4 pb-4"
               id="mobile-table-of-contents"
             >
               {headings.map((heading) => (
                 <li
-                  class={cn(
-                    'px-4 text-sm',
-                    getHeadingMargin(heading.depth),
-                    'text-foreground/60',
-                  )}
+                  data-depth={getHeadingDepth(heading.depth)}
+                  class={cn('px-4 text-sm', 'text-foreground/60')}
                 >
                   <a
                     href={`#${heading.slug}`}
@@ -84,7 +80,7 @@ const { headings } = Astro.props
               ))}
             </ul>
           </div>
-        </ScrollArea>
+        </div>
       </details>
     </div>
   )
@@ -119,7 +115,7 @@ const { headings } = Astro.props
       this.listElement = document.getElementById('mobile-table-of-contents')
       const tocContainer = document.getElementById('mobile-toc-container')
       this.scrollArea =
-        tocContainer?.querySelector('[data-radix-scroll-area-viewport]') || null
+        tocContainer?.querySelector('[data-scroll-viewport]') || null
       this.headings = []
       this.regions = []
       this.activeIds = []
@@ -205,8 +201,8 @@ const { headings } = Astro.props
       const isAtTop = scrollTop <= threshold
       const isAtBottom = scrollTop >= scrollHeight - clientHeight - threshold
 
-      state.scrollArea.classList.toggle('mask-t-from-80%', !isAtTop)
-      state.scrollArea.classList.toggle('mask-b-from-80%', !isAtBottom)
+      state.scrollArea.toggleAttribute('data-mask-top', !isAtTop)
+      state.scrollArea.toggleAttribute('data-mask-bottom', !isAtBottom)
     }
   }
 
@@ -218,9 +214,9 @@ const { headings } = Astro.props
         const tocItem = item as HTMLElement
         const headingId = tocItem.dataset.headingId
         if (headingId && headingIds.includes(headingId)) {
-          tocItem.classList.add('text-foreground')
+          tocItem.setAttribute('data-active', '')
         } else {
-          tocItem.classList.remove('text-foreground')
+          tocItem.removeAttribute('data-active')
         }
       })
 

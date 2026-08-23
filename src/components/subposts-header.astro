@@ -1,5 +1,4 @@
 ---
-import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   getCombinedReadingTime,
   getParentId,
@@ -76,12 +75,12 @@ const SummaryIcon = currentSubpostDetails
           </div>
         </summary>
 
-        <ScrollArea
-          client:load
-          className="mx-auto max-w-3xl"
-          data-subposts-header-scroll
-        >
-          <div class="max-h-[30vh]">
+        <div class="mx-auto max-w-3xl" data-subposts-header-scroll>
+          <div
+            class="scroll-area max-h-[30vh]"
+            data-scroll-viewport
+            data-mask-deep
+          >
             <ul class="flex list-none flex-col gap-y-1 px-4 pb-4">
               {activePost && (
                 <li>
@@ -177,7 +176,7 @@ const SummaryIcon = currentSubpostDetails
               )}
             </ul>
           </div>
-        </ScrollArea>
+        </div>
       </details>
     </div>
   )
@@ -207,8 +206,8 @@ const SummaryIcon = currentSubpostDetails
       const isAtTop = scrollTop <= threshold
       const isAtBottom = scrollTop >= scrollHeight - clientHeight - threshold
 
-      state.headerScrollArea.classList.toggle('mask-t-from-80%', !isAtTop)
-      state.headerScrollArea.classList.toggle('mask-b-from-80%', !isAtBottom)
+      state.headerScrollArea.toggleAttribute('data-mask-top', !isAtTop)
+      state.headerScrollArea.toggleAttribute('data-mask-bottom', !isAtBottom)
     }
   }
 
@@ -242,9 +241,7 @@ const SummaryIcon = currentSubpostDetails
       const container = document.getElementById('mobile-subposts-container')
       if (!container) return
 
-      state.scrollArea = container.querySelector(
-        '[data-radix-scroll-area-viewport]',
-      )
+      state.scrollArea = container.querySelector('[data-scroll-viewport]')
       state.detailsElement = container.querySelector('details')
       state.headerScrollArea = container.querySelector(
         '[data-subposts-header-scroll]',

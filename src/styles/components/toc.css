@@ -1,0 +1,78 @@
+/*
+ * Scroll-area masks and heading indents for the table of contents and the
+ * subpost lists.
+ *
+ * Replaces two things radix and Tailwind were doing between them: the custom
+ * scrollbar (see .scroll-area in media.css) and a pair of mask utilities the
+ * scroll-spy scripts toggled as class names. State now rides on data
+ * attributes, which is what the DOM already knows and what largen expects.
+ */
+
+@layer largen.components {
+  /*
+   * Fade the edge the content continues past. Reproduces Tailwind's
+   * mask-t-from-* / mask-b-from-* pair, which composite two linear gradients
+   * with `mask-composite: intersect`; the fallbacks keep the unmasked edge
+   * fully opaque when only one attribute is set.
+   *
+   * The gradient uses var(--ink) rather than a colour literal — only the alpha
+   * channel matters to a mask, so it is behaviourally identical and does not
+   * hardcode a colour that would not survive a theme swap.
+   */
+  .scroll-area[data-mask-top],
+  .scroll-area[data-mask-bottom] {
+    mask-image:
+      var(--mask-top, linear-gradient(var(--ink) 0 0)),
+      var(--mask-bottom, linear-gradient(var(--ink) 0 0));
+    mask-composite: intersect;
+  }
+
+  .scroll-area[data-mask-top] {
+    --mask-top: linear-gradient(
+      to top,
+      var(--ink) var(--mask-stop, 90%),
+      transparent 100%
+    );
+  }
+
+  .scroll-area[data-mask-bottom] {
+    --mask-bottom: linear-gradient(
+      to bottom,
+      var(--ink) var(--mask-stop, 90%),
+      transparent 100%
+    );
+  }
+
+  /* The header variants fade over a deeper band than the sidebars. */
+  .scroll-area[data-mask-deep] {
+    --mask-stop: 80%;
+  }
+
+  /*
+   * The scroll-spy's active entry. Was a `text-foreground` class toggled from
+   * JavaScript; the state is now an attribute, which is what the rest of this
+   * migration uses and what the DOM can express on its own.
+   */
+  [data-heading-link][data-active],
+  .mobile-toc-item[data-active] {
+    --fg: var(--ink);
+  }
+
+  /*
+   * Heading indent by depth. Was getHeadingMargin() returning 'ml-4'|'ml-8'|
+   * 'ml-12'|'ml-16' from TypeScript — Tailwind class names generated in a .ts
+   * file, invisible to any scan of the markup.
+   */
+  .scroll-area [data-depth='3'] {
+    margin-inline-start: 1rem;
+  }
+  .scroll-area [data-depth='4'] {
+    margin-inline-start: 2rem;
+  }
+  .scroll-area [data-depth='5'] {
+    margin-inline-start: 3rem;
+  }
+  .scroll-area [data-depth='6'] {
+    margin-inline-start: 4rem;
+  }
+}

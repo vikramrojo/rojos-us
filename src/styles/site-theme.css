@@ -267,7 +267,8 @@
     .badge,
     .tab,
     .crumbs *,
-    .pagination *
+    .pagination *,
+    [data-active]
   ) {
     --bg: initial;
     --fg: initial;

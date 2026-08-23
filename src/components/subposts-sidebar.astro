@@ -1,6 +1,5 @@
 ---
 import Link from '@/components/link.astro'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   getCombinedReadingTime,
   getParentId,
@@ -43,10 +42,10 @@ const subpostsWithReadingTime = await Promise.all(
   id="subposts-sidebar-container"
   class="sticky top-20 col-start-3 row-span-1 mr-auto ml-8 hidden h-[calc(100vh-5rem)] max-w-md xl:block"
 >
-  <ScrollArea
-    client:load
-    className="flex max-h-[calc(100vh-8rem)] flex-col overflow-y-auto"
+  <div
+    class="scroll-area flex max-h-[calc(100vh-8rem)] flex-col overflow-y-auto"
     data-subposts-sidebar-scroll
+    data-scroll-viewport
   >
     <div class="px-4">
       <ul class="space-y-1">
@@ -143,7 +142,7 @@ const subpostsWithReadingTime = await Promise.all(
         }
       </ul>
     </div>
-  </ScrollArea>
+  </div>
 </div>
 
 <script>
@@ -168,8 +167,8 @@ const subpostsWithReadingTime = await Promise.all(
       const isAtTop = scrollTop <= threshold
       const isAtBottom = scrollTop >= scrollHeight - clientHeight - threshold
 
-      state.sidebarScrollArea.classList.toggle('mask-t-from-90%', !isAtTop)
-      state.sidebarScrollArea.classList.toggle('mask-b-from-90%', !isAtBottom)
+      state.sidebarScrollArea.toggleAttribute('data-mask-top', !isAtTop)
+      state.sidebarScrollArea.toggleAttribute('data-mask-bottom', !isAtBottom)
     }
   }
 
@@ -211,7 +210,7 @@ const subpostsWithReadingTime = await Promise.all(
       )
       if (sidebarContainer) {
         state.scrollArea = sidebarContainer.querySelector(
-          '[data-radix-scroll-area-viewport]',
+          '[data-scroll-viewport]',
         )
         state.sidebarScrollArea = sidebarContainer.querySelector(
           '[data-subposts-sidebar-scroll]',
