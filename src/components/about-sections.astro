@@ -13,13 +13,13 @@ const items = await Promise.all(
 )
 ---
 
-<div class="about-accordion rounded-lg border">
+<div class="accordion">
   {
     items.map(({ id, title, Content }, i) => (
       <details id={id} open={i === 0 || undefined}>
-        <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-4 font-semibold">
+        <summary>
           {title}
-          <span class="chevron ml-4 shrink-0 transition-transform duration-200">
+          <span class="chevron">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -35,9 +35,9 @@ const items = await Promise.all(
             </svg>
           </span>
         </summary>
-        <div class="px-6 pb-4">
-          <div class="border-t border-dashed pt-4">
-            <div class="prose prose-sm dark:prose-invert max-w-none">
+        <div class="accordion-body">
+          <div>
+            <div class="prose">
               <Content />
             </div>
           </div>
@@ -46,18 +46,6 @@ const items = await Promise.all(
     ))
   }
 </div>
-
-<style>
-  details[open] .chevron {
-    transform: rotate(180deg);
-  }
-  details + details {
-    border-top: 1px solid var(--color-border);
-  }
-  summary::-webkit-details-marker {
-    display: none;
-  }
-</style>
 
 <script>
   const accordion = document.querySelector('.about-accordion')

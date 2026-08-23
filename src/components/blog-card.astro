@@ -22,39 +22,31 @@ const authors = await parseAuthors(entry.data.authors ?? [])
 const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
-<div
-  class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
->
-  <Link
-    href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row"
-  >
+<div class="entry-card">
+  <Link href={`/${entry.collection}/${entry.id}`} class="entry-card-layout">
     {
       entry.data.image && (
-        <div class="w-full sm:max-w-3xs sm:shrink-0">
+        <div class="entry-card-media">
           <Image
             src={entry.data.image}
             alt={entry.data.title}
             width={1200}
             height={630}
-            class="object-cover"
           />
         </div>
       )
     }
 
-    <div class="grow">
-      <h3 class="mb-1 font-medium">{entry.data.title}</h3>
-      <p class="text-muted-foreground mb-2">{entry.data.description}</p>
+    <div class="entry-card-body">
+      <h3 class="entry-card-title">{entry.data.title}</h3>
+      <p class="entry-card-desc">{entry.data.description}</p>
 
-      <div
-        class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
-      >
+      <div class="entry-meta">
         {
           authors.length > 0 && (
             <>
               {authors.map((author) => (
-                <div class="flex items-center gap-x-1.5">
+                <div class="entry-meta-item">
                   <span class="avatar" style="--avatar-size: 1.25rem">
                     {author.avatar && (
                       <img src={author.avatar} alt={author.name} />
@@ -75,8 +67,8 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
           subpostCount > 0 && (
             <>
               <span class="rule" />
-              <span class="flex items-center gap-1">
-                <FileText class="size-3" />
+              <span class="entry-meta-item">
+                <FileText class="icon-inline" />
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
               </span>
             </>
@@ -86,10 +78,10 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 
       {
         entry.data.tags && (
-          <div class="flex flex-wrap gap-2">
+          <div class="entry-tags">
             {entry.data.tags.map((tag) => (
               <span class="badge">
-                <Hash class="size-3" />
+                <Hash class="icon-inline" />
                 {tag}
               </span>
             ))}

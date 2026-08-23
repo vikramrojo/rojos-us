@@ -1,0 +1,217 @@
+/*
+ * Home page and about page content: hero, experience timeline, accordion.
+ */
+
+@layer largen.components {
+  /* ── hero ─────────────────────────────────────────────────────────────── */
+  .hero {
+    --radius: var(--radius-lg);
+    --pad: 4rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-canvas {
+    --radius: var(--radius-lg);
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    opacity: 0.5;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+
+  .hero-body {
+    position: relative;
+    z-index: 10;
+    margin-inline: auto;
+  }
+
+  .hero-lede {
+    --font-size: 1.25rem;
+    padding-block: 1.5rem;
+    line-height: calc(1.75 / 1.25);
+  }
+
+  .hero-resume-link {
+    text-decoration-line: underline;
+  }
+
+  .hero-resume-link:hover {
+    text-decoration-line: none;
+  }
+
+  .hero-logos {
+    --gap: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  @media (min-width: 48rem) {
+    .hero-resume-link {
+      text-decoration-line: underline;
+    }
+
+    .hero-resume-link:hover {
+      text-decoration-line: none;
+    }
+
+    .hero-logos {
+      --gap: 4rem;
+    }
+  }
+
+  /* The marks are raw SVG; size by height and let width follow. */
+  .hero-logo > svg {
+    block-size: 100%;
+    inline-size: auto;
+  }
+
+  /* ── experience timeline ──────────────────────────────────────────────── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    margin-inline-start: 0.75rem;
+    border-inline-start: 1px solid var(--line);
+    --pad: 0;
+    list-style: none;
+  }
+
+  .timeline > li {
+    position: relative;
+    padding-inline-start: 1.5rem;
+  }
+
+  .timeline > li + li {
+    margin-block-start: 2.5rem;
+  }
+
+  /* The node on the rule. */
+  .timeline > li::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 1.25rem;
+    inset-inline-start: -5px;
+    inline-size: 0.625rem;
+    block-size: 0.625rem;
+    background-color: var(--primary);
+  }
+
+  .timeline-head,
+  .timeline-body {
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --pad: 1.5rem;
+  }
+
+  .timeline-head {
+    --radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .timeline-body {
+    --radius: 0 0 var(--radius-lg) var(--radius-lg);
+    --border-width: 0 1px 1px 1px;
+  }
+
+  .timeline-head h3 {
+    --weight: 600;
+  }
+
+  .timeline-meta {
+    --fg: var(--ink-muted);
+    --weight: var(--weight-normal);
+  }
+
+  /* Markdown body inside a timeline entry. */
+  .timeline-prose ul {
+    list-style: disc;
+    padding-inline-start: 1.25rem;
+  }
+
+  .timeline-prose li {
+    margin-block-end: 0.25rem;
+  }
+
+  .timeline-links {
+    margin-block-start: 1rem;
+  }
+
+  .timeline-links > summary {
+    --fg: var(--ink-muted);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .timeline-links-list {
+    --gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    margin-block-start: 0.5rem;
+  }
+
+  .timeline-links-list a {
+    --fg: var(--ink-muted);
+    --gap: 0.5rem;
+    --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+  }
+
+  .timeline-links-list a:hover {
+    --fg: var(--ink);
+  }
+
+  .timeline-links-list img {
+    inline-size: 1rem;
+    block-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* ── about accordion ──────────────────────────────────────────────────── */
+  .accordion {
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-lg);
+  }
+
+  .accordion > details + details {
+    border-block-start: 1px solid var(--line);
+  }
+
+  .accordion summary {
+    --pad: 1rem 1.5rem;
+    --weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .accordion summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion .chevron {
+    margin-inline-start: 1rem;
+    flex-shrink: 0;
+    transition: rotate 0.2s;
+  }
+
+  .accordion details[open] .chevron {
+    rotate: 180deg;
+  }
+
+  .accordion-body {
+    --pad: 0 1.5rem 1rem;
+  }
+
+  .accordion-body > div {
+    border-block-start: 1px dashed var(--line);
+    padding-block-start: 1rem;
+  }
+}

@@ -23,13 +23,11 @@ const socialLinks: SocialLink[] = [
 ].filter(Boolean) as SocialLink[]
 ---
 
-<div
-  class="has-[a:hover]:bg-muted/50 overflow-hidden rounded-xl border p-4 transition-colors duration-300 ease-in-out"
->
-  <div class="flex flex-wrap gap-4">
+<div class="entry-card entry-card-overflow">
+  <div class="author-card-layout">
     <Link
       href={`/authors/${author.id}`}
-      class={cn('block', isAuthorPage && 'pointer-events-none')}
+      class={cn(isAuthorPage && 'pointer-events-none')}
     >
       <span
         class={cn(
@@ -43,17 +41,13 @@ const socialLinks: SocialLink[] = [
         <span>{name[0]}</span>
       </span>
     </Link>
-    <div class="flex grow flex-col justify-between gap-y-4">
+    <div class="author-card-body">
       <div>
-        <div class="flex flex-wrap items-center gap-x-2">
-          <h3 class="font-medium">{name}</h3>
-          {
-            pronouns && (
-              <span class="text-muted-foreground text-sm">({pronouns})</span>
-            )
-          }
+        <div class="author-name-row">
+          <h3 class="entry-card-title">{name}</h3>
+          {pronouns && <span class="author-pronouns">({pronouns})</span>}
         </div>
-        <p class="text-muted-foreground">{bio}</p>
+        <p class="author-bio">{bio}</p>
       </div>
       <SocialIcons links={socialLinks} />
     </div>

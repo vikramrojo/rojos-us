@@ -11,35 +11,32 @@ interface Props {
 const { project } = Astro.props
 ---
 
-<div
-  class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
->
-  <div class="flex flex-col gap-4 sm:flex-row">
+<div class="entry-card">
+  <div class="entry-card-layout">
     {
       project.data.image && (
-        <div class="w-full sm:max-w-3xs sm:shrink-0">
+        <div class="entry-card-media">
           <Image
             src={project.data.image}
             alt={project.data.name}
             width={1200}
             height={630}
-            class="object-cover"
           />
         </div>
       )
     }
-    <div class="grow">
-      <h3 class="mb-1 font-medium">
+    <div class="entry-card-body">
+      <h3 class="entry-card-title">
         {project.data.name}
       </h3>
-      <p class="text-muted-foreground mb-2">
+      <p class="entry-card-desc">
         {project.data.description}
       </p>
       {
         project.data.startDate && (
-          <p class="text-muted-foreground/70 mb-2 flex items-center gap-x-1.5 text-xs">
-            <span class="flex items-center gap-x-1.5">
-              <Calendar class="size-3" />
+          <p class="entry-meta entry-meta-dim">
+            <span class="entry-meta-item">
+              <Calendar class="icon-inline" />
               <span>
                 {formatDate(project.data.startDate)}
                 {project.data.endDate
@@ -52,7 +49,7 @@ const { project } = Astro.props
       }
       {
         project.data.tags && (
-          <div class="flex flex-wrap gap-2">
+          <div class="entry-tags">
             {project.data.tags.map((tag: string) => (
               <span class="badge">{tag}</span>
             ))}

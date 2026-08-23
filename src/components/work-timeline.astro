@@ -34,9 +34,9 @@ const rendered = await Promise.all(
 )
 ---
 
-<ul class="ml-3 flex flex-col border-l">
+<ul class="timeline">
   {
-    rendered.map(({ entry, Content, linkMeta }, i) => {
+    rendered.map(({ entry, Content, linkMeta }) => {
       const start = entry.data.startDate?.toLocaleDateString('en-US', {
         month: 'short',
         year: 'numeric',
@@ -52,44 +52,34 @@ const rendered = await Promise.all(
       const role = descParts[0] ?? ''
 
       return (
-        <li class="relative pl-6" style={i > 0 ? 'margin-top: 2.5rem' : ''}>
-          <div class="bg-primary absolute top-5 -left-[5px] h-2.5 w-2.5" />
-          <div class="rounded-tl-lg rounded-tr-lg border p-6">
-            <h3 class="font-semibold">
+        <li>
+          <div class="timeline-head">
+            <h3>
               {entry.data.name}
-              {role && (
-                <span class="text-muted-foreground font-normal"> — {role}</span>
-              )}
+              {role && <span class="timeline-meta"> — {role}</span>}
             </h3>
-            <p class="text-muted-foreground">
+            <p class="timeline-meta">
               {start} – {end}
             </p>
           </div>
-          <div class="rounded-br-lg rounded-bl-lg border border-t-0 p-6">
-            <div class="[&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-5">
+          <div class="timeline-body">
+            <div class="timeline-prose">
               <Content />
             </div>
             {linkMeta.length > 0 && (
-              <details class="mt-4">
-                <summary class="text-muted-foreground cursor-pointer select-none">
+              <details class="timeline-links">
+                <summary>
                   See {linkMeta.length}{' '}
                   {linkMeta.length > 1 ? 'releases' : 'release'}
                 </summary>
-                <div class="mt-2 flex flex-col gap-2">
+                <div class="timeline-links-list">
                   {linkMeta.map((meta, j) => (
                     <a
                       href={entry.data.links![j]}
                       target="_blank"
                       rel="noopener"
-                      class="text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors"
                     >
-                      <img
-                        src={meta.favicon}
-                        alt=""
-                        width="16"
-                        height="16"
-                        class="h-4 w-4 shrink-0"
-                      />
+                      <img src={meta.favicon} alt="" width="16" height="16" />
                       {meta.title}
                     </a>
                   ))}
