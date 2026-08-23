@@ -1,0 +1,173 @@
+/*
+ * callout — the 24 markdown admonition variants, replacing a cva config that
+ * carried two hardcoded Tailwind colour strings per variant (48 in total).
+ *
+ * The tone axis does the work. Each variant sets `--tone` and nothing else;
+ * the border, the title colour and both themes fall out of it. Setting --tone
+ * is not "reaching past the tone axis" — it is feeding it, which is how a
+ * component picks the tone its subtree resolves against.
+ *
+ * The original tinted the panel in dark mode only (`bg-*-950/5`), and that
+ * tint is visible enough to miss. Rule 3 forbids reproducing it with a
+ * dark-mode rule, so it is expressed against --canvas instead: the mix lands
+ * on a near-black base in dark and a white one in light, so it follows the
+ * theme by construction.
+ *
+ * 1.5% is matched to the original's rendered lightness, not to its 5%: that 5%
+ * was of a *950* shade, and mixing a 500 shade at the same ratio lands several
+ * times too strong. The trade is that light mode gains a very faint tint it did
+ * not have — the one place in this migration where the algebra-legal form and
+ * the original disagree, and the contract's own advice is to close the gap
+ * rather than hide it behind a dark rule.
+ */
+
+@layer largen.components {
+  .callout {
+    /*
+     * The tone derivations must be redeclared here, not just --tone.
+     *
+     * --tone-soft/-ink/-line are unregistered inheriting properties, so their
+     * substituted values are computed where they are declared — at :root,
+     * against the default tone. largen re-declares them on [data-tone] for
+     * exactly this reason; a component that sets --tone through some other
+     * attribute has to do the same, or it gets a correct border and a
+     * neutral-toned label. Same three expressions as largen.tone.
+     */
+    --tone-soft: color-mix(in oklab, var(--tone) 10%, var(--canvas));
+    --tone-ink: color-mix(in oklab, var(--tone) 72%, var(--ink));
+    --tone-line: color-mix(in oklab, var(--tone) 30%, var(--canvas));
+    --bg: color-mix(in oklab, var(--tone) 1.5%, var(--canvas));
+    --border-color: var(--tone);
+    --border-width: 0 0 0 4px;
+    --border-style: solid;
+    --pad: 0.75rem 1rem;
+    --font-size: calc(0.875rem * var(--scale));
+    line-height: calc(1.25 / 0.875);
+    display: block;
+    margin-block: 1.5rem;
+    position: relative;
+  }
+
+  .callout > summary {
+    --fg: var(--tone-ink);
+    --weight: var(--weight-medium);
+    --gap: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .callout > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .callout[open] > summary {
+    margin-block-end: 0.75rem;
+  }
+
+  /* The chevron sits last and flips when open. */
+  .callout > summary > svg:last-child {
+    margin-inline-start: auto;
+    inline-size: 1rem;
+    block-size: 1rem;
+    flex-shrink: 0;
+    transition: rotate 0.2s;
+  }
+
+  .callout[open] > summary > svg:last-child {
+    rotate: 180deg;
+  }
+
+  .callout > summary > svg:first-child {
+    margin-inline-end: 0.5rem;
+    inline-size: 1rem;
+    block-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .callout-label {
+    --fg: var(--tone-ink);
+    --weight: var(--weight-medium);
+    margin-inline-end: 0.5rem;
+  }
+
+  .callout-title {
+    --weight: var(--weight-normal);
+    opacity: 0.7;
+  }
+
+  /* One line per variant. The hue tokens live in site-theme.css. */
+  .callout[data-callout='note'] {
+    --tone: var(--hue-blue);
+  }
+  .callout[data-callout='tip'] {
+    --tone: var(--hue-green);
+  }
+  .callout[data-callout='warning'] {
+    --tone: var(--hue-amber);
+  }
+  .callout[data-callout='danger'] {
+    --tone: var(--hue-red);
+  }
+  .callout[data-callout='important'] {
+    --tone: var(--hue-purple);
+  }
+  .callout[data-callout='definition'] {
+    --tone: var(--hue-purple);
+  }
+  .callout[data-callout='theorem'] {
+    --tone: var(--hue-teal);
+  }
+  .callout[data-callout='lemma'] {
+    --tone: var(--hue-sky-soft);
+  }
+  .callout[data-callout='proof'] {
+    --tone: var(--hue-gray);
+  }
+  .callout[data-callout='corollary'] {
+    --tone: var(--hue-cyan);
+  }
+  .callout[data-callout='proposition'] {
+    --tone: var(--hue-slate);
+  }
+  .callout[data-callout='axiom'] {
+    --tone: var(--hue-violet);
+  }
+  .callout[data-callout='conjecture'] {
+    --tone: var(--hue-pink);
+  }
+  .callout[data-callout='notation'] {
+    --tone: var(--hue-slate-soft);
+  }
+  .callout[data-callout='remark'] {
+    --tone: var(--hue-gray-soft);
+  }
+  .callout[data-callout='intuition'] {
+    --tone: var(--hue-yellow);
+  }
+  .callout[data-callout='recall'] {
+    --tone: var(--hue-blue-soft);
+  }
+  .callout[data-callout='explanation'] {
+    --tone: var(--hue-lime);
+  }
+  .callout[data-callout='example'] {
+    --tone: var(--hue-emerald);
+  }
+  .callout[data-callout='exercise'] {
+    --tone: var(--hue-indigo);
+  }
+  .callout[data-callout='problem'] {
+    --tone: var(--hue-orange);
+  }
+  .callout[data-callout='answer'] {
+    --tone: var(--hue-teal);
+  }
+  .callout[data-callout='solution'] {
+    --tone: var(--hue-emerald-deep);
+  }
+  .callout[data-callout='summary'] {
+    --tone: var(--hue-sky);
+  }
+}
