@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from 'astro:content'
+
+const entries = (await getCollection('about')).sort(
+  (a, b) => a.data.order - b.data.order,
+)
+
+const items = await Promise.all(
+  entries.map(async (entry) => {
+    const { Content } = await render(entry)
+    return { id: entry.id, title: entry.data.title, Content }
+  }),
+)
+---
+
+<div class="about-accordion rounded-lg border">
+  {
+    items.map(({ id, title, Content }, i) => (
+      <details id={id} open={i === 0 || undefined}>
+        <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-4 font-semibold">
+          {title}
+          <span class="chevron ml-4 shrink-0 transition-transform duration-200">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </span>
+        </summary>
+        <div class="px-6 pb-4">
+          <div class="border-t border-dashed pt-4">
+            <div class="prose prose-sm dark:prose-invert max-w-none">
+              <Content />
+            </div>
+          </div>
+        </div>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  details[open] .chevron {
+    transform: rotate(180deg);
+  }
+  details + details {
+    border-top: 1px solid var(--color-border);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
+
+<script>
+  const accordion = document.querySelector('.about-accordion')
+  accordion?.addEventListener('click', (e) => {
+    const clicked = (e.target as HTMLElement).closest('details')
+    if (!clicked) return
+    accordion.querySelectorAll('details[open]').forEach((open) => {
+      if (open !== clicked) (open as HTMLDetailsElement).open = false
+    })
+  })
+</script>

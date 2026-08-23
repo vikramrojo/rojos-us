@@ -1,0 +1,32 @@
+---
+import Breadcrumbs from '@/components/breadcrumbs.astro'
+import PageHead from '@/components/page-head.astro'
+import Layout from '@/layouts/layout.astro'
+import { getCollection, render } from 'astro:content'
+
+export async function getStaticPaths() {
+  const sections = await getCollection('about')
+  return sections.map((section) => ({
+    params: { id: section.id },
+    props: section,
+  }))
+}
+
+const section = Astro.props
+const { Content } = await render(section)
+---
+
+<Layout class="max-w-3xl">
+  <PageHead slot="head" title={section.data.title} />
+  <Breadcrumbs
+    items={[
+      { label: 'About', href: '/about', icon: 'lucide:info' },
+      { label: section.data.title, icon: 'lucide:file-text' },
+    ]}
+  />
+
+  <article class="prose max-w-none">
+    <h1>{section.data.title}</h1>
+    <Content />
+  </article>
+</Layout>

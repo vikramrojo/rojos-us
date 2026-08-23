@@ -11,3 +11,9 @@ pnpm-debug.log*
 .idea/
 teaser.pptx
 ~$teaser.pptx
+# Local agent/worktree config
+paseo.json
+
+# Deckset sources for public/pitch/*.pdf — kept locally in pitch-deck-sources.tar.gz
+public/pitch/*.png
+pitch-deck-sources.tar.gz
