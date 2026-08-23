@@ -6,11 +6,6 @@ Customisation belongs in `../site-theme.css` (token overrides) or
 `../components/*.css` (our own components). Both load after these files and
 win by ordinary cascade rules, so nothing here ever needs patching.
 
-One caveat worth knowing: largen ships its light tokens inside
-`@layer largen.tokens` but ships `theme-dark.css` UNLAYERED. Unlayered author
-CSS outranks every layer, so a dark-mode override written inside
-`largen.tokens` is silently ignored while the light one applies. That is why
-`site-theme.css` declares its token overrides outside any layer.
 
 ## Why vendored rather than a dependency
 
@@ -27,13 +22,19 @@ The contract check that `npx largen verify` would have run is instead the
 
 ## Source
 
-Retrieved 2026-08-23 from the pinned, immutable 0.2.0 paths:
+Retrieved 2026-08-23 from the ROOT paths, not the pinned ones:
 
 | File | Source | sha256 |
 |---|---|---|
-| `largen.css` | `https://largen.exe.xyz/v/0.2.0/largen.css` | `dd53e06596e584bd294e59b98a7dc5bc9f1df642247ffeab9c19c3ea8eb41cf9` |
-| `theme-dark.css` | `https://largen.exe.xyz/v/0.2.0/theme-dark.css` | `869518e75aabe57b2fea1a29e0232df1b4f6a4749d309f0cca8d0368588502e1` |
-| `reference.css` | `https://largen.exe.xyz/v/0.2.0/largen.components.css` | `ae1e32f6c071777d8e6448e25197812530e9980c53c035de0db254d6c414fd38` |
+| `largen.css` | `https://largen.exe.xyz/largen.css` | `7f04c4116cec78b6953670da7e453f7201f17bbea8b41bae6d3bc75d8be76f90` |
+| `theme-dark.css` | `https://largen.exe.xyz/theme-dark.css` | `dba24735dc134257d4acd11acdf1de1b8704e80394724a26768b775939b5dee3` |
+| `reference.css` | `https://largen.exe.xyz/largen.components.css` | `88cafb0c6f066437f72de3f2d957503684a502b95608c6123d69b87bbc4ba542` |
+
+**The version string is not currently a stable identifier.** Both the root and
+`/v/0.2.0/` call themselves 0.2.0 and serve different builds — the pinned path
+still has the older one (8858 bytes, unlayered dark theme), the root has the
+fixes (9071 bytes). Vendored from root deliberately, and the checksums above are
+what actually pin this. Re-check them before assuming an update is a no-op.
 
 Verify with:
 

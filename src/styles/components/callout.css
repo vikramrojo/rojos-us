@@ -23,19 +23,6 @@
 
 @layer largen.components {
   .callout {
-    /*
-     * The tone derivations must be redeclared here, not just --tone.
-     *
-     * --tone-soft/-ink/-line are unregistered inheriting properties, so their
-     * substituted values are computed where they are declared — at :root,
-     * against the default tone. largen re-declares them on [data-tone] for
-     * exactly this reason; a component that sets --tone through some other
-     * attribute has to do the same, or it gets a correct border and a
-     * neutral-toned label. Same three expressions as largen.tone.
-     */
-    --tone-soft: color-mix(in oklab, var(--tone) 10%, var(--canvas));
-    --tone-ink: color-mix(in oklab, var(--tone) 72%, var(--ink));
-    --tone-line: color-mix(in oklab, var(--tone) 30%, var(--canvas));
     --bg: color-mix(in oklab, var(--tone) 1.5%, var(--canvas));
     --border-color: var(--tone);
     --border-width: 0 0 0 4px;
