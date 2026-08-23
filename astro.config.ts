@@ -81,14 +81,14 @@ export default defineConfig({
           },
           styleOverrides: {
             codeFontSize: '0.75rem',
-            borderColor: 'var(--border)',
+            borderColor: 'var(--line)',
             codeFontFamily: 'var(--font-mono)',
             codeBackground:
-              'color-mix(in oklab, var(--muted) 25%, transparent)',
+              'color-mix(in oklab, var(--surface) 25%, transparent)',
             frames: {
-              editorActiveTabForeground: 'var(--muted-foreground)',
+              editorActiveTabForeground: 'var(--ink-muted)',
               editorActiveTabBackground:
-                'color-mix(in oklab, var(--muted) 25%, transparent)',
+                'color-mix(in oklab, var(--surface) 25%, transparent)',
               editorActiveTabIndicatorBottomColor: 'transparent',
               editorActiveTabIndicatorTopColor: 'transparent',
               editorTabBorderRadius: '0',
@@ -96,15 +96,15 @@ export default defineConfig({
               editorTabBarBorderBottomColor: 'transparent',
               frameBoxShadowCssValue: 'none',
               terminalBackground:
-                'color-mix(in oklab, var(--muted) 25%, transparent)',
+                'color-mix(in oklab, var(--surface) 25%, transparent)',
               terminalTitlebarBackground: 'transparent',
               terminalTitlebarBorderBottomColor: 'transparent',
-              terminalTitlebarForeground: 'var(--muted-foreground)',
+              terminalTitlebarForeground: 'var(--ink-muted)',
             },
             lineNumbers: {
-              foreground: 'var(--muted-foreground)',
+              foreground: 'var(--ink-muted)',
             },
-            uiFontFamily: 'var(--font-sans)',
+            uiFontFamily: 'var(--font-ui)',
           },
         },
       ],

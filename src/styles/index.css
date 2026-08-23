@@ -1,0 +1,23 @@
+/*
+ * The stylesheet. Imported once, from layouts/layout.astro.
+ *
+ * The layer statement below fixes cascade order for everything that follows.
+ * Two placements are deliberate:
+ *
+ *   site.base       sits between largen.tone and largen.elements, so global
+ *                   defaults (letter-spacing, font-weight) lose to element and
+ *                   component rules — the position Tailwind's `base` had.
+ *
+ *   site.overrides  sits last, for the few rules that must beat a variant.
+ *
+ * While Tailwind is still installed it declares its own layers on first
+ * @import, which sort after every layer named here. That is what keeps the
+ * remaining utility classes winning over largen mid-migration, and it is why
+ * this file must be imported BEFORE global.css.
+ */
+@layer largen.reset, largen.tokens, largen.paint, largen.tone, site.base,
+  largen.elements, largen.components, largen.modifiers, site.overrides;
+
+@import './largen/largen.css';
+@import './largen/theme-dark.css';
+@import './site-theme.css';

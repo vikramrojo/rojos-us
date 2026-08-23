@@ -1,0 +1,194 @@
+/*
+ * Our theme: largen's tokens, given this site's values.
+ *
+ * largen ships a default palette; everything here overrides it so the site
+ * keeps the monochrome oklch scheme and Azeret Mono type it already had.
+ * Nothing in ./largen/ is edited — this file wins by loading after it.
+ */
+
+/* Not layerable, and moved here verbatim from global.css. */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMonoVF.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * These are deliberately UNLAYERED.
+ *
+ * largen ships its light tokens inside `@layer largen.tokens` but ships
+ * theme-dark.css unlayered. Unlayered author CSS outranks every layer, so a
+ * dark override written inside largen.tokens silently loses to largen's own
+ * dark theme — the light palette applies and the dark one does not. Writing
+ * both halves unlayered keeps them symmetric and is what largen's contract
+ * recommends for consumer overrides ("Author inside @layer largen.components.
+ * Override from outside it.").
+ *
+ * Safe against Tailwind while both are loaded: every name shared with
+ * Tailwind's @theme (--radius-*, --font-mono, --font-sans) is set to the value
+ * Tailwind already had, so which one wins is immaterial.
+ */
+:root {
+  /* Surfaces and text. Left column is the shadcn name these replace. */
+  --canvas: oklch(1 0 0); /* was --background      */
+  --ink: oklch(0.145 0 0); /* was --foreground      */
+  --ink-muted: oklch(0.556 0 0); /* was --muted-foreground */
+  --surface: oklch(0.97 0 0); /* was --muted           */
+  --line: oklch(0.922 0 0); /* was --border          */
+
+  /*
+   * The tone ramp is deliberately monochrome. Only --danger carries chroma,
+   * so a stray data-tone cannot introduce a colour this site does not use.
+   * The --hue-* family (untouched, from largen) is the escape hatch for
+   * genuinely multi-hued things like callouts.
+   */
+  --neutral: oklch(0.205 0 0); /* was --primary            */
+  --neutral-on: oklch(0.985 0 0); /* was --primary-foreground */
+  --primary: oklch(0.205 0 0);
+  --primary-on: oklch(0.985 0 0);
+  --secondary: oklch(0.556 0 0);
+  --secondary-on: oklch(0.985 0 0);
+  --success: oklch(0.205 0 0);
+  --success-on: oklch(0.985 0 0);
+  --info: oklch(0.205 0 0);
+  --info-on: oklch(0.985 0 0);
+  --warning: oklch(0.205 0 0);
+  --warning-on: oklch(0.985 0 0);
+  --danger: oklch(0.577 0.245 27.325); /* was --destructive */
+  --danger-on: oklch(0.985 0 0);
+
+  /* Type */
+  --font-ui:
+    var(--font-azeret-mono), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono:
+    'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  --weight-light: 300;
+
+  /*
+   * Tailwind's preflight sets line-height 1.5 on <html>; largen's reset sets
+   * var(--leading) on <body>. Matching the value keeps body leading identical
+   * across the migration.
+   */
+  --leading: 1.5;
+
+  /*
+   * Matched to Tailwind's scale, not largen's (largen's md/lg sit one step
+   * larger). Keeping Tailwind's values means radii do not shift when Tailwind
+   * is removed, and means it does not matter which of the two wins while both
+   * are loaded.
+   */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
+[data-theme='dark'] {
+  --canvas: oklch(0.145 0 0);
+  --ink: oklch(0.985 0 0);
+  --ink-muted: oklch(0.708 0 0);
+  --surface: oklch(0.269 0 0);
+  --line: oklch(1 0 0 / 10%);
+
+  --neutral: oklch(0.922 0 0);
+  --neutral-on: oklch(0.205 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-on: oklch(0.205 0 0);
+  --secondary: oklch(0.708 0 0);
+  --secondary-on: oklch(0.205 0 0);
+  --success: oklch(0.922 0 0);
+  --success-on: oklch(0.205 0 0);
+  --info: oklch(0.922 0 0);
+  --info-on: oklch(0.205 0 0);
+  --warning: oklch(0.922 0 0);
+  --warning-on: oklch(0.205 0 0);
+  --danger: oklch(0.704 0.191 22.216);
+  --danger-on: oklch(0.205 0 0);
+}
+
+/*
+ * Compatibility aliases, temporary.
+ *
+ * astro.config.ts (Expressive Code), about-sections.astro and pdf-viewer.tsx
+ * read the old shadcn names. global.css still defines them unlayered while it
+ * exists, so these are inert until it is deleted — at which point they keep
+ * those consumers working until each is migrated. Delete once
+ *   grep -rnE '\-\-(background|foreground|muted|border|font-sans)' src astro.config.ts
+ * comes back empty.
+ */
+:root {
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --muted: var(--surface);
+  --muted-foreground: var(--ink-muted);
+  --border: var(--line);
+  --color-border: var(--line);
+  --font-sans: var(--font-ui);
+}
+
+@layer site.base {
+  /*
+   * Replaces global.css's `@layer base { * { @apply tracking-tighter font-light } }`.
+   *
+   * letter-spacing is a plain declaration because largen has no slot for it —
+   * the paint rule covers twelve properties and this is not one of them.
+   * --weight needs the `*` selector because the slot is registered
+   * inherits:false. This layer sits before largen.elements, so buttons
+   * (medium) and prose headings still override it.
+   */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    letter-spacing: -0.05em;
+    --weight: var(--weight-light);
+  }
+
+  /* KaTeX needs normal tracking to align. */
+  :where(.katex-display) {
+    letter-spacing: normal;
+  }
+
+  /*
+   * largen's reset opts into antialiased smoothing; this site never did, and
+   * it visibly thins text on macOS. Opt back out to hold the current look.
+   */
+  body {
+    -webkit-font-smoothing: auto;
+  }
+}
+
+@layer site.overrides {
+  /*
+   * Temporary compatibility with the markup Tailwind and shadcn produced.
+   *
+   * largen styles bare elements, which is the point of it — but the existing
+   * markup was written against Tailwind's preflight, where these properties
+   * were left at their UA defaults. Each rule below is deleted as the
+   * component it guards gets rewritten; none should outlive the migration.
+   *
+   * This layer sits after largen.modifiers, so these win without !important.
+   */
+
+  /*
+   * shadcn puts aria-disabled="true" on the *current* breadcrumb — a semantic
+   * marker, not a disabled control — and largen dims anything aria-disabled to
+   * 50%. Buttons still grey out correctly because Tailwind's disabled:opacity-50
+   * sits in a later layer. Goes away when crumbs are authored and the bogus
+   * aria-disabled comes off.
+   */
+  :where(:disabled, [aria-disabled='true']) {
+    opacity: 1;
+  }
+
+  /* largen gives links a .2em underline offset; this site used the UA default. */
+  :where(a) {
+    text-underline-offset: auto;
+    text-decoration-thickness: auto;
+  }
+}

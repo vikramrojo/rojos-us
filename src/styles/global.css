@@ -27,13 +27,7 @@
   --color-ring: var(--ring);
 }
 
-@font-face {
-  font-family: 'Geist Mono';
-  src: url('/fonts/GeistMonoVF.woff2') format('woff2-variations');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+/* @font-face for Geist Mono moved to site-theme.css */
 
 :root {
   --background: oklch(1 0 0);
