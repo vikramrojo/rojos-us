@@ -2,7 +2,7 @@
 import Link from '@/components/link.astro'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { Icon } from 'astro-icon/components'
+import { ArrowLeft, ArrowRight, CornerLeftUp } from '@lucide/astro'
 
 const { newerPost, olderPost, parentPost } = Astro.props
 const isSubpost = !!parentPost
@@ -23,8 +23,7 @@ const isSubpost = !!parentPost
     )}
     aria-disabled={!olderPost}
   >
-    <Icon
-      name="lucide:arrow-left"
+    <ArrowLeft
       class="mr-2 size-4 transition-transform group-hover:-translate-x-1"
     />
     <div class="flex flex-col items-start overflow-hidden text-wrap">
@@ -50,10 +49,7 @@ const isSubpost = !!parentPost
           !parentPost && 'pointer-events-none cursor-not-allowed opacity-50',
         )}
       >
-        <Icon
-          name="lucide:corner-left-up"
-          class="mr-2 size-4 transition-transform group-hover:-translate-y-1"
-        />
+        <CornerLeftUp class="mr-2 size-4 transition-transform group-hover:-translate-y-1" />
         <div class="flex flex-col items-center overflow-hidden text-wrap">
           <span class="text-muted-foreground text-center text-xs">
             Parent Post
@@ -86,8 +82,7 @@ const isSubpost = !!parentPost
         }
       </span>
     </div>
-    <Icon
-      name="lucide:arrow-right"
+    <ArrowRight
       class="ml-2 size-4 transition-transform group-hover:translate-x-1"
     />
   </Link>

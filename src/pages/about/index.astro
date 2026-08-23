@@ -2,6 +2,7 @@
 import Breadcrumbs from '@/components/breadcrumbs.astro'
 import PageHead from '@/components/page-head.astro'
 import Layout from '@/layouts/layout.astro'
+import { Info } from '@lucide/astro'
 import { getCollection, render } from 'astro:content'
 
 const sections = (await getCollection('about')).sort(
@@ -18,7 +19,7 @@ const rendered = await Promise.all(
 
 <Layout class="max-w-3xl">
   <PageHead slot="head" title="About" />
-  <Breadcrumbs items={[{ label: 'About', icon: 'lucide:info' }]} />
+  <Breadcrumbs items={[{ label: 'About', icon: Info }]} />
 
   <div class="flex flex-col gap-y-10">
     {

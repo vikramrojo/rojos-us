@@ -1,7 +1,7 @@
 ---
 import { Badge } from '@/components/ui/badge'
 import { formatDate } from '@/lib/utils'
-import { Icon } from 'astro-icon/components'
+import { Calendar } from '@lucide/astro'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
@@ -12,7 +12,9 @@ interface Props {
 const { project } = Astro.props
 ---
 
-<div class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out">
+<div
+  class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
+>
   <div class="flex flex-col gap-4 sm:flex-row">
     {
       project.data.image && (
@@ -38,7 +40,7 @@ const { project } = Astro.props
         project.data.startDate && (
           <p class="text-muted-foreground/70 mb-2 flex items-center gap-x-1.5 text-xs">
             <span class="flex items-center gap-x-1.5">
-              <Icon name="lucide:calendar" class="size-3" />
+              <Calendar class="size-3" />
               <span>
                 {formatDate(project.data.startDate)}
                 {project.data.endDate

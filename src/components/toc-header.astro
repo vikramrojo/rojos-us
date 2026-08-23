@@ -2,7 +2,7 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn, getHeadingMargin } from '@/lib/utils'
 import type { MarkdownHeading } from 'astro'
-import { Icon } from 'astro-icon/components'
+import { ChevronDown } from '@lucide/astro'
 
 type Props = {
   headings: MarkdownHeading[]
@@ -50,10 +50,7 @@ const { headings } = Astro.props
               Overview
             </span>
             <span class="text-muted-foreground ml-2">
-              <Icon
-                name="lucide:chevron-down"
-                class="h-4 w-4 transition-transform duration-200 group-open:rotate-180"
-              />
+              <ChevronDown class="h-4 w-4 transition-transform duration-200 group-open:rotate-180" />
             </span>
           </div>
         </summary>

@@ -7,12 +7,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { Icon } from 'astro-icon/components'
+import type { IconComponent } from '@/types'
+import { House } from '@lucide/astro'
 
 export interface BreadcrumbItem {
   href?: string
   label: string
-  icon?: string
+  icon?: IconComponent
 }
 
 interface Props {
@@ -26,36 +27,35 @@ const { items } = Astro.props
   <BreadcrumbList>
     <BreadcrumbItem>
       <BreadcrumbLink href="/">
-        <Icon name="lucide:home" class="size-4 shrink-0" />
+        <House class="size-4 shrink-0" />
       </BreadcrumbLink>
     </BreadcrumbItem>
     {
-      items.map((item, index) => (
-        <>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            {index === items.length - 1 ? (
-              <BreadcrumbPage>
-                <span class="flex items-center gap-x-2">
-                  {item.icon && (
-                    <Icon name={item.icon} class="size-4 shrink-0" />
-                  )}
-                  <span>{item.label}</span>
-                </span>
-              </BreadcrumbPage>
-            ) : (
-              <BreadcrumbLink href={item.href}>
-                <span class="flex items-center gap-x-2">
-                  {item.icon && (
-                    <Icon name={item.icon} class="size-4 shrink-0" />
-                  )}
-                  <span>{item.label}</span>
-                </span>
-              </BreadcrumbLink>
-            )}
-          </BreadcrumbItem>
-        </>
-      ))
+      items.map((item, index) => {
+        const Icon = item.icon
+        return (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              {index === items.length - 1 ? (
+                <BreadcrumbPage>
+                  <span class="flex items-center gap-x-2">
+                    {Icon && <Icon class="size-4 shrink-0" />}
+                    <span>{item.label}</span>
+                  </span>
+                </BreadcrumbPage>
+              ) : (
+                <BreadcrumbLink href={item.href}>
+                  <span class="flex items-center gap-x-2">
+                    {Icon && <Icon class="size-4 shrink-0" />}
+                    <span>{item.label}</span>
+                  </span>
+                </BreadcrumbLink>
+              )}
+            </BreadcrumbItem>
+          </>
+        )
+      })
     }
   </BreadcrumbList>
 </Breadcrumb>

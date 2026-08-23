@@ -3,7 +3,6 @@ import { defineConfig, fontProviders, passthroughImageService } from 'astro/conf
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
-import icon from 'astro-icon'
 
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import rehypeExpressiveCode from 'rehype-expressive-code'
@@ -36,7 +35,6 @@ export default defineConfig({
     mdx(),
     react(),
     sitemap({ filter: (page) => !page.includes('/pitch/') }),
-    icon(),
   ],
   vite: {
     plugins: [tailwindcss()],

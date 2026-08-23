@@ -1,4 +1,7 @@
+import GitHubIcon from '@/components/icons/github.astro'
+import LinkedInIcon from '@/components/icons/linkedin.astro'
 import type { IconMap, SocialLink, Site } from '@/types'
+import { Globe, Mail, Rss } from '@lucide/astro'
 
 export const SITE: Site = {
   title: 'V–R',
@@ -38,10 +41,9 @@ export const SOCIAL_LINKS: SocialLink[] = [
 ]
 
 export const ICON_MAP: IconMap = {
-  Website: 'lucide:globe',
-  GitHub: 'lucide:github',
-  LinkedIn: 'lucide:linkedin',
-  Twitter: 'lucide:twitter',
-  Email: 'lucide:mail',
-  RSS: 'lucide:rss',
+  Website: Globe,
+  GitHub: GitHubIcon,
+  LinkedIn: LinkedInIcon,
+  Email: Mail,
+  RSS: Rss,
 }

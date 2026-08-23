@@ -5,11 +5,12 @@ import PageHead from '@/components/page-head.astro'
 import { buttonVariants } from '@/components/ui/button'
 import Layout from '@/layouts/layout.astro'
 import { cn } from '@/lib/utils'
+import { CircleQuestionMark } from '@lucide/astro'
 ---
 
 <Layout class="max-w-3xl">
   <PageHead slot="head" title="404" />
-  <Breadcrumbs items={[{ label: '???', icon: 'lucide:circle-help' }]} />
+  <Breadcrumbs items={[{ label: '???', icon: CircleQuestionMark }]} />
 
   <section
     class="flex flex-col items-center justify-center gap-y-4 text-center"

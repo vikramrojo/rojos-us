@@ -2,6 +2,7 @@
 import Breadcrumbs from '@/components/breadcrumbs.astro'
 import PageHead from '@/components/page-head.astro'
 import Layout from '@/layouts/layout.astro'
+import { FileText, Info } from '@lucide/astro'
 import { getCollection, render } from 'astro:content'
 
 export async function getStaticPaths() {
@@ -20,8 +21,8 @@ const { Content } = await render(section)
   <PageHead slot="head" title={section.data.title} />
   <Breadcrumbs
     items={[
-      { label: 'About', href: '/about', icon: 'lucide:info' },
-      { label: section.data.title, icon: 'lucide:file-text' },
+      { label: 'About', href: '/about', icon: Info },
+      { label: section.data.title, icon: FileText },
     ]}
   />
 
