@@ -75,13 +75,13 @@
   .post-nav-kicker {
     --fg: var(--ink-muted);
     --font-size: 0.75rem;
-    line-height: calc(1 / 0.75);
+    --line-height: calc(1 / 0.75);
   }
 
   .post-nav-title {
     --font-size: 0.875rem;
     inline-size: 100%;
-    line-height: calc(1.25 / 0.875);
+    --line-height: calc(1.25 / 0.875);
     text-wrap: balance;
     text-overflow: ellipsis;
   }
@@ -130,7 +130,7 @@
     --weight: var(--weight-medium);
     margin-block-end: 0.5rem;
     scroll-margin-top: 7.75rem;
-    line-height: 1.25;
+    --line-height: 1.25;
   }
 
   /* The metadata strip: stacked and divided on mobile, inline at sm. */

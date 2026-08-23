@@ -88,7 +88,7 @@
     flex-wrap: wrap;
     align-items: center;
     margin-block-end: 0.5rem;
-    line-height: calc(1 / 0.75);
+    --line-height: calc(1 / 0.75);
   }
 
   .entry-meta-dim {
@@ -135,7 +135,7 @@
   .author-pronouns {
     --fg: var(--ink-muted);
     --font-size: 0.875rem;
-    line-height: calc(1.25 / 0.875);
+    --line-height: calc(1.25 / 0.875);
   }
 
   .author-bio {

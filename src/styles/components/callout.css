@@ -29,7 +29,7 @@
     --border-style: solid;
     --pad: 0.75rem 1rem;
     --font-size: calc(0.875rem * var(--scale));
-    line-height: calc(1.25 / 0.875);
+    --line-height: calc(1.25 / 0.875);
     display: block;
     margin-block: 1.5rem;
     position: relative;

@@ -31,7 +31,7 @@
   .hero-lede {
     --font-size: 1.25rem;
     padding-block: 1.5rem;
-    line-height: calc(1.75 / 1.25);
+    --line-height: calc(1.75 / 1.25);
   }
 
   .hero-resume-link {
@@ -225,8 +225,8 @@
     display: flex;
     align-items: center;
     margin-block-start: 2rem;
-    line-height: calc(1.25 / 0.875);
-    letter-spacing: 0.1em;
+    --line-height: calc(1.25 / 0.875);
+    --letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 

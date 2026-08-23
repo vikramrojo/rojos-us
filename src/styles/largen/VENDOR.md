@@ -22,25 +22,41 @@ The contract check that `npx largen verify` would have run is instead the
 
 ## Source
 
-Retrieved 2026-08-23 from the ROOT paths, not the pinned ones:
+Retrieved 2026-08-23 from the ROOT paths, not the pinned ones.
 
-| File | Source | sha256 |
-|---|---|---|
-| `largen.css` | `https://largen.exe.xyz/largen.css` | `7f04c4116cec78b6953670da7e453f7201f17bbea8b41bae6d3bc75d8be76f90` |
-| `theme-dark.css` | `https://largen.exe.xyz/theme-dark.css` | `dba24735dc134257d4acd11acdf1de1b8704e80394724a26768b775939b5dee3` |
-| `reference.css` | `https://largen.exe.xyz/largen.components.css` | `88cafb0c6f066437f72de3f2d957503684a502b95608c6123d69b87bbc4ba542` |
+    version 0.2.0   build b9fc348c
 
-**The version string is not currently a stable identifier.** Both the root and
-`/v/0.2.0/` call themselves 0.2.0 and serve different builds — the pinned path
-still has the older one (8858 bytes, unlayered dark theme), the root has the
-fixes (9071 bytes). Vendored from root deliberately, and the checksums above are
-what actually pin this. Re-check them before assuming an update is a no-op.
+| File | Source | bytes | sha256 |
+|---|---|---:|---|
+| `largen.css` | `/largen.css` | 9301 | `e733f3ff799848c4b1da6ac0a207db27327cbb8fc59d6a78cb321b25f1d8dc74` |
+| `theme-dark.css` | `/theme-dark.css` | 845 | `2976187639e0743b8e7cbebc209237586ec6170cf9b1f9ed4f670ec7284cc352` |
+| `reference.css` | `/largen.components.css` | 8255 | `10f813c1c4048d485ba5e0597b6b9bab80b92594bd64f2a0428d3cf3440bdbd5` |
 
-Verify with:
+`build.json` is vendored alongside, so the digests above are copied from what
+upstream publishes rather than computed by hand. Verify with:
 
 ```sh
-shasum -a 256 largen.css theme-dark.css reference.css
+python3 - <<'EOF'
+import json, hashlib, pathlib
+d = pathlib.Path('src/styles/largen')
+m = json.load(open(d / 'build.json'))
+for name, local in [('largen.css','largen.css'),
+                    ('largen.components.css','reference.css'),
+                    ('theme-dark.css','theme-dark.css')]:
+    got = hashlib.sha256((d / local).read_bytes()).hexdigest()
+    print(('ok   ' if got == m['files'][name]['sha256'] else 'DRIFT'), local)
+EOF
 ```
+
+**Pin by hash, not by version.** `/largen.css` and `/v/0.2.0/` both report 0.2.0
+and serve different bytes; the ambiguity is known and deliberate upstream. The
+`build` id names a build but is not the file digest — it is the hash of the
+bundle before the banner was added. `curl -sI` answers "has it moved?" via ETag
+without downloading, and `integrity` strings in `build.json` work as SRI now
+that CORS is served.
+
+`contract.txt` is the authoring contract at this build (`/llms-compact.txt`),
+vendored so the docs cannot drift from the code without it showing in a diff.
 
 ## What each file is
 

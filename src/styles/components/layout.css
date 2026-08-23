@@ -13,13 +13,13 @@
    */
   :where(.link) {
     /*
-     * `inherit` on a slot registered inherits:false is deliberate: it takes the
-     * parent's --fg, which is normally unset, so the slot stays
-     * guaranteed-invalid and the paint rule reverts colour to the UA's
-     * `a { color: inherit }`. Without it largen.elements tints every link with
-     * --tone-ink, which is not what a link meant here.
+     * currentColor, not inherit. Both leave the slot able to fall through, but
+     * `inherit` bottoms out at the user-agent stylesheet — which colours links
+     * blue — rather than at the ambient text colour. Returning a slot to
+     * guaranteed-invalid gets you the UA value, never the surrounding one; if
+     * you want what the surroundings have, name it.
      */
-    --fg: inherit;
+    --fg: currentColor;
     --transition: 0.3s ease-in-out;
     display: inline-block;
   }
@@ -91,7 +91,7 @@
     --weight: var(--weight-medium);
     display: none;
     block-size: 100%;
-    line-height: 1;
+    --line-height: 1;
   }
 
   @media (min-width: 400px) {
@@ -105,7 +105,7 @@
     --font-size: 0.875rem;
     display: flex;
     align-items: center;
-    line-height: calc(1.25 / 0.875);
+    --line-height: calc(1.25 / 0.875);
   }
 
   @media (min-width: 40rem) {

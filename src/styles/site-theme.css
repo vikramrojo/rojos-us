@@ -101,11 +101,14 @@
     --weight-light: 300;
 
     /*
-     * Tailwind's preflight sets line-height 1.5 on <html>; largen's reset sets
-     * var(--leading) on <body>. Matching the value keeps body leading identical
-     * across the migration.
+     * largen's reset sets var(--line-height-base) on <body>. Tailwind's
+     * preflight used to set 1.5 on <html>; matching it kept body leading
+     * identical across the migration, and there is no reason to move it now.
+     *
+     * Renamed from --leading upstream, which freed that name for the
+     * --line-height slot. The pair now mirrors --text-base / --font-size.
      */
-    --leading: 1.5;
+    --line-height-base: 1.5;
 
     /*
      * Matched to Tailwind's scale, not largen's (largen's md/lg sit one step
@@ -147,18 +150,18 @@
   /*
    * Replaces global.css's `@layer base { * { @apply tracking-tighter font-light } }`.
    *
-   * letter-spacing is a plain declaration because largen has no slot for it —
-   * the paint rule covers twelve properties and this is not one of them.
-   * --weight needs the `*` selector because the slot is registered
-   * inherits:false. This layer sits before largen.elements, so buttons
-   * (medium) and prose headings still override it.
+   * Both are slots now — largen grew --line-height and --letter-spacing, taking
+   * the paint rule from twelve properties to fourteen. Both need the `*`
+   * selector because slots are registered inherits:false. This layer sits
+   * before largen.elements, so buttons (medium) and prose headings still
+   * override it.
    */
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    letter-spacing: -0.05em;
+    --letter-spacing: -0.05em;
     --weight: var(--weight-light);
   }
 
@@ -196,7 +199,7 @@
 
   /* KaTeX needs normal tracking to align. */
   :where(.katex-display) {
-    letter-spacing: normal;
+    --letter-spacing: normal;
   }
 }
 
