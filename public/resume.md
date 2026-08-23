@@ -6,22 +6,43 @@ vikram@rojos.us | linkedin.com/in/vikramrojo | github.com/vikramrojo
 
 ## Professional Summary
 
+### Experience
+
 I'm a product designer with over a decade of experience working primarily in B2B SaaS and developer tools. I specialize in translating complex problems into interfaces that feel native to the people using them. My fundamentals span the full product stack: interaction design, design systems, research, Figma prototyping and production-ready files, with frontend competency to prototype in code and work in lockstep with engineering.
 
-I've joined teams as a founding designer and operated inside larger EPD orgs—both shapes suit me. More recently I've expanded into adjacent product marketing work and deepened my AI toolset regularly working with Claude Code, Subframe, and Agentation, and adopting custom skills for content marketing and frontend design to extend my contributions.
+### Artificial Intelligence
+
+I run agent loops remotely on a dedicated machine, Claude for project planning, Mimo for development and review. Claude Design handles product discovery and iterative prototyping; whatever survives gets hardened into a Figma design system. I work spec-first with OpenSpec and put every implementation through extensive QA before its committed. Staging builds run on VMs, and production ships on Cloudflare.
+
+I maintain two scaffolds, a Flue agent harness over TanStack, Hono, Cloudflare, and Capacitor for web applications, and an Apple Intelligence Swift scaffold for MacOS and iOS. Each scaffold is assembled from skills and MCP servers relevant to that stack. Building software prototype takes between a weekend and a week.
 
 ---
 
 ## Professional Experience
 
-### GTM Lead at Minka
+### Design Engineering at Postbyte LLC
+Self-employed | April 2026 - Present
+
+- Running Postbyte, a collaborative agentic software factory inclusive of product, design, frontend, and infrastructure as a solo builder
+- Standardized the factory on two reusable scaffolds: a TanStack + Cloudflare stack wrapped with Capacitor for cross-platform web and mobile, and a native Swift scaffold for iOS
+- Shipped [Wondo Beta](https://wondo.app), a live marketplace for choose-your-own-adventure interactive stories, with a quirky brand identity, gameplay component library and author tools backed by Cloudflare AI agents
+- Shipped [Finsum Beta](https://finsum.app), a personal budgeting and spending tracker, on the cross-platform web scaffold
+- Prototyping Cochu.app, a shared-context LMS that keeps learners, instructors, and materials working from a common source of truth, on the cross-platform web scaffold
+- Shipped [Langol Beta](https://testflight.apple.com/join/M8dBg9Uw), a conversational trainer for romance language and ESL learners, on the native Swift scaffold—running on-device with Apple Intelligence for private, low-latency practice
+- Consultative designing of agent harness for [Journai](https://thejournai.com/) as part of the Michigan Business Accelerator Fund
+- Extended a decade of product-design and frontend practice into shipped beta products using Spec Driven Development with Claude and Mimo agents working in loops on a dedicated machine
+
+---
+
+### Brand and GTM Lead at Minka
 Remote | September 2024 - March 2026
 
-- Led company-wide rebrand, defining new visual identity and messaging across all customer touchpoints
-- Architected and supervised agentic workflows for content marketing, inbound and outbound leads, enabling lead sales execution
-- Developed product packaging and pricing, structuring tiers to align with customer segments and support enterprise sales motion
+- Led company-wide rebrand, defining enterprise visual identity, design system, website and messaging architecture across sales touchpoints
+- Developed product marketing and pricing, structuring tiers to align with customer segments and support enterprise sales motion
 - Standardized contracts process to streamline sales operations and reduce deal friction and shorten time to proposals
 - Led content marketing and paid advertising programs across Linkedin and Google to build inbound pipeline from scratch
+- Architected and supervised agentic workflows for content production and inbound/outbound lead operations, enabling lean sales execution
+- Standardized contracts process to reduce deal friction and shorten time to proposal
 
 #### Releases
 

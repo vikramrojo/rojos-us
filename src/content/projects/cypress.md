@@ -1,6 +1,6 @@
 ---
-name: "Cypress"
-description: "Senior Product Designer – Designed core developer tooling features including PR comparison, CI debugging workflows, and test analytics for a leading frontend testing platform."
+name: "Cypress, Senior Product Designer"
+description: "Designed core developer tooling features including PR comparison, CI debugging workflows, and test analytics for a leading frontend testing platform."
 tags:
   - Product Design
   - Developer Tools
