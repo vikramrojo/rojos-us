@@ -1,0 +1,23 @@
+/*
+ * card — the bordered block behind blog, project and author entries.
+ *
+ * Note this does NOT take `--bg: var(--surface)` from largen's reference card.
+ * These cards have no fill; they are a hairline and a hover tint, and the fill
+ * would be a visible change.
+ */
+
+@layer largen.components {
+  .card {
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-xl);
+    --pad: 1rem;
+    --transition: 0.3s ease-in-out;
+  }
+
+  a.card:hover,
+  .card:has(> a:hover) {
+    --bg: color-mix(in oklab, var(--surface) 50%, transparent);
+  }
+}

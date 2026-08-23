@@ -1,0 +1,43 @@
+/*
+ * avatar — replacing radix's Avatar, which shipped three React components and a
+ * hydration boundary to render an <img> with an initials fallback. The platform
+ * does that: an <img> stacked over the initials, and if the image fails to load
+ * the initials are simply what remains visible.
+ *
+ * scroll-area — replacing radix's ScrollArea, which rendered a viewport, a
+ * custom scrollbar track and a thumb. `overflow-y: auto` with a styled native
+ * scrollbar is the same thing without the JavaScript. The viewport element it
+ * used to create is preserved as [data-scroll-viewport], because the TOC and
+ * subpost scroll-spy scripts query for it.
+ */
+
+@layer largen.components {
+  .avatar {
+    --avatar-size: 2rem;
+    --bg: var(--surface);
+    --fg: var(--ink);
+    --radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    inline-size: var(--avatar-size);
+    block-size: var(--avatar-size);
+    flex-shrink: 0;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+
+  .avatar > img {
+    grid-area: 1 / 1;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    aspect-ratio: 1;
+  }
+
+  .scroll-area {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+}

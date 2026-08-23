@@ -1,0 +1,69 @@
+/*
+ * crumbs and pagination — replacing ui/breadcrumb.tsx (seven React sub-parts
+ * for an <ol> of links) and ui/pagination.tsx (195 lines wrapping Button).
+ *
+ * Both are plain lists of links; nothing about them needed a component library.
+ */
+
+@layer largen.components {
+  .crumbs {
+    --fg: var(--ink-muted);
+    --font-size: calc(0.875rem * var(--scale));
+    --gap: 0.375rem;
+    --pad: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    list-style: none;
+    overflow-wrap: break-word;
+  }
+
+  @media (min-width: 40rem) {
+    .crumbs {
+      --gap: 0.625rem;
+    }
+  }
+
+  .crumbs li {
+    --gap: 0.375rem;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .crumbs a {
+    --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .crumbs a:hover {
+    --fg: var(--ink);
+  }
+
+  /* The current page: styled, but not a link. */
+  .crumbs [aria-current='page'] {
+    --fg: var(--ink);
+    --weight: var(--weight-normal);
+  }
+
+  .crumbs [data-crumb-separator] > svg {
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+  }
+
+  .pagination {
+    --gap: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    margin-inline: auto;
+    list-style: none;
+    --pad: 0;
+  }
+
+  /* Disabled prev/next. aria-disabled is the real state; largen dims it. */
+  .pagination [aria-disabled='true'] {
+    pointer-events: none;
+  }
+}

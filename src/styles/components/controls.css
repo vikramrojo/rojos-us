@@ -1,0 +1,113 @@
+/*
+ * Buttons and badges — replacing the cva matrices in ui/button.tsx and
+ * ui/badge.tsx.
+ *
+ * The matrices declared 6 button variants x 4 sizes and 4 badge variants;
+ * the site only ever used `outline`, `ghost`, `icon`, `sm` and badge `muted`.
+ * Only those are written here. The rest were dead code, and two of the button
+ * variants referenced a --color-input token that was never defined.
+ *
+ * These deliberately do NOT use largen's `data-variant` axis. That axis derives
+ * everything from the tone (`--tone`, `--tone-ink`, `--tone-line`), whereas
+ * this site's buttons are a surface treatment: a hairline in --line over
+ * --canvas, with the label inheriting --ink. Routing them through the tone axis
+ * would tint both border and label. `data-tone` still works on these — it is
+ * the variant axis specifically that does not apply.
+ */
+
+@layer largen.components {
+  .btn {
+    --bg: var(--canvas);
+    --fg: var(--ink);
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-md);
+    --pad: 0.5rem 1rem;
+    --gap: 0.5rem;
+    --font-size: calc(0.875rem * var(--scale));
+    --weight: var(--weight-medium);
+    --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    block-size: calc(2.25rem * var(--scale));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    --bg: var(--surface);
+  }
+
+  /* Icons inside a button that do not carry their own size. */
+  .btn > svg:not([class*='size-']) {
+    inline-size: 1rem;
+    block-size: 1rem;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  .btn[data-ghost] {
+    --bg: transparent;
+    --border-color: transparent;
+    --border-width: 0;
+  }
+
+  .btn[data-ghost]:hover {
+    --bg: var(--surface);
+  }
+
+  .btn[data-icon] {
+    --pad: 0;
+    inline-size: calc(2.25rem * var(--scale));
+  }
+
+  /*
+   * A deliberate exception to "never write a size variant".
+   *
+   * largen's size axis is a single --scale multiplier, so type and padding
+   * shrink together. The source design shrinks the box while holding the label
+   * at .875rem, and the two models cannot be reconciled by scaling. Exactly one
+   * button on the site uses this (the PDF download link), and parity was the
+   * brief, so it is written out rather than approximated — 2px of padding off
+   * is visible where a sub-pixel height difference would not be.
+   */
+  .btn[data-compact] {
+    --pad: 0.5rem 0.75rem;
+    --gap: 0.375rem;
+    block-size: 2rem;
+  }
+
+  .badge {
+    --bg: var(--surface);
+    --fg: var(--ink);
+    --border-color: transparent;
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-md);
+    --pad: 0.125rem 0.5rem;
+    --gap: 0.25rem;
+    --font-size: calc(0.75rem * var(--scale));
+    --weight: var(--weight-medium);
+    --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: fit-content;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  a.badge:hover {
+    --bg: color-mix(in oklab, var(--surface) 90%, transparent);
+  }
+
+  .badge > svg {
+    inline-size: 0.75rem;
+    block-size: 0.75rem;
+    pointer-events: none;
+  }
+}
