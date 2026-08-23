@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "largen": {
+      "type": "http",
+      "url": "https://largen.exe.xyz/api/mcp"
+    }
+  }
+}
