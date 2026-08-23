@@ -1,14 +1,6 @@
 ---
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
 import type { IconComponent } from '@/types'
-import { House } from '@lucide/astro'
+import { ChevronRight, House } from '@lucide/astro'
 
 export interface BreadcrumbItem {
   href?: string
@@ -23,39 +15,36 @@ interface Props {
 const { items } = Astro.props
 ---
 
-<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="/">
-        <House class="size-4 shrink-0" />
-      </BreadcrumbLink>
-    </BreadcrumbItem>
+<nav aria-label="breadcrumb">
+  <ol class="crumbs">
+    <li>
+      <a href="/" aria-label="Home"><House class="size-4 shrink-0" /></a>
+    </li>
     {
       items.map((item, index) => {
         const Icon = item.icon
+        const isLast = index === items.length - 1
         return (
           <>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              {index === items.length - 1 ? (
-                <BreadcrumbPage>
-                  <span class="flex items-center gap-x-2">
-                    {Icon && <Icon class="size-4 shrink-0" />}
-                    <span>{item.label}</span>
-                  </span>
-                </BreadcrumbPage>
+            <li data-crumb-separator aria-hidden="true">
+              <ChevronRight />
+            </li>
+            <li>
+              {isLast ? (
+                <span aria-current="page">
+                  {Icon && <Icon class="size-4 shrink-0" />}
+                  <span>{item.label}</span>
+                </span>
               ) : (
-                <BreadcrumbLink href={item.href}>
-                  <span class="flex items-center gap-x-2">
-                    {Icon && <Icon class="size-4 shrink-0" />}
-                    <span>{item.label}</span>
-                  </span>
-                </BreadcrumbLink>
+                <a href={item.href}>
+                  {Icon && <Icon class="size-4 shrink-0" />}
+                  <span>{item.label}</span>
+                </a>
               )}
-            </BreadcrumbItem>
+            </li>
           </>
         )
       })
     }
-  </BreadcrumbList>
-</Breadcrumb>
+  </ol>
+</nav>

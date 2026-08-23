@@ -1,19 +1,18 @@
 ---
-import { Button } from '@/components/ui/button'
 import { Moon, Sun } from '@lucide/astro'
 ---
 
-<Button
+<button
   id="theme-toggle"
-  variant="ghost"
-  size="icon"
+  class="btn -my-2 -me-2 size-8"
+  data-ghost
+  data-icon
   title="Toggle theme"
-  className="-my-2 -me-2 size-8"
 >
   <Sun class="size-4 dark:hidden" />
   <Moon class="absolute hidden size-4 dark:block" />
   <span class="sr-only">Toggle theme</span>
-</Button>
+</button>
 
 <script is:inline data-astro-rerun>
   ;(() => {

@@ -1,0 +1,78 @@
+---
+/**
+ * Replaces ui/pagination.tsx — 195 lines across seven React sub-components,
+ * hydrated with client:load to render a list of static links.
+ */
+import { ChevronLeft, ChevronRight, Ellipsis } from '@lucide/astro'
+
+interface Props {
+  currentPage: number
+  totalPages: number
+  baseUrl: string
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props
+
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+const pageUrl = (page: number) => (page === 1 ? baseUrl : `${baseUrl}${page}`)
+
+const onFirst = currentPage === 1
+const onLast = currentPage === totalPages
+---
+
+<nav class="mx-auto flex w-full justify-center" aria-label="pagination">
+  <ul class="pagination flex-wrap">
+    <li>
+      <a
+        class="btn gap-1 px-2.5 sm:pl-2.5"
+        data-ghost
+        href={onFirst ? undefined : pageUrl(currentPage - 1)}
+        aria-label="Go to previous page"
+        aria-disabled={onFirst ? 'true' : undefined}
+      >
+        <ChevronLeft />
+        <span class="hidden sm:block">Previous</span>
+      </a>
+    </li>
+
+    {
+      pages.map((page) => (
+        <li>
+          <a
+            class="btn"
+            data-icon
+            data-ghost={page === currentPage ? undefined : true}
+            href={pageUrl(page)}
+            aria-current={page === currentPage ? 'page' : undefined}
+          >
+            {page}
+          </a>
+        </li>
+      ))
+    }
+
+    {
+      totalPages > 5 && (
+        <li>
+          <span class="btn" data-icon data-ghost aria-hidden="true">
+            <Ellipsis />
+            <span class="sr-only">More pages</span>
+          </span>
+        </li>
+      )
+    }
+
+    <li>
+      <a
+        class="btn gap-1 px-2.5 sm:pr-2.5"
+        data-ghost
+        href={onLast ? undefined : pageUrl(currentPage + 1)}
+        aria-label="Go to next page"
+        aria-disabled={onLast ? 'true' : undefined}
+      >
+        <span class="hidden sm:block">Next</span>
+        <ChevronRight />
+      </a>
+    </li>
+  </ul>
+</nav>

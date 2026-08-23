@@ -1,0 +1,68 @@
+/*
+ * tabs — the CSS-only radio tab group on the home page, replacing daisyUI.
+ *
+ * The mechanism is unchanged and needs no JavaScript: each <input type="radio">
+ * is the tab, its label comes from `content: attr(aria-label)`, and the panel
+ * that follows it is shown by the `:checked + .tab-content` sibling selector.
+ *
+ * One deliberate colour change. daisyUI's --color-base-100 and --color-base-300
+ * are blue-tinted (oklch(0.2533 0.016 252.42) and oklch(0.2115 0.012 254.09)) —
+ * an artefact of running daisyUI with no theme configured on a site that is
+ * otherwise strictly monochrome. These map to --surface and --line instead:
+ * near-identical in lightness, without the stray hue.
+ */
+
+@layer largen.components {
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    inline-size: 100%;
+  }
+
+  .tab {
+    --fg: var(--ink);
+    --pad: 0 0.75rem;
+    --font-size: calc(0.875rem * var(--scale));
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    block-size: 2.5rem;
+    min-inline-size: fit-content;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+  }
+
+  /* The label lives in aria-label so the control stays a plain radio. */
+  .tab::after {
+    content: attr(aria-label);
+  }
+
+  .tab:not(:checked):not(:hover) {
+    --fg: color-mix(in oklab, var(--ink) 50%, transparent);
+  }
+
+  .tab-content {
+    --bg: var(--surface);
+    --fg: var(--ink);
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-lg);
+    --pad: 0.5rem;
+    display: none;
+    order: 1;
+    inline-size: 100%;
+  }
+
+  @media (min-width: 48rem) {
+    .tab-content {
+      --pad: 1.5rem;
+    }
+  }
+
+  .tab:checked + .tab-content {
+    display: block;
+  }
+}

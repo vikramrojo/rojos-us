@@ -197,17 +197,6 @@
    */
 
   /*
-   * shadcn puts aria-disabled="true" on the *current* breadcrumb — a semantic
-   * marker, not a disabled control — and largen dims anything aria-disabled to
-   * 50%. Buttons still grey out correctly because Tailwind's disabled:opacity-50
-   * sits in a later layer. Goes away when crumbs are authored and the bogus
-   * aria-disabled comes off.
-   */
-  :where(:disabled, [aria-disabled='true']) {
-    opacity: 1;
-  }
-
-  /*
    * largen gives links a .2em underline offset; this site used the UA default.
    * Scoped out of .prose, which sets its own 3px offset — site.overrides is the
    * last layer, so an unscoped rule here silently beats the component.
@@ -230,12 +219,19 @@
    * them back to `initial` makes the fallback fire and hands each property to
    * preflight, exactly as before largen was loaded.
    *
-   * Scoped out of migrated components; add to the :not() list as each lands,
-   * and delete the whole rule with Tailwind.
+   * Scoped out of migrated components; extend the :not() list as each lands,
+   * and delete the whole rule with Tailwind. Forgetting to extend it is the
+   * failure mode: a newly authored component renders with every slot stripped
+   * but its layout intact, which reads as "the component isn't applying".
    */
   :where(a, button, [type='button'], [type='submit'], [type='reset']):not(
     .prose,
-    .prose *
+    .prose *,
+    .btn,
+    .badge,
+    .tab,
+    .crumbs *,
+    .pagination *
   ) {
     --bg: initial;
     --fg: initial;

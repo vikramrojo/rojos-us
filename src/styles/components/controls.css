@@ -28,6 +28,7 @@
     --font-size: calc(0.875rem * var(--scale));
     --weight: var(--weight-medium);
     --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: calc(1.25 / 0.875);
     block-size: calc(2.25rem * var(--scale));
     display: inline-flex;
     align-items: center;
@@ -92,6 +93,7 @@
     --font-size: calc(0.75rem * var(--scale));
     --weight: var(--weight-medium);
     --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: calc(1 / 0.75);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -109,5 +111,19 @@
     inline-size: 0.75rem;
     block-size: 0.75rem;
     pointer-events: none;
+  }
+}
+
+@layer largen.components {
+  /*
+   * A vertical hairline between inline metadata. Replaces radix's Separator,
+   * which shipped a component and an ARIA role to draw a 1px line; these are
+   * decorative, so `decorative` was always true and the role always none.
+   */
+  .rule {
+    --bg: var(--line);
+    inline-size: 1px;
+    block-size: 1rem;
+    flex-shrink: 0;
   }
 }

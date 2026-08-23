@@ -7,8 +7,6 @@ import SubpostsHeader from '@/components/subposts-header.astro'
 import SubpostsSidebar from '@/components/subposts-sidebar.astro'
 import TOCHeader from '@/components/toc-header.astro'
 import TOCSidebar from '@/components/toc-sidebar.astro'
-import { badgeVariants } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/layout.astro'
 import {
   getAdjacentPosts,
@@ -202,10 +200,7 @@ const tocSections = await getTOCSections(currentPostId)
             post.data.tags &&
               post.data.tags.length > 0 &&
               post.data.tags.map((tag) => (
-                <a
-                  href={`/tags/${tag}`}
-                  class={badgeVariants({ variant: 'muted' })}
-                >
+                <a href={`/tags/${tag}`} class="badge">
                   <Hash class="size-3" />
                   {tag}
                 </a>
@@ -249,10 +244,9 @@ const tocSections = await getTOCSections(currentPostId)
     />
   </section>
 
-  <Button
-    variant="outline"
-    size="icon"
-    className="group fixed right-8 bottom-8 z-50 hidden"
+  <button
+    class="btn group fixed right-8 bottom-8 z-50 hidden"
+    data-icon
     id="scroll-to-top"
     title="Scroll to top"
     aria-label="Scroll to top"
@@ -260,7 +254,7 @@ const tocSections = await getTOCSections(currentPostId)
     <ArrowUp
       class="mx-auto size-4 transition-all group-hover:-translate-y-0.5"
     />
-  </Button>
+  </button>
 
   <script>
     document.addEventListener('astro:page-load', () => {

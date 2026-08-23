@@ -1,6 +1,5 @@
 ---
 import Link from '@/components/link.astro'
-import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { ArrowLeft, ArrowRight, CornerLeftUp } from '@lucide/astro'
 
@@ -17,7 +16,7 @@ const isSubpost = !!parentPost
   <Link
     href={olderPost ? `/blog/${olderPost.id}#post-title` : '#'}
     class={cn(
-      buttonVariants({ variant: 'outline' }),
+      'btn',
       'rounded-lg group flex items-center justify-start size-full',
       !olderPost && 'pointer-events-none opacity-50 cursor-not-allowed',
     )}
@@ -44,7 +43,7 @@ const isSubpost = !!parentPost
       <Link
         href={parentPost ? `/blog/${parentPost.id}#post-title` : '#'}
         class={cn(
-          buttonVariants({ variant: 'outline' }),
+          'btn',
           'group flex size-full items-center justify-center rounded-lg',
           !parentPost && 'pointer-events-none cursor-not-allowed opacity-50',
         )}
@@ -65,7 +64,7 @@ const isSubpost = !!parentPost
   <Link
     href={newerPost ? `/blog/${newerPost.id}#post-title` : '#'}
     class={cn(
-      buttonVariants({ variant: 'outline' }),
+      'btn',
       'rounded-lg group flex items-center justify-end size-full',
       !newerPost && 'pointer-events-none opacity-50 cursor-not-allowed',
     )}

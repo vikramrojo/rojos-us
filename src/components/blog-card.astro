@@ -1,7 +1,4 @@
 ---
-import AvatarComponent from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import {
   getCombinedReadingTime,
   getSubpostCount,
@@ -58,27 +55,26 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
             <>
               {authors.map((author) => (
                 <div class="flex items-center gap-x-1.5">
-                  <AvatarComponent
-                    client:load
-                    src={author.avatar}
-                    alt={author.name}
-                    fallback={author.name[0]}
-                    className="size-5 rounded-full"
-                  />
+                  <span class="avatar" style="--avatar-size: 1.25rem">
+                    {author.avatar && (
+                      <img src={author.avatar} alt={author.name} />
+                    )}
+                    <span>{author.name[0]}</span>
+                  </span>
                   <span>{author.name}</span>
                 </div>
               ))}
-              <Separator orientation="vertical" className="h-4!" />
+              <span class="rule" />
             </>
           )
         }
         <span>{formattedDate}</span>
-        <Separator orientation="vertical" className="h-4!" />
+        <span class="rule"></span>
         <span>{readTime}</span>
         {
           subpostCount > 0 && (
             <>
-              <Separator orientation="vertical" className="h-4!" />
+              <span class="rule" />
               <span class="flex items-center gap-1">
                 <FileText class="size-3" />
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
@@ -92,10 +88,10 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
         entry.data.tags && (
           <div class="flex flex-wrap gap-2">
             {entry.data.tags.map((tag) => (
-              <Badge variant="muted" className="flex items-center gap-x-1">
+              <span class="badge">
                 <Hash class="size-3" />
                 {tag}
-              </Badge>
+              </span>
             ))}
           </div>
         )

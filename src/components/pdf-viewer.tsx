@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 import 'react-pdf/dist/Page/AnnotationLayer.css'
@@ -131,34 +130,32 @@ export default function PdfViewer({ src, className }: Props) {
 
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
+          <button
+            className="btn"
+            data-icon
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={!canPrev}
             aria-label="Previous page"
           >
             <ChevronLeft />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
+          </button>
+          <button
+            className="btn"
+            data-icon
             onClick={() => setPage((p) => Math.min(numPages, p + 1))}
             disabled={!canNext}
             aria-label="Next page"
           >
             <ChevronRight />
-          </Button>
+          </button>
           <span className="text-muted-foreground text-sm tabular-nums">
             {numPages > 0 ? `${page} / ${numPages}` : '—'}
           </span>
         </div>
-        <Button asChild variant="ghost" size="sm">
-          <a href={src} download>
-            <Download />
-            Download
-          </a>
-        </Button>
+        <a className="btn" data-ghost data-compact href={src} download>
+          <Download />
+          Download
+        </a>
       </div>
     </div>
   )

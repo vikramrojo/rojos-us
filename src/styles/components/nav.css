@@ -11,6 +11,7 @@
     --font-size: calc(0.875rem * var(--scale));
     --gap: 0.375rem;
     --pad: 0;
+    line-height: calc(1.25 / 0.875);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -25,10 +26,32 @@
     }
   }
 
-  .crumbs li {
-    --gap: 0.375rem;
+  /*
+   * Both the <li> and the link/span inside it need to be flex: the crumb holds
+   * an icon beside a label, and the original wrapped that pair in its own
+   * flex container.
+   */
+  .crumbs li,
+  .crumbs li > a,
+  .crumbs li > [aria-current] {
+    --gap: 0.5rem;
     display: inline-flex;
     align-items: center;
+  }
+
+  .crumbs li {
+    --gap: 0.375rem;
+  }
+
+  /*
+   * --fg is registered inherits:false, so setting it on .crumbs does not reach
+   * the links inside — and largen.elements' `a { --fg: var(--tone-ink) }` fills
+   * the gap with a tone-derived colour. Every element that renders text needs
+   * its own --fg.
+   */
+  .crumbs li,
+  .crumbs a {
+    --fg: var(--ink-muted);
   }
 
   .crumbs a {

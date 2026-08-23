@@ -170,10 +170,20 @@
     --radius: var(--radius-sm);
     --pad: 0.2rem 0.3rem;
     --font-size: 0.875rem;
-    --weight: var(--weight-medium);
     line-height: calc(1.25 / 0.875);
     overflow-wrap: break-word;
     position: relative;
+  }
+
+  /*
+   * The original asked for font-medium here, but never got it: Expressive Code
+   * injects `:root .prose :where(code):not(pre>code) { font-weight: inherit }`,
+   * which won and left inline code at the body weight. Only .shiki — which that
+   * selector does not match — actually rendered medium. Reproducing what shipped
+   * rather than what was written.
+   */
+  .prose :where(.shiki):not(:where(pre *, .not-prose, .not-prose *)) {
+    --weight: var(--weight-medium);
   }
 
   .prose :where(.shiki code):not(:where(.not-prose, .not-prose *)) {

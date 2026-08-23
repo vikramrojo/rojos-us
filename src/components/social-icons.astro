@@ -1,6 +1,5 @@
 ---
 import Link from '@/components/link.astro'
-import { buttonVariants } from '@/components/ui/button'
 import { ICON_MAP } from '@/consts'
 import type { SocialLink } from '@/types'
 import { MessageCircleQuestionMark } from '@lucide/astro'
@@ -22,7 +21,8 @@ const { links } = Astro.props
             href={href}
             aria-label={label}
             title={label}
-            class={buttonVariants({ variant: 'outline', size: 'icon' })}
+            class="btn inline-flex"
+            data-icon
             external
           >
             <Icon class="size-4" />

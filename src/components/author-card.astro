@@ -1,6 +1,5 @@
 ---
 import Link from '@/components/link.astro'
-import AvatarComponent from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import type { SocialLink } from '@/types'
 import type { CollectionEntry } from 'astro:content'
@@ -32,17 +31,17 @@ const socialLinks: SocialLink[] = [
       href={`/authors/${author.id}`}
       class={cn('block', isAuthorPage && 'pointer-events-none')}
     >
-      <AvatarComponent
-        client:load
-        src={avatar}
-        alt={`Avatar of ${name}`}
-        fallback={name[0]}
-        className={cn(
-          'size-32 rounded-md *:data-[slot="avatar-fallback"]:rounded-md',
+      <span
+        class={cn(
+          'avatar',
           !isAuthorPage &&
             'hover:ring-primary transition-shadow duration-300 hover:cursor-pointer hover:ring-2',
         )}
-      />
+        style="--avatar-size: 8rem; --radius: var(--radius-md)"
+      >
+        {avatar && <img src={avatar} alt={`Avatar of ${name}`} />}
+        <span>{name[0]}</span>
+      </span>
     </Link>
     <div class="flex grow flex-col justify-between gap-y-4">
       <div>

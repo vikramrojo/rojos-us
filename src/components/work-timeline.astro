@@ -53,8 +53,8 @@ const rendered = await Promise.all(
 
       return (
         <li class="relative pl-6" style={i > 0 ? 'margin-top: 2.5rem' : ''}>
-          <div class="bg-primary absolute -left-[5px] top-5 h-2.5 w-2.5"/>
-          <div class="border p-6 rounded-tl-lg rounded-tr-lg">
+          <div class="bg-primary absolute top-5 -left-[5px] h-2.5 w-2.5" />
+          <div class="rounded-tl-lg rounded-tr-lg border p-6">
             <h3 class="font-semibold">
               {entry.data.name}
               {role && (
@@ -65,7 +65,7 @@ const rendered = await Promise.all(
               {start} – {end}
             </p>
           </div>
-          <div class="border border-t-0 rounded-bl-lg rounded-br-lg p-6">
+          <div class="rounded-br-lg rounded-bl-lg border border-t-0 p-6">
             <div class="[&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-5">
               <Content />
             </div>

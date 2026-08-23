@@ -2,7 +2,7 @@
 import BlogCard from '@/components/blog-card.astro'
 import Breadcrumbs from '@/components/breadcrumbs.astro'
 import PageHead from '@/components/page-head.astro'
-import PaginationComponent from '@/components/ui/pagination'
+import Pagination from '@/components/pagination.astro'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/layout.astro'
 import { getAllPosts, groupPostsByYear } from '@/lib/data-utils'
@@ -50,10 +50,9 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
     }
   </div>
 
-  <PaginationComponent
+  <Pagination
     currentPage={page.currentPage}
     totalPages={page.lastPage}
     baseUrl="/blog/"
-    client:load
   />
 </Layout>

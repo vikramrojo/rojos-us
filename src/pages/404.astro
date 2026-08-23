@@ -2,7 +2,6 @@
 import Breadcrumbs from '@/components/breadcrumbs.astro'
 import Link from '@/components/link.astro'
 import PageHead from '@/components/page-head.astro'
-import { buttonVariants } from '@/components/ui/button'
 import Layout from '@/layouts/layout.astro'
 import { cn } from '@/lib/utils'
 import { CircleQuestionMark } from '@lucide/astro'
@@ -19,10 +18,7 @@ import { CircleQuestionMark } from '@lucide/astro'
       <h1 class="mb-4 font-medium">404: Page not found</h1>
       <p class="prose">Oops! The page you're looking for doesn't exist.</p>
     </div>
-    <Link
-      href="/"
-      class={cn(buttonVariants({ variant: 'outline' }), 'flex gap-x-1.5 group')}
-    >
+    <Link href="/" class={cn('btn', 'flex gap-x-1.5 group')}>
       <span class="transition-transform group-hover:-translate-x-1">&larr;</span
       > Go to home page
     </Link>
