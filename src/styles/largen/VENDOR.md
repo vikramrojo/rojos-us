@@ -6,6 +6,12 @@ Customisation belongs in `../site-theme.css` (token overrides) or
 `../components/*.css` (our own components). Both load after these files and
 win by ordinary cascade rules, so nothing here ever needs patching.
 
+One caveat worth knowing: largen ships its light tokens inside
+`@layer largen.tokens` but ships `theme-dark.css` UNLAYERED. Unlayered author
+CSS outranks every layer, so a dark-mode override written inside
+`largen.tokens` is silently ignored while the light one applies. That is why
+`site-theme.css` declares its token overrides outside any layer.
+
 ## Why vendored rather than a dependency
 
 largen is not installable. `npm view largen` returns 404 and the `largen.dev`
