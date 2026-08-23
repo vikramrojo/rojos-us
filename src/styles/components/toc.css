@@ -355,3 +355,45 @@
     text-overflow: ellipsis;
   }
 }
+
+@layer largen.components {
+  /*
+   * TOC entries dim by relevance: the current subpost's own headings read
+   * strongest, a sibling subpost's weakest. Was four Tailwind opacity tiers
+   * chosen with nested ternaries in the template.
+   */
+  .toc-entry {
+    --fg: color-mix(in oklab, var(--ink) 60%, transparent);
+    --font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+
+  .toc-entry[data-dim='more'] {
+    --fg: color-mix(in oklab, var(--ink) 40%, transparent);
+  }
+
+  .toc-entry[data-size='xs'] {
+    --font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+  }
+
+  .toc-entry[data-current] {
+    --fg: var(--ink);
+  }
+
+  .toc-entry[data-dim='most'] {
+    --fg: color-mix(in oklab, var(--ink) 30%, transparent);
+  }
+
+  .toc-group {
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-md);
+    --pad: 0.5rem;
+  }
+
+  .toc-group[data-current] {
+    --bg: color-mix(in oklab, var(--surface) 50%, transparent);
+  }
+}

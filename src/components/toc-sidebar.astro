@@ -1,7 +1,7 @@
 ---
 import type { TOCSection } from '@/lib/data-utils'
 import { getParentId, isSubpost } from '@/lib/data-utils'
-import { cn, getHeadingDepth } from '@/lib/utils'
+import { getHeadingDepth } from '@/lib/utils'
 
 type Props = {
   sections: TOCSection[]
@@ -41,12 +41,8 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
                     {section.headings.map((heading) => (
                       <li
                         data-depth={getHeadingDepth(heading.depth)}
-                        class={cn(
-                          'text-sm',
-                          isCurrentSubpost
-                            ? 'text-foreground/40'
-                            : 'text-foreground/60',
-                        )}
+                        class="toc-entry"
+                        data-dim={isCurrentSubpost ? 'more' : undefined}
                       >
                         <a
                           href={
@@ -64,19 +60,18 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
                   </ul>
                 ) : (
                   <div
-                    class={cn(
-                      'rounded-md border p-2',
-                      section.subpostId === currentPostId ? 'bg-muted/50' : '',
-                    )}
+                    class="toc-group"
+                    data-current={
+                      section.subpostId === currentPostId ? '' : undefined
+                    }
                   >
                     <ul class="toc-list">
                       <li
-                        class={cn(
-                          'text-xs font-medium',
-                          section.subpostId === currentPostId
-                            ? 'text-foreground'
-                            : 'text-foreground/60',
-                        )}
+                        class="toc-entry medium"
+                        data-size="xs"
+                        data-current={
+                          section.subpostId === currentPostId ? '' : undefined
+                        }
                       >
                         <a
                           href={
@@ -97,12 +92,13 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
                       {section.headings.map((heading) => (
                         <li
                           data-depth={getHeadingDepth(heading.depth)}
-                          class={cn(
-                            'text-xs',
+                          class="toc-entry"
+                          data-size="xs"
+                          data-dim={
                             section.subpostId === currentPostId
-                              ? 'text-foreground/60'
-                              : 'text-foreground/30',
-                          )}
+                              ? undefined
+                              : 'most'
+                          }
                         >
                           <a
                             href={

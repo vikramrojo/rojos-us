@@ -27,6 +27,10 @@
     block-size: 100%;
   }
 
+  /*
+   * largen.modifiers already dims [aria-disabled=true] to 50%, which is what
+   * the three `opacity-50` conditionals in the template were doing by hand.
+   */
   .post-nav-link[aria-disabled='true'] {
     pointer-events: none;
     cursor: not-allowed;

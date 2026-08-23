@@ -146,26 +146,6 @@
   --danger-on: oklch(0.205 0 0);
 }
 
-/*
- * Compatibility aliases, temporary.
- *
- * astro.config.ts (Expressive Code), about-sections.astro and pdf-viewer.tsx
- * read the old shadcn names. global.css still defines them unlayered while it
- * exists, so these are inert until it is deleted — at which point they keep
- * those consumers working until each is migrated. Delete once
- *   grep -rnE '\-\-(background|foreground|muted|border|font-sans)' src astro.config.ts
- * comes back empty.
- */
-:root {
-  --background: var(--canvas);
-  --foreground: var(--ink);
-  --muted: var(--surface);
-  --muted-foreground: var(--ink-muted);
-  --border: var(--line);
-  --color-border: var(--line);
-  --font-sans: var(--font-ui);
-}
-
 @layer site-base {
   /*
    * Replaces global.css's `@layer base { * { @apply tracking-tighter font-light } }`.
@@ -205,6 +185,18 @@
     text-wrap: balance;
   }
 
+  /*
+   * Links inherit colour and decoration, as they did under Tailwind's preflight.
+   * largen's reset does not speak to <a>, so without this the UA default returns
+   * and every link on the site — nav, breadcrumbs, TOC, cards — is underlined.
+   * Components that do want an underline (.prose a, .link[data-underline],
+   * .toc-link) set it themselves, and sort after this.
+   */
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
   /* KaTeX needs normal tracking to align. */
   :where(.katex-display) {
     letter-spacing: normal;
@@ -219,67 +211,5 @@
    */
   body {
     -webkit-font-smoothing: auto;
-  }
-
-  /*
-   * Temporary compatibility with the markup Tailwind and shadcn produced.
-   *
-   * largen styles bare elements, which is the point of it — but the existing
-   * markup was written against Tailwind's preflight, where these properties
-   * were left at their UA defaults. Each rule below is deleted as the
-   * component it guards gets rewritten; none should outlive the migration.
-   *
-   * This layer sits after largen.modifiers, so these win without !important.
-   */
-
-  /*
-   * largen gives links a .2em underline offset; this site used the UA default.
-   * Scoped out of .prose, which sets its own 3px offset — site.overrides is the
-   * last layer, so an unscoped rule here silently beats the component.
-   */
-  :where(a):not(.prose *, .link) {
-    text-underline-offset: auto;
-    text-decoration-thickness: auto;
-  }
-
-  /*
-   * largen.elements assigns slots to bare <a> and <button>, and the paint rule
-   * now sits after Tailwind's preflight, so those slots paint over it — a ghost
-   * button acquires a solid fill, a link acquires the tone colour. Preflight
-   * cannot contest this: it sets `background-color`, largen sets `--bg`, and
-   * nothing overrides the custom property.
-   *
-   * `initial` is the fix. These slots are registered `syntax:"*"` with no
-   * initial-value, so their initial value IS the guaranteed-invalid value —
-   * which is precisely the state `var(--bg, revert-layer)` tests for. Setting
-   * them back to `initial` makes the fallback fire and hands each property to
-   * preflight, exactly as before largen was loaded.
-   *
-   * Scoped out of migrated components; extend the :not() list as each lands,
-   * and delete the whole rule with Tailwind. Forgetting to extend it is the
-   * failure mode: a newly authored component renders with every slot stripped
-   * but its layout intact, which reads as "the component isn't applying".
-   */
-  :where(a, button, [type='button'], [type='submit'], [type='reset']):not(
-    .prose,
-    .prose *,
-    .btn,
-    .badge,
-    .tab,
-    .crumbs *,
-    .pagination *,
-    .link,
-    .site-nav *,
-    [data-active]
-  ) {
-    --bg: initial;
-    --fg: initial;
-    --border-color: initial;
-    --border-width: initial;
-    --border-style: initial;
-    --radius: initial;
-    --pad: initial;
-    --gap: initial;
-    --transition: initial;
   }
 }

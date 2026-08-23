@@ -74,17 +74,28 @@ export default function PdfViewer({ src, className }: Props) {
     return () => ro.disconnect()
   }, [])
 
+  /*
+   * Keep the page canvas on the theme background.
+   *
+   * This watches the data-theme attribute, not prefers-color-scheme. It used to
+   * watch the media query, which meant the canvas ignored the site's own theme
+   * toggle entirely and only followed the OS — a pre-existing bug, visible as a
+   * white page behind a dark PDF after toggling.
+   */
   useEffect(() => {
     const read = () => {
       const value = getComputedStyle(document.documentElement)
-        .getPropertyValue('--background')
+        .getPropertyValue('--canvas')
         .trim()
       if (value) setCanvasBg(value)
     }
     read()
-    const mql = window.matchMedia('(prefers-color-scheme: dark)')
-    mql.addEventListener('change', read)
-    return () => mql.removeEventListener('change', read)
+    const observer = new MutationObserver(read)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    })
+    return () => observer.disconnect()
   }, [])
 
   const canPrev = page > 1

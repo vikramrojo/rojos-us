@@ -1,6 +1,5 @@
 ---
 import Link from '@/components/link.astro'
-import { cn } from '@/lib/utils'
 import type { SocialLink } from '@/types'
 import type { CollectionEntry } from 'astro:content'
 import SocialIcons from './social-icons.astro'
@@ -27,14 +26,11 @@ const socialLinks: SocialLink[] = [
   <div class="author-card-layout">
     <Link
       href={`/authors/${author.id}`}
-      class={cn(isAuthorPage && 'pointer-events-none')}
+      style={isAuthorPage ? 'pointer-events: none' : undefined}
     >
       <span
-        class={cn(
-          'avatar',
-          !isAuthorPage &&
-            'hover:ring-primary transition-shadow duration-300 hover:cursor-pointer hover:ring-2',
-        )}
+        class="avatar"
+        data-interactive={!isAuthorPage ? '' : undefined}
         style="--avatar-size: 8rem; --radius: var(--radius-md)"
       >
         {avatar && <img src={avatar} alt={`Avatar of ${name}`} />}

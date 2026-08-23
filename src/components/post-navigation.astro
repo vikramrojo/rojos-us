@@ -1,6 +1,5 @@
 ---
 import Link from '@/components/link.astro'
-import { cn } from '@/lib/utils'
 import { ArrowLeft, ArrowRight, CornerLeftUp } from '@lucide/astro'
 
 const { newerPost, olderPost, parentPost } = Astro.props
@@ -10,10 +9,7 @@ const isSubpost = !!parentPost
 <nav class="post-nav" data-cols={isSubpost ? '3' : '2'}>
   <Link
     href={olderPost ? `/blog/${olderPost.id}#post-title` : '#'}
-    class={cn(
-      'btn post-nav-link',
-      !olderPost && 'pointer-events-none opacity-50 cursor-not-allowed',
-    )}
+    class="btn post-nav-link"
     aria-disabled={!olderPost}
   >
     <ArrowLeft />
@@ -34,10 +30,8 @@ const isSubpost = !!parentPost
     isSubpost && (
       <Link
         href={parentPost ? `/blog/${parentPost.id}#post-title` : '#'}
-        class={cn(
-          'btn post-nav-link',
-          !parentPost && 'pointer-events-none cursor-not-allowed opacity-50',
-        )}
+        class="btn post-nav-link"
+        data-dir="up"
       >
         <CornerLeftUp />
         <div class="post-nav-text" data-align="center">
@@ -52,10 +46,7 @@ const isSubpost = !!parentPost
 
   <Link
     href={newerPost ? `/blog/${newerPost.id}#post-title` : '#'}
-    class={cn(
-      'btn post-nav-link',
-      !newerPost && 'pointer-events-none opacity-50 cursor-not-allowed',
-    )}
+    class="btn post-nav-link"
     aria-disabled={!newerPost}
   >
     <div class="post-nav-text" data-align="end">

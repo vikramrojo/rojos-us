@@ -1,8 +1,12 @@
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+/**
+ * Join class names, skipping anything falsy.
+ *
+ * Replaces clsx + tailwind-merge. The merge half existed to resolve conflicting
+ * Tailwind utilities (`px-2` beating `px-4`); with utilities gone there is
+ * nothing to resolve, and a component class never conflicts with another.
+ */
+export function cn(...inputs: (string | false | null | undefined)[]): string {
+  return inputs.filter(Boolean).join(' ')
 }
 
 export function formatDate(date: Date) {

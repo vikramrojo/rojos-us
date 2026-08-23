@@ -26,6 +26,15 @@
     vertical-align: middle;
   }
 
+  .avatar[data-interactive] {
+    transition: box-shadow 0.3s;
+  }
+
+  .avatar[data-interactive]:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+
   .avatar > img {
     grid-area: 1 / 1;
     inline-size: 100%;

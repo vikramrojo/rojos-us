@@ -16,8 +16,6 @@ import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-s
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import type { ExpressiveCodeTheme } from 'rehype-expressive-code'
 
-import tailwindcss from '@tailwindcss/vite'
-
 export default defineConfig({
   site: 'https://rojos.us',
   fonts: [
@@ -37,7 +35,6 @@ export default defineConfig({
     sitemap({ filter: (page) => !page.includes('/pitch/') }),
   ],
   vite: {
-    plugins: [tailwindcss()],
     server: {
       allowedHosts: ['.trycloudflare.com'],
     },
