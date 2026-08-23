@@ -17,7 +17,7 @@ const sortedTags = await getSortedTags()
     <div class="flex flex-wrap gap-2">
       {
         sortedTags.map(({ tag, count }) => (
-          <Link href={`/tags/${tag}`} class="badge inline-flex">
+          <Link href={`/tags/${tag}`} class="badge">
             <Hash class="size-3" />
             {tag}
             <span class="text-muted-foreground ml-1.5">({count})</span>

@@ -1,0 +1,206 @@
+/*
+ * The page shell: body, sticky header, main column, footer, theme toggle,
+ * and the generic link.
+ */
+
+@layer largen.components {
+  /*
+   * :where() deliberately — zero specificity, so any component class passed
+   * through <Link> wins the display property. As a plain `.link` it ties with
+   * .btn / .site-brand / .badge and the winner becomes an accident of import
+   * order; that is exactly how link.astro's hardcoded `inline-block` used to
+   * flatten every button routed through it.
+   */
+  :where(.link) {
+    /*
+     * `inherit` on a slot registered inherits:false is deliberate: it takes the
+     * parent's --fg, which is normally unset, so the slot stays
+     * guaranteed-invalid and the paint rule reverts colour to the UA's
+     * `a { color: inherit }`. Without it largen.elements tints every link with
+     * --tone-ink, which is not what a link meant here.
+     */
+    --fg: inherit;
+    --transition: 0.3s ease-in-out;
+    display: inline-block;
+  }
+
+  .link[data-underline] {
+    /* text-decoration-line, not the shorthand: the shorthand also resets
+     * thickness, which the original left to the UA. */
+    text-decoration-line: underline;
+    text-decoration-color: var(--ink-muted);
+    text-decoration-thickness: auto;
+    text-underline-offset: 3px;
+  }
+
+  .link[data-underline]:hover {
+    text-decoration-color: var(--ink);
+  }
+}
+
+@layer largen.components {
+  .site-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    block-size: fit-content;
+    min-block-size: 100vh;
+  }
+
+  .site-header {
+    --bg: color-mix(in oklab, var(--canvas) 50%, transparent);
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 50;
+    backdrop-filter: blur(4px);
+  }
+
+  /* Was `divide-y`: a rule between stacked header sections, dropped at xl. */
+  .site-header > * + * {
+    border-block-start: 1px solid var(--line);
+  }
+
+  @media (min-width: 80rem) {
+    .site-header > * + * {
+      border-block-start: 0;
+    }
+  }
+
+  .site-header-bar {
+    --gap: 1rem;
+    --pad: 0.75rem 1rem;
+    --measure: 56rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    inline-size: 100%;
+    max-inline-size: var(--measure);
+    margin-inline: auto;
+  }
+
+  .site-brand {
+    --gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .site-title {
+    --font-size: 1.125rem;
+    --weight: var(--weight-medium);
+    display: none;
+    block-size: 100%;
+    line-height: 1;
+  }
+
+  @media (min-width: 400px) {
+    .site-title {
+      display: block;
+    }
+  }
+
+  .site-nav {
+    --gap: 1rem;
+    --font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    line-height: calc(1.25 / 0.875);
+  }
+
+  @media (min-width: 40rem) {
+    .site-nav {
+      --gap: 1.5rem;
+    }
+  }
+
+  .site-nav a {
+    --fg: color-mix(in oklab, var(--ink) 60%, transparent);
+    --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: capitalize;
+  }
+
+  .site-nav a:hover {
+    --fg: var(--ink);
+  }
+
+  .site-main {
+    --gap: 1.5rem;
+    --pad: 0 1rem;
+    --measure: 56rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    inline-size: 100%;
+    max-inline-size: var(--measure);
+    margin-inline: auto;
+  }
+
+  .site-footer {
+    --gap: 0.5rem;
+    --pad: 0 1rem;
+    --measure: 56rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    max-inline-size: var(--measure);
+    margin-inline: auto;
+    margin-block-end: 2rem;
+  }
+
+  @media (min-width: 40rem) {
+    .site-footer {
+      flex-direction: row;
+      justify-content: space-between;
+      margin-block-end: 1rem;
+    }
+  }
+
+  /*
+   * The toggle pulls itself out of the header's padding, and swaps glyphs on
+   * theme rather than on JavaScript — the `dark:` variant that used to do this
+   * disappears with Tailwind.
+   */
+  .btn.theme-toggle {
+    inline-size: 2rem;
+    block-size: 2rem;
+    margin-block: -0.5rem;
+    margin-inline-end: -0.5rem;
+  }
+
+  .theme-toggle .icon-moon,
+  [data-theme='dark'] .theme-toggle .icon-sun {
+    display: none;
+  }
+
+  [data-theme='dark'] .theme-toggle .icon-moon {
+    display: block;
+  }
+
+  /* Visually hidden, still announced. */
+  .sr-only {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+@layer site-overrides {
+  /*
+   * Suppress transitions for the frame in which the theme flips, so nothing
+   * cross-fades between palettes. Was a `[&_*]:transition-none` class toggled
+   * on <html>.
+   */
+  :root[data-theme-switching] * {
+    --transition: none;
+    transition: none;
+  }
+}

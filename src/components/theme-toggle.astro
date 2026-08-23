@@ -4,13 +4,13 @@ import { Moon, Sun } from '@lucide/astro'
 
 <button
   id="theme-toggle"
-  class="btn -my-2 -me-2 size-8"
+  class="btn theme-toggle"
   data-ghost
   data-icon
   title="Toggle theme"
 >
-  <Sun class="size-4 dark:hidden" />
-  <Moon class="absolute hidden size-4 dark:block" />
+  <Sun class="icon-sun" />
+  <Moon class="icon-moon" />
   <span class="sr-only">Toggle theme</span>
 </button>
 
@@ -35,12 +35,12 @@ import { Moon, Sun } from '@lucide/astro'
     const currentTheme = element.getAttribute('data-theme')
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
 
-    element.classList.add('[&_*]:transition-none')
+    element.setAttribute('data-theme-switching', '')
     element.setAttribute('data-theme', newTheme)
     window.getComputedStyle(element).getPropertyValue('opacity')
 
     requestAnimationFrame(() => {
-      element.classList.remove('[&_*]:transition-none')
+      element.removeAttribute('data-theme-switching')
     })
 
     localStorage.setItem('theme', newTheme)
@@ -58,12 +58,12 @@ import { Moon, Sun } from '@lucide/astro'
     const storedTheme = localStorage.getItem('theme') || 'light'
     const element = document.documentElement
 
-    element.classList.add('[&_*]:transition-none')
+    element.setAttribute('data-theme-switching', '')
     window.getComputedStyle(element).getPropertyValue('opacity')
     element.setAttribute('data-theme', storedTheme)
 
     requestAnimationFrame(() => {
-      element.classList.remove('[&_*]:transition-none')
+      element.removeAttribute('data-theme-switching')
     })
 
     initThemeToggle()
