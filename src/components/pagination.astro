@@ -20,18 +20,18 @@ const onFirst = currentPage === 1
 const onLast = currentPage === totalPages
 ---
 
-<nav class="mx-auto flex w-full justify-center" aria-label="pagination">
-  <ul class="pagination flex-wrap">
+<nav class="pagination-nav" aria-label="pagination">
+  <ul class="pagination">
     <li>
       <a
-        class="btn gap-1 px-2.5 sm:pl-2.5"
+        class="btn pagination-edge"
         data-ghost
         href={onFirst ? undefined : pageUrl(currentPage - 1)}
         aria-label="Go to previous page"
         aria-disabled={onFirst ? 'true' : undefined}
       >
         <ChevronLeft />
-        <span class="hidden sm:block">Previous</span>
+        <span class="pagination-edge-label">Previous</span>
       </a>
     </li>
 
@@ -64,13 +64,13 @@ const onLast = currentPage === totalPages
 
     <li>
       <a
-        class="btn gap-1 px-2.5 sm:pr-2.5"
+        class="btn pagination-edge"
         data-ghost
         href={onLast ? undefined : pageUrl(currentPage + 1)}
         aria-label="Go to next page"
         aria-disabled={onLast ? 'true' : undefined}
       >
-        <span class="hidden sm:block">Next</span>
+        <span class="pagination-edge-label">Next</span>
         <ChevronRight />
       </a>
     </li>

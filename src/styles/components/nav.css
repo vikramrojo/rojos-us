@@ -90,3 +90,32 @@
     pointer-events: none;
   }
 }
+
+@layer largen.components {
+  .pagination-nav {
+    display: flex;
+    inline-size: 100%;
+    justify-content: center;
+    margin-inline: auto;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .pagination-edge {
+    --gap: 0.25rem;
+    --pad: 0.5rem 0.625rem;
+    inline-size: auto;
+  }
+
+  .pagination-edge-label {
+    display: none;
+  }
+
+  @media (min-width: 40rem) {
+    .pagination-edge-label {
+      display: block;
+    }
+  }
+}

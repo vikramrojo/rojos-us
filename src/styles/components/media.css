@@ -41,3 +41,49 @@
     scrollbar-color: var(--line) transparent;
   }
 }
+
+@layer largen.components {
+  .pdf-viewer {
+    --gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pdf-stage {
+    --bg: var(--canvas);
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-md);
+    display: flex;
+    inline-size: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .pdf-controls {
+    --gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pdf-controls-group {
+    --gap: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .pdf-status {
+    --fg: var(--ink-muted);
+    --font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+
+  .pdf-loading {
+    --fg: var(--ink-muted);
+    --font-size: 0.875rem;
+    padding-block: 3rem;
+  }
+}

@@ -11,22 +11,14 @@ import Layout from '@/layouts/layout.astro'
 <Layout>
   <PageHead slot="head" title="Home" />
   <Hero />
-  <div
-    class="text-muted-foreground flex items-center gap-4 text-sm tracking-widest uppercase"
-    id="about"
-  >
+  <div class="section-label" id="about">
     <span>Summary</span>
-    <div class="flex-1 border-t"></div>
   </div>
   <AboutSections />
-  <div
-    class="text-muted-foreground mt-8 flex items-center gap-4 text-sm tracking-widest uppercase md:mt-20"
-    id="portfolio"
-  >
+  <div class="section-label" id="portfolio">
     <span>Portfolio</span>
-    <div class="flex-1 border-t"></div>
   </div>
-  <div class="xl:-mx-48">
+  <div class="bleed">
     <div role="tablist" class="tabs">
       <input
         type="radio"
@@ -64,20 +56,12 @@ import Layout from '@/layouts/layout.astro'
       </div>
     </div>
   </div>
-  <div
-    class="text-muted-foreground mt-8 flex items-center gap-4 text-sm tracking-widest uppercase md:mt-20"
-    id="work"
-  >
+  <div class="section-label" id="work">
     <span>Experience</span>
-    <div class="flex-1 border-t"></div>
   </div>
   <WorkTimeline />
-  <div
-    class="text-muted-foreground mt-8 flex items-center gap-4 text-sm tracking-widest uppercase md:mt-20"
-    id="contact"
-  >
+  <div class="section-label" id="contact">
     <span>Contact</span>
-    <div class="flex-1 border-t"></div>
   </div>
   <Contact />
 </Layout>

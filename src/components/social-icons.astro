@@ -11,7 +11,7 @@ interface Props {
 const { links } = Astro.props
 ---
 
-<ul class="flex flex-wrap gap-2" role="list">
+<ul class="cluster" role="list">
   {
     links.map(({ href, label }) => {
       const Icon = ICON_MAP[label] ?? MessageCircleQuestionMark
@@ -25,7 +25,7 @@ const { links } = Astro.props
             data-icon
             external
           >
-            <Icon class="size-4" />
+            <Icon class="icon-sm" />
           </Link>
         </li>
       )

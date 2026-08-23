@@ -3,24 +3,20 @@ import Breadcrumbs from '@/components/breadcrumbs.astro'
 import Link from '@/components/link.astro'
 import PageHead from '@/components/page-head.astro'
 import Layout from '@/layouts/layout.astro'
-import { cn } from '@/lib/utils'
 import { CircleQuestionMark } from '@lucide/astro'
 ---
 
-<Layout class="max-w-3xl">
+<Layout class="measure-md">
   <PageHead slot="head" title="404" />
   <Breadcrumbs items={[{ label: '???', icon: CircleQuestionMark }]} />
 
-  <section
-    class="flex flex-col items-center justify-center gap-y-4 text-center"
-  >
-    <div class="max-w-md">
-      <h1 class="mb-4 font-medium">404: Page not found</h1>
+  <section class="stack centered" style="--gap: 1rem; align-items: center">
+    <div style="max-inline-size: 28rem">
+      <h1 class="medium" style="margin-block-end: 1rem">404: Page not found</h1>
       <p class="prose">Oops! The page you're looking for doesn't exist.</p>
     </div>
-    <Link href="/" class={cn('btn', 'flex gap-x-1.5 group')}>
-      <span class="transition-transform group-hover:-translate-x-1">&larr;</span
-      > Go to home page
+    <Link href="/" class="btn">
+      <span>&larr;</span> Go to home page
     </Link>
   </section>
 </Layout>

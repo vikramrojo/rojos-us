@@ -24,7 +24,7 @@ const postsByYear = groupPostsByYear(page.data)
 const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
 ---
 
-<Layout class="max-w-3xl">
+<Layout class="measure-md">
   <PageHead slot="head" title="Blog" />
   <Breadcrumbs
     items={[
@@ -33,12 +33,12 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
     ]}
   />
 
-  <div class="flex min-h-[calc(100vh-18rem)] flex-col gap-y-8">
+  <div class="stack min-page" style="--gap: 2rem">
     {
       years.map((year) => (
-        <section class="flex flex-col gap-y-4">
-          <div class="font-medium">{year}</div>
-          <ul class="flex flex-col gap-4">
+        <section class="stack">
+          <div class="medium">{year}</div>
+          <ul class="stack">
             {postsByYear[year].map((post) => (
               <li>
                 <BlogCard entry={post} />

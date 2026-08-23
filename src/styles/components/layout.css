@@ -204,3 +204,75 @@
     transition: none;
   }
 }
+
+@layer largen.components {
+  /*
+   * A few one-word helpers for patterns that recur across pages and do not
+   * warrant a named component. largen ships .stack/.row/.cluster/.center for
+   * layout; these cover the type and measure cases it does not.
+   */
+  .measure-md {
+    --measure: 48rem;
+  }
+
+  .muted {
+    --fg: var(--ink-muted);
+  }
+
+  .medium {
+    --weight: var(--weight-medium);
+  }
+
+  .centered {
+    text-align: center;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .min-page {
+    min-block-size: calc(100vh - 18rem);
+  }
+
+  /* The pitch deck breaks the measure progressively. */
+  .bleed-wide {
+    margin-inline: 0;
+  }
+
+  @media (min-width: 64rem) {
+    .bleed-wide {
+      margin-inline: -4rem;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .bleed-wide {
+      margin-inline: -12rem;
+    }
+  }
+}
+
+@layer largen.components {
+  .icon-sm {
+    inline-size: 1rem;
+    block-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .contact {
+    --pad: 1.5rem;
+  }
+
+  .contact > * + * {
+    margin-block-start: 2rem;
+  }
+
+  .pdf-link {
+    text-decoration-line: underline;
+  }
+
+  .avatar-lg {
+    inline-size: 16rem;
+  }
+}

@@ -7,29 +7,21 @@ const { newerPost, olderPost, parentPost } = Astro.props
 const isSubpost = !!parentPost
 ---
 
-<nav
-  class={cn(
-    'col-start-2 grid grid-cols-1 gap-4',
-    isSubpost ? 'sm:grid-cols-3' : 'sm:grid-cols-2',
-  )}
->
+<nav class="post-nav" data-cols={isSubpost ? '3' : '2'}>
   <Link
     href={olderPost ? `/blog/${olderPost.id}#post-title` : '#'}
     class={cn(
-      'btn',
-      'rounded-lg group flex items-center justify-start size-full',
+      'btn post-nav-link',
       !olderPost && 'pointer-events-none opacity-50 cursor-not-allowed',
     )}
     aria-disabled={!olderPost}
   >
-    <ArrowLeft
-      class="mr-2 size-4 transition-transform group-hover:-translate-x-1"
-    />
-    <div class="flex flex-col items-start overflow-hidden text-wrap">
-      <span class="text-muted-foreground text-left text-xs">
+    <ArrowLeft />
+    <div class="post-nav-text">
+      <span class="post-nav-kicker">
         {isSubpost ? 'Previous Subpost' : 'Previous Post'}
       </span>
-      <span class="w-full text-left text-sm text-balance text-ellipsis">
+      <span class="post-nav-title">
         {
           olderPost?.data.title ||
             (isSubpost ? 'No older subpost' : "You're at the oldest post!")
@@ -43,17 +35,14 @@ const isSubpost = !!parentPost
       <Link
         href={parentPost ? `/blog/${parentPost.id}#post-title` : '#'}
         class={cn(
-          'btn',
-          'group flex size-full items-center justify-center rounded-lg',
+          'btn post-nav-link',
           !parentPost && 'pointer-events-none cursor-not-allowed opacity-50',
         )}
       >
-        <CornerLeftUp class="mr-2 size-4 transition-transform group-hover:-translate-y-1" />
-        <div class="flex flex-col items-center overflow-hidden text-wrap">
-          <span class="text-muted-foreground text-center text-xs">
-            Parent Post
-          </span>
-          <span class="w-full text-center text-sm text-balance text-ellipsis">
+        <CornerLeftUp />
+        <div class="post-nav-text" data-align="center">
+          <span class="post-nav-kicker">Parent Post</span>
+          <span class="post-nav-title">
             {parentPost?.data.title || 'No parent post'}
           </span>
         </div>
@@ -64,25 +53,22 @@ const isSubpost = !!parentPost
   <Link
     href={newerPost ? `/blog/${newerPost.id}#post-title` : '#'}
     class={cn(
-      'btn',
-      'rounded-lg group flex items-center justify-end size-full',
+      'btn post-nav-link',
       !newerPost && 'pointer-events-none opacity-50 cursor-not-allowed',
     )}
     aria-disabled={!newerPost}
   >
-    <div class="flex flex-col items-end overflow-hidden text-wrap">
-      <span class="text-muted-foreground text-right text-xs">
+    <div class="post-nav-text" data-align="end">
+      <span class="post-nav-kicker">
         {isSubpost ? 'Next Subpost' : 'Next Post'}
       </span>
-      <span class="w-full text-right text-sm text-balance text-ellipsis">
+      <span class="post-nav-title">
         {
           newerPost?.data.title ||
             (isSubpost ? 'No newer subpost' : "You're at the newest post!")
         }
       </span>
     </div>
-    <ArrowRight
-      class="ml-2 size-4 transition-transform group-hover:translate-x-1"
-    />
+    <ArrowRight />
   </Link>
 </nav>

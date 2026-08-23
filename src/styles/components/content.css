@@ -215,3 +215,41 @@
     padding-block-start: 1rem;
   }
 }
+
+@layer largen.components {
+  /* A small-caps section label with a rule running off to the right. */
+  .section-label {
+    --fg: var(--ink-muted);
+    --gap: 1rem;
+    --font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    margin-block-start: 2rem;
+    line-height: calc(1.25 / 0.875);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 48rem) {
+    .section-label {
+      margin-block-start: 5rem;
+    }
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    border-block-start: 1px solid var(--line);
+  }
+
+  /* The portfolio tabs break the measure on wide screens. */
+  .bleed {
+    margin-inline: 0;
+  }
+
+  @media (min-width: 80rem) {
+    .bleed {
+      margin-inline: -12rem;
+    }
+  }
+}

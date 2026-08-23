@@ -38,29 +38,27 @@ const subpostsWithReadingTime = await Promise.all(
 )
 ---
 
-<div
-  id="subposts-sidebar-container"
-  class="sticky top-20 col-start-3 row-span-1 mr-auto ml-8 hidden h-[calc(100vh-5rem)] max-w-md xl:block"
->
+<div id="subposts-sidebar-container" class="subposts-sidebar">
   <div
-    class="scroll-area flex max-h-[calc(100vh-8rem)] flex-col overflow-y-auto"
+    class="scroll-area toc-scroll"
     data-subposts-sidebar-scroll
     data-scroll-viewport
   >
-    <div class="px-4">
-      <ul class="space-y-1">
+    <div class="toc-panel">
+      <ul class="subposts-list">
         {
           activePost && (
             <li>
               {isActivePost ? (
-                <div class="text-foreground bg-muted subposts-sidebar-active-item flex items-center gap-2 rounded-md py-1.5 pr-3 pl-2 text-sm font-medium text-pretty">
-                  <BookOpenText class="size-4 shrink-0" aria-hidden="true" />
-                  <div class="flex flex-col">
-                    <span class="line-clamp-2 text-pretty">
-                      {activePost.data.title}
-                    </span>
+                <div
+                  class="subposts-sidebar-active-item subposts-link-active"
+                  style="--pad: 0.375rem 0.75rem 0.375rem 0.5rem"
+                >
+                  <BookOpenText aria-hidden="true" />
+                  <div class="subposts-list">
+                    <span class="subposts-clamp">{activePost.data.title}</span>
                     {activePostReadingTime && (
-                      <span class="text-muted-foreground/80 text-xs">
+                      <span class="subposts-count">
                         {activePostReadingTime}
                         {activePostCombinedReadingTime &&
                           activePostCombinedReadingTime !==
@@ -77,15 +75,13 @@ const subpostsWithReadingTime = await Promise.all(
               ) : (
                 <Link
                   href={`/blog/${activePost.id}#post-title`}
-                  class="hover:text-foreground text-muted-foreground hover:bg-muted/50 subposts-sidebar-link flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-pretty transition-colors"
+                  class="subposts-sidebar-link subposts-link"
                 >
-                  <BookOpen class="size-4 shrink-0" aria-hidden="true" />
-                  <div class="flex flex-col">
-                    <span class="line-clamp-2 text-pretty">
-                      {activePost.data.title}
-                    </span>
+                  <BookOpen aria-hidden="true" />
+                  <div class="subposts-list">
+                    <span class="subposts-clamp">{activePost.data.title}</span>
                     {activePostReadingTime && (
-                      <span class="text-muted-foreground/80 text-xs">
+                      <span class="subposts-count">
                         {activePostReadingTime}
                         {activePostCombinedReadingTime &&
                           activePostCombinedReadingTime !==
@@ -106,33 +102,25 @@ const subpostsWithReadingTime = await Promise.all(
 
         {
           subpostsWithReadingTime.length > 0 && (
-            <li class="ml-4 space-y-1">
+            <li class="subposts-list subposts-list-nested">
               {subpostsWithReadingTime.map((subpost) =>
                 currentPostId === subpost.id ? (
-                  <div class="text-foreground bg-muted subposts-sidebar-active-item flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-pretty">
-                    <FileText class="size-4 shrink-0" aria-hidden="true" />
-                    <div class="flex flex-col">
-                      <span class="line-clamp-2 text-pretty">
-                        {subpost.data.title}
-                      </span>
-                      <span class="text-muted-foreground/80 text-xs">
-                        {subpost.readingTime}
-                      </span>
+                  <div class="subposts-sidebar-active-item subposts-link-active">
+                    <FileText aria-hidden="true" />
+                    <div class="subposts-list">
+                      <span class="subposts-clamp">{subpost.data.title}</span>
+                      <span class="subposts-count">{subpost.readingTime}</span>
                     </div>
                   </div>
                 ) : (
                   <Link
                     href={`/blog/${subpost.id}`}
-                    class="hover:text-foreground text-muted-foreground hover:bg-muted/50 subposts-sidebar-link flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-pretty transition-colors"
+                    class="subposts-sidebar-link subposts-link"
                   >
-                    <File class="size-4 shrink-0" aria-hidden="true" />
-                    <div class="flex flex-col">
-                      <span class="line-clamp-2 text-pretty">
-                        {subpost.data.title}
-                      </span>
-                      <span class="text-muted-foreground/80 text-xs">
-                        {subpost.readingTime}
-                      </span>
+                    <File aria-hidden="true" />
+                    <div class="subposts-list">
+                      <span class="subposts-clamp">{subpost.data.title}</span>
+                      <span class="subposts-count">{subpost.readingTime}</span>
                     </div>
                   </Link>
                 ),

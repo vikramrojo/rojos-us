@@ -14,7 +14,7 @@ import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
  * This is a React island, so it cannot render `@lucide/astro` components.
  * Three icons don't justify a dependency, so the paths are copied verbatim
  * from Lucide. Dimensions match lucide-react's defaults (24x24); the button's
- * `size-4` class overrides them, exactly as before.
+ * button sizing overrides them, exactly as before.
  */
 type IconProps = { className?: string }
 
@@ -91,31 +91,19 @@ export default function PdfViewer({ src, className }: Props) {
   const canNext = page < numPages
 
   return (
-    <div className={cn('flex flex-col gap-3', className)}>
-      <div
-        ref={containerRef}
-        className="bg-background flex w-full items-center justify-center overflow-hidden rounded-md border"
-      >
+    <div className={cn('pdf-viewer', className)}>
+      <div ref={containerRef} className="pdf-stage">
         <Document
           file={src}
           onLoadSuccess={({ numPages: n }) => {
             setNumPages(n)
             setPage(1)
           }}
-          loading={
-            <div className="text-muted-foreground py-12 text-sm">
-              Loading PDF…
-            </div>
-          }
+          loading={<div className="pdf-loading">Loading PDF…</div>}
           error={
-            <div className="text-muted-foreground py-12 text-sm">
+            <div className="pdf-loading">
               Couldn’t load the PDF.{' '}
-              <a
-                className="underline"
-                href={src}
-                target="_blank"
-                rel="noopener"
-              >
+              <a className="pdf-link" href={src} target="_blank" rel="noopener">
                 Open it directly
               </a>
               .
@@ -128,8 +116,8 @@ export default function PdfViewer({ src, className }: Props) {
         </Document>
       </div>
 
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
+      <div className="pdf-controls">
+        <div className="pdf-controls-group">
           <button
             className="btn"
             data-icon
@@ -148,7 +136,7 @@ export default function PdfViewer({ src, className }: Props) {
           >
             <ChevronRight />
           </button>
-          <span className="text-muted-foreground text-sm tabular-nums">
+          <span className="pdf-status tabular">
             {numPages > 0 ? `${page} / ${numPages}` : '—'}
           </span>
         </div>

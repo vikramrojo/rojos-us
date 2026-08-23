@@ -76,3 +76,282 @@
     margin-inline-start: 4rem;
   }
 }
+
+@layer largen.components {
+  /* ── desktop sidebar ──────────────────────────────────────────────────── */
+  .toc-sidebar,
+  .subposts-sidebar {
+    position: sticky;
+    inset-block-start: 5rem;
+    grid-column-start: 1;
+    grid-row: span 1;
+    margin-inline: auto 2rem;
+    max-inline-size: 28rem;
+    block-size: calc(100vh - 5rem);
+    display: none;
+  }
+
+  .subposts-sidebar {
+    grid-column-start: 3;
+    margin-inline: 2rem auto;
+  }
+
+  @media (min-width: 80rem) {
+    .toc-sidebar,
+    .subposts-sidebar {
+      display: block;
+    }
+  }
+
+  .toc-scroll {
+    --gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    max-block-size: calc(100vh - 8rem);
+  }
+
+  .toc-panel {
+    --gap: 0.5rem;
+    --pad: 0 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .toc-heading {
+    --font-size: 1.125rem;
+    --weight: var(--weight-medium);
+  }
+
+  /* A labelled rule between TOC groups. */
+  .toc-divider {
+    --gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    margin-block-start: 0.5rem;
+  }
+
+  .toc-divider::before,
+  .toc-divider::after {
+    content: '';
+    flex: 1;
+    block-size: 1px;
+    background-color: var(--line);
+  }
+
+  .toc-divider-label {
+    --fg: var(--ink-muted);
+    --font-size: 0.75rem;
+    --weight: var(--weight-medium);
+    line-height: calc(1 / 0.75);
+  }
+
+  .toc-list {
+    --gap: 0.5rem;
+    --pad: 0;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+  }
+
+  .toc-link {
+    --transition: 0.2s;
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+  }
+
+  .toc-link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* ── mobile header ────────────────────────────────────────────────────── */
+  .toc-header,
+  .subposts-header {
+    inline-size: 100%;
+  }
+
+  @media (min-width: 80rem) {
+    .toc-header,
+    .subposts-header {
+      display: none;
+    }
+  }
+
+  .toc-header-summary {
+    display: flex;
+    inline-size: 100%;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .toc-header-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc-header-bar {
+    --pad: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    max-inline-size: 48rem;
+    margin-inline: auto;
+  }
+
+  .toc-progress {
+    position: relative;
+    margin-inline-end: 0.5rem;
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  .toc-progress svg {
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  .toc-progress-track {
+    --fg: color-mix(in oklab, var(--primary) 20%, transparent);
+  }
+
+  .toc-progress-value {
+    --fg: var(--primary);
+  }
+
+  .toc-header-label {
+    --fg: var(--ink-muted);
+    --font-size: 0.875rem;
+    flex-grow: 1;
+    line-height: calc(1.25 / 0.875);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .toc-header-chevron {
+    --fg: var(--ink-muted);
+    margin-inline-start: 0.5rem;
+  }
+
+  .toc-header-chevron svg {
+    inline-size: 1rem;
+    block-size: 1rem;
+    transition: rotate 0.2s;
+  }
+
+  details[open] > summary .toc-header-chevron svg {
+    rotate: 180deg;
+  }
+
+  .toc-header-panel {
+    max-inline-size: 48rem;
+    margin-inline: auto;
+  }
+
+  .toc-header-scroll {
+    max-block-size: 30vh;
+  }
+
+  .toc-header-list {
+    --gap: 0.5rem;
+    --pad: 0 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+  }
+
+  .toc-header-list > li {
+    --fg: color-mix(in oklab, var(--ink) 60%, transparent);
+    --font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+}
+
+@layer largen.components {
+  /* ── subpost lists (sidebar and mobile header share these) ────────────── */
+  .subposts-list {
+    --gap: 0.25rem;
+    --pad: 0;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+  }
+
+  .subposts-list-nested {
+    margin-inline-start: 1rem;
+  }
+
+  .subposts-link,
+  .subposts-link-active {
+    --gap: 0.5rem;
+    --pad: 0.375rem 0.5rem;
+    --radius: var(--radius-md);
+    --font-size: 0.875rem;
+    --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    line-height: calc(1.25 / 0.875);
+    text-wrap: pretty;
+  }
+
+  .subposts-link {
+    --fg: var(--ink-muted);
+  }
+
+  .subposts-link:hover {
+    --fg: var(--ink);
+    --bg: color-mix(in oklab, var(--surface) 50%, transparent);
+  }
+
+  .subposts-link-active {
+    --fg: var(--ink);
+    --bg: var(--surface);
+    --weight: var(--weight-medium);
+  }
+
+  .subposts-link svg,
+  .subposts-link-active svg {
+    inline-size: 1rem;
+    block-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* Two-line clamp on long subpost titles. */
+  .subposts-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-wrap: pretty;
+  }
+
+  .subposts-count {
+    --fg: color-mix(in oklab, var(--ink-muted) 80%, transparent);
+    --font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+  }
+
+  a.subposts-count:hover {
+    --fg: color-mix(in oklab, var(--ink) 80%, transparent);
+  }
+
+  .subposts-summary-text {
+    --fg: var(--ink-muted);
+    --font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    line-height: calc(1.25 / 0.875);
+    overflow: hidden;
+  }
+
+  .subposts-summary-text > span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

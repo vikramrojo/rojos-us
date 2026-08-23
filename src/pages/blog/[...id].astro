@@ -82,10 +82,8 @@ const tocSections = await getTOCSections(currentPostId)
       ) && <TOCHeader slot="table-of-contents" headings={headings} />
   }
 
-  <section
-    class="grid grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6"
-  >
-    <div class="col-start-2">
+  <section class="post-layout">
+    <div class="post-col">
       <Breadcrumbs
         items={[
           { href: '/blog', label: 'Blog', icon: LibraryBig },
@@ -120,38 +118,31 @@ const tocSections = await getTOCSections(currentPostId)
           alt={post.data.title}
           width={1200}
           height={630}
-          class="col-span-full mx-auto w-full max-w-5xl object-cover"
+          class="post-hero-image"
         />
       )
     }
 
-    <section class="col-start-2 flex flex-col gap-y-6 text-center">
-      <div class="flex flex-col">
-        <h1 class="mb-2 scroll-mt-31 leading-tight font-medium" id="post-title">
+    <section class="post-header">
+      <div class="stack" style="--gap: 0">
+        <h1 class="post-title" id="post-title">
           {post.data.title}
         </h1>
 
-        <div
-          class="text-muted-foreground divide-border mb-4 flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm"
-        >
+        <div class="post-meta">
           {
             authors.length > 0 && (
-              <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
+              <div class="post-meta-item">
                 {authors.map((author) => (
-                  <div class="flex items-center gap-x-1.5">
+                  <div class="entry-meta-item">
                     <Image
                       src={author.avatar}
                       alt={author.name}
                       width={20}
                       height={20}
-                      class="rounded-full"
                     />
                     {author.isRegistered ? (
-                      <Link
-                        href={`/authors/${author.id}`}
-                        underline
-                        class="text-foreground"
-                      >
+                      <Link href={`/authors/${author.id}`} underline>
                         <span>{author.name}</span>
                       </Link>
                     ) : (
@@ -163,21 +154,17 @@ const tocSections = await getTOCSections(currentPostId)
             )
           }
 
-          <div
-            class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
-          >
+          <div class="post-meta-item">
             <span>{formatDate(post.data.date)}</span>
           </div>
 
-          <div
-            class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
-          >
+          <div class="post-meta-item">
             <span>
               {postReadingTime}
               {
                 combinedReadingTime &&
                   combinedReadingTime !== postReadingTime && (
-                    <span class="text-muted-foreground">
+                    <span class="entry-card-desc">
                       {' '}
                       ({combinedReadingTime} total)
                     </span>
@@ -188,20 +175,20 @@ const tocSections = await getTOCSections(currentPostId)
 
           {
             subpostCount > 0 && (
-              <div class="flex w-full items-center justify-center gap-1 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
-                <FileText class="size-3" />
+              <div class="post-meta-item">
+                <FileText class="icon-inline" />
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
               </div>
             )
           }
         </div>
-        <div class="flex flex-wrap justify-center gap-2">
+        <div class="post-tags">
           {
             post.data.tags &&
               post.data.tags.length > 0 &&
               post.data.tags.map((tag) => (
                 <a href={`/tags/${tag}`} class="badge">
-                  <Hash class="size-3" />
+                  <Hash class="icon-inline" />
                   {tag}
                 </a>
               ))
@@ -222,7 +209,7 @@ const tocSections = await getTOCSections(currentPostId)
       )
     }
 
-    <article class="prose col-start-2 max-w-none">
+    <article class="prose post-prose">
       <Content />
     </article>
 
@@ -232,7 +219,7 @@ const tocSections = await getTOCSections(currentPostId)
           parentId={
             isCurrentSubpost ? getParentId(currentPostId) : currentPostId
           }
-          className="w-64"
+          className="avatar-lg"
         />
       )
     }
@@ -245,15 +232,13 @@ const tocSections = await getTOCSections(currentPostId)
   </section>
 
   <button
-    class="btn group fixed right-8 bottom-8 z-50 hidden"
+    class="btn scroll-top"
     data-icon
     id="scroll-to-top"
     title="Scroll to top"
     aria-label="Scroll to top"
   >
-    <ArrowUp
-      class="mx-auto size-4 transition-all group-hover:-translate-y-0.5"
-    />
+    <ArrowUp />
   </button>
 
   <script>
@@ -270,9 +255,9 @@ const tocSections = await getTOCSections(currentPostId)
           const footerRect = footer.getBoundingClientRect()
           const isFooterVisible = footerRect.top <= window.innerHeight
 
-          scrollToTopButton.classList.toggle(
-            'hidden',
-            window.scrollY <= 300 || isFooterVisible,
+          scrollToTopButton.toggleAttribute(
+            'data-visible',
+            window.scrollY > 300 && !isFooterVisible,
           )
         })
       }

@@ -18,7 +18,7 @@ const { items } = Astro.props
 <nav aria-label="breadcrumb">
   <ol class="crumbs">
     <li>
-      <a href="/" aria-label="Home"><House class="size-4 shrink-0" /></a>
+      <a href="/" aria-label="Home"><House class="icon-sm" /></a>
     </li>
     {
       items.map((item, index) => {
@@ -32,12 +32,12 @@ const { items } = Astro.props
             <li>
               {isLast ? (
                 <span aria-current="page">
-                  {Icon && <Icon class="size-4 shrink-0" />}
+                  {Icon && <Icon class="icon-sm" />}
                   <span>{item.label}</span>
                 </span>
               ) : (
                 <a href={item.href}>
-                  {Icon && <Icon class="size-4 shrink-0" />}
+                  {Icon && <Icon class="icon-sm" />}
                   <span>{item.label}</span>
                 </a>
               )}
