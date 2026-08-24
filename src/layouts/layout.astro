@@ -29,5 +29,26 @@ const { class: className } = Astro.props
       <slot />
     </main>
     <Footer />
+
+    {
+      /*
+       * agentation-vanilla — a visual annotation toolbar for pointing an agent
+       * at something on the page. Dev only.
+       *
+       * import.meta.env.DEV is a compile-time constant, so this whole block is
+       * eliminated from the production build rather than guarded at runtime.
+       * Nothing about it reaches dist/.
+       *
+       * Pinned to a commit rather than @main: the project has no tags and no
+       * npm package, and @main means the CDN serves whatever is on that branch
+       * whenever a page loads. Re-pin deliberately to pick up changes.
+       */
+      import.meta.env.DEV && (
+        <script
+          is:inline
+          src="https://cdn.jsdelivr.net/gh/mearnest-dev/agentation-vanilla@3f2fa160d176/agentation-vanilla.js"
+        />
+      )
+    }
   </body>
 </html>
