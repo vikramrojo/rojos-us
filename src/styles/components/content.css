@@ -63,6 +63,17 @@
     }
   }
 
+  /*
+   * The marks ship as white SVG, so light mode has to invert them or they are
+   * white on white. Written as :not([data-theme='dark']) rather than
+   * [data-theme='light'] so it also covers the moment before the inline theme
+   * script has set the attribute — the default canvas is light, and an
+   * uninverted logo there is invisible.
+   */
+  :root:not([data-theme='dark']) .logo-invert svg {
+    filter: invert(1);
+  }
+
   /* The marks are raw SVG; size by height and let width follow. */
   .hero-logo > svg {
     block-size: 100%;
