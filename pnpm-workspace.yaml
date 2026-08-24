@@ -4,8 +4,8 @@ allowBuilds:
   sharp: true
   workerd: true
 minimumReleaseAgeExclude:
-- largen@0.3.0
+  - largen
 onlyBuiltDependencies:
-- esbuild
-- sharp
-- workerd
+  - esbuild
+  - sharp
+  - workerd

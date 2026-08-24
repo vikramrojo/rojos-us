@@ -1,6 +1,6 @@
 ---
 import PageHead from '@/components/page-head.astro'
-import PdfViewer from '@/components/pdf-viewer'
+import Deck from '@/components/deck.astro'
 import Layout from '@/layouts/layout.astro'
 import { getCollection, render } from 'astro:content'
 
@@ -24,7 +24,7 @@ const { Content } = await render(entry)
   />
   <div class="stack" style="--gap: 2rem">
     <div class="bleed-wide">
-      <PdfViewer client:only="react" src={entry.data.pdf} />
+      <Deck src={entry.data.pdf} />
     </div>
     <article class="prose post-prose">
       <h1>{entry.data.title}</h1>

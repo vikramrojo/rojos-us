@@ -1,0 +1,213 @@
+---
+/**
+ * A pitch deck, as pre-rendered slides.
+ *
+ * Replaces a React island that shipped pdf.js, a 1 MB worker and react-pdf to
+ * paint a PDF onto a canvas. Slides are rasterised by scripts/render-decks.sh
+ * and committed, so this ships images and about forty lines of script.
+ *
+ * Slides carry `data-src`, not `src`, and are swapped in as you reach them.
+ * `loading="lazy"` was tried first and defers nothing here: neither hiding the
+ * other tabs with display:none nor putting the slides in a horizontal scroller
+ * stopped Chrome fetching all 26 up front. Keeping the URL out of `src` is the
+ * only thing that reliably does.
+ *
+ * An IntersectionObserver holds the whole deck back until it is on screen, so
+ * the two decks behind unchecked tabs cost nothing at all.
+ *
+ * <noscript> carries the full deck with real `src`, so the page still shows
+ * every slide with JavaScript off — the scroll-snap track means it stays
+ * swipeable there too.
+ */
+import { ChevronLeft, ChevronRight, Download } from '@lucide/astro'
+import fs from 'node:fs'
+import path from 'node:path'
+
+interface Props {
+  /** Path to the PDF under /public, e.g. /pitch/minka-repositioning-deckset.pdf */
+  src: string
+  class?: string
+}
+
+const { src, class: className } = Astro.props
+const slug = path.basename(src, '.pdf')
+const dir = path.join('public', 'pitch', slug)
+
+const slides = fs.existsSync(dir)
+  ? fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith('.webp'))
+      .sort()
+      .map((f) => `/pitch/${slug}/${f}`)
+  : []
+---
+
+<figure class:list={['deck', className]} data-deck>
+  <div class="deck-track" data-deck-track tabindex="0">
+    {
+      slides.map((slide, i) => (
+        <img
+          data-src={slide}
+          alt={`Slide ${i + 1} of ${slides.length}`}
+          width="1600"
+          height="900"
+          decoding="async"
+        />
+      ))
+    }
+  </div>
+
+  <noscript>
+    <div class="deck-track">
+      {
+        slides.map((slide, i) => (
+          <img
+            src={slide}
+            alt={`Slide ${i + 1} of ${slides.length}`}
+            width="1600"
+            height="900"
+          />
+        ))
+      }
+    </div>
+  </noscript>
+
+  <figcaption class="deck-controls">
+    <div class="deck-controls-group">
+      <button class="btn" data-icon data-deck-prev aria-label="Previous slide">
+        <ChevronLeft />
+      </button>
+      <button class="btn" data-icon data-deck-next aria-label="Next slide">
+        <ChevronRight />
+      </button>
+      <span class="deck-status tabular" data-deck-status aria-live="polite">
+        1 / {slides.length}
+      </span>
+    </div>
+    <a class="btn" data-ghost data-compact href={src} download>
+      <Download />
+      Download
+    </a>
+  </figcaption>
+</figure>
+
+<script>
+  function setupDeck(deck: HTMLElement) {
+    const w = window
+    const track = deck.querySelector<HTMLElement>('[data-deck-track]')
+    if (!track) return
+    const slides = [...track.querySelectorAll('img')]
+    if (slides.length === 0) return
+
+    const prev = deck.querySelector<HTMLButtonElement>('[data-deck-prev]')
+    const next = deck.querySelector<HTMLButtonElement>('[data-deck-next]')
+    const status = deck.querySelector<HTMLElement>('[data-deck-status]')
+
+    /* Swap data-src into src for a window around the current slide. */
+    const load = (i: number) => {
+      for (const n of [i - 1, i, i + 1]) {
+        const img = slides[n - 1]
+        if (!img) continue
+        const url = img.dataset.src
+        if (url) {
+          img.src = url
+          delete img.dataset.src
+        }
+      }
+    }
+
+    /*
+     * The current slide is held, not derived on demand.
+     *
+     * Deriving it from scrollLeft reads tidier and is wrong: a smooth scroll
+     * reports its old position until it lands, so two quick clicks on next both
+     * compute from slide 1 and the deck stalls on 2. `page` is the intent;
+     * scrollLeft is consulted only when the user scrolls by hand.
+     */
+    let page = 1
+
+    const fromScroll = () =>
+      Math.min(
+        Math.max(Math.round(track.scrollLeft / track.clientWidth) + 1, 1),
+        slides.length,
+      )
+
+    const reduced = w.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const go = (n: number) => {
+      const i = Math.min(Math.max(n, 1), slides.length)
+      page = i
+      track.scrollTo({
+        left: (i - 1) * track.clientWidth,
+        behavior: reduced ? 'auto' : 'smooth',
+      })
+      /*
+       * Update from the requested slide rather than waiting for the scroll to
+       * land. Smooth scrolling reports its position asynchronously, so driving
+       * the label off the scroll event alone leaves the controls a frame or
+       * more behind — and stuck entirely wherever rAF is throttled.
+       */
+      load(i)
+      paint(i)
+    }
+
+    let armed = false
+
+    const paint = (i: number) => {
+      if (status) status.textContent = `${i} / ${slides.length}`
+      if (prev) prev.disabled = i <= 1
+      if (next) next.disabled = i >= slides.length
+    }
+
+    /* Manual swipe or trackpad scroll: follow wherever it actually landed. */
+    const sync = () => {
+      const i = fromScroll()
+      if (i === page) return
+      page = i
+      if (armed) load(i)
+      paint(i)
+    }
+
+    prev?.addEventListener('click', () => go(page - 1))
+    next?.addEventListener('click', () => go(page + 1))
+    track.addEventListener('scroll', sync, { passive: true })
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        go(page - 1)
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        go(page + 1)
+      }
+    })
+    paint(1)
+
+    /*
+     * Arm the loader only once the deck is on screen, so the two decks behind
+     * unchecked tabs — display:none, never intersecting — fetch nothing.
+     */
+    if (typeof IntersectionObserver === 'undefined') {
+      armed = true
+      load(page)
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            io.disconnect()
+            armed = true
+            load(page)
+          }
+        },
+        { rootMargin: '200px' },
+      )
+      io.observe(deck)
+    }
+  }
+
+  const init = () =>
+    document.querySelectorAll<HTMLElement>('[data-deck]').forEach(setupDeck)
+
+  init()
+  document.addEventListener('astro:page-load', init)
+</script>

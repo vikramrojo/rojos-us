@@ -3,7 +3,7 @@ import AboutSections from '@/components/about-sections.astro'
 import Contact from '@/components/contact.astro'
 import Hero from '@/components/hero.astro'
 import PageHead from '@/components/page-head.astro'
-import PdfViewer from '@/components/pdf-viewer'
+import Deck from '@/components/deck.astro'
 import WorkTimeline from '@/components/work-timeline.astro'
 import Layout from '@/layouts/layout.astro'
 ---
@@ -28,9 +28,7 @@ import Layout from '@/layouts/layout.astro'
         checked="checked"
       />
       <div class="tab-content">
-        <PdfViewer
-          client:only="react"
-          src="/pitch/minka-repositioning-deckset.pdf"
+        <Deck src="/pitch/minka-repositioning-deckset.pdf"
         />
       </div>
       <input
@@ -40,9 +38,7 @@ import Layout from '@/layouts/layout.astro'
         aria-label="Product"
       />
       <div class="tab-content">
-        <PdfViewer
-          client:only="react"
-          src="/pitch/workos-webhooks-deckset.pdf"
+        <Deck src="/pitch/workos-webhooks-deckset.pdf"
         />
       </div>
       <input
@@ -52,7 +48,7 @@ import Layout from '@/layouts/layout.astro'
         aria-label="Engineering"
       />
       <div class="tab-content">
-        <PdfViewer client:only="react" src="/pitch/wondo-beta-deckset.pdf" />
+        <Deck src="/pitch/wondo-beta-deckset.pdf" />
       </div>
     </div>
   </div>

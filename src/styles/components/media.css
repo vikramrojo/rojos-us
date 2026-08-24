@@ -52,6 +52,63 @@
 }
 
 @layer largen.components {
+  .deck {
+    --gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .deck-track {
+    --bg: var(--canvas);
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-md);
+    display: flex;
+    inline-size: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .deck-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .deck-track img {
+    flex: 0 0 100%;
+    inline-size: 100%;
+    block-size: auto;
+    display: block;
+    scroll-snap-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .deck-track {
+      scroll-behavior: auto;
+    }
+  }
+
+  .deck-controls {
+    --gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .deck-controls-group {
+    --gap: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .deck-status {
+    --fg: var(--ink-muted);
+    --font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+  }
+
   .pdf-viewer {
     --gap: 0.75rem;
     display: flex;
