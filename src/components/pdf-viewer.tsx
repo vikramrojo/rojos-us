@@ -63,6 +63,37 @@ export default function PdfViewer({ src, className }: Props) {
   const [page, setPage] = useState<number>(1)
   const [canvasBg, setCanvasBg] = useState<string>('white')
 
+  /*
+   * Nothing loads until the viewer is on screen.
+   *
+   * The home page stacks three of these in a CSS-only radio tab group, so all
+   * three islands mount. Without this, every deck is fetched and every pdf.js
+   * worker spawned on load — 3.8 MB for two panels the visitor may never open.
+   * A hidden tab is display:none, so it never intersects; checking its radio
+   * reveals it and this fires.
+   */
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    if (typeof IntersectionObserver === 'undefined') {
+      setVisible(true)
+      return
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setVisible(true)
+          io.disconnect()
+        }
+      },
+      { rootMargin: '200px' },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
@@ -104,27 +135,40 @@ export default function PdfViewer({ src, className }: Props) {
   return (
     <div className={cn('pdf-viewer', className)}>
       <div ref={containerRef} className="pdf-stage">
-        <Document
-          file={src}
-          onLoadSuccess={({ numPages: n }) => {
-            setNumPages(n)
-            setPage(1)
-          }}
-          loading={<div className="pdf-loading">Loading PDF…</div>}
-          error={
-            <div className="pdf-loading">
-              Couldn’t load the PDF.{' '}
-              <a className="pdf-link" href={src} target="_blank" rel="noopener">
-                Open it directly
-              </a>
-              .
-            </div>
-          }
-        >
-          {width > 0 && (
-            <Page pageNumber={page} width={width} canvasBackground={canvasBg} />
-          )}
-        </Document>
+        {!visible ? (
+          <div className="pdf-loading">Loading PDF…</div>
+        ) : (
+          <Document
+            file={src}
+            onLoadSuccess={({ numPages: n }) => {
+              setNumPages(n)
+              setPage(1)
+            }}
+            loading={<div className="pdf-loading">Loading PDF…</div>}
+            error={
+              <div className="pdf-loading">
+                Couldn’t load the PDF.{' '}
+                <a
+                  className="pdf-link"
+                  href={src}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Open it directly
+                </a>
+                .
+              </div>
+            }
+          >
+            {width > 0 && (
+              <Page
+                pageNumber={page}
+                width={width}
+                canvasBackground={canvasBg}
+              />
+            )}
+          </Document>
+        )}
       </div>
 
       <div className="pdf-controls">
