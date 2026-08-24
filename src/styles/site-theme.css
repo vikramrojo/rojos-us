@@ -186,6 +186,42 @@
   }
 
   /*
+   * The rest of what Tailwind's preflight did and largen's reset does not.
+   *
+   * largen.reset covers box-sizing and <body>; it deliberately leaves every
+   * other element to the UA so that an unset slot can revert to something
+   * sensible. That is right for a greenfield document and wrong for one whose
+   * spacing was authored against a preflight — without this every heading,
+   * paragraph and list outside `.prose` picks up UA margins and the whole page
+   * grows.
+   *
+   * largen.paint sorts after this layer, so `--pad` still wins wherever a
+   * component sets it; this is only the floor for the elements that do not.
+   */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+
+  /*
+   * Headings take the surrounding size, as they did under Tailwind's preflight
+   * (`h1-h6 { font-size: inherit }`). largen's reset does not speak to them, so
+   * without this the UA defaults return and every heading outside `.prose`
+   * jumps — a post title from 1rem to 2em, a card title to 1.17em.
+   *
+   * largen.paint sorts after this layer, so any component that sets
+   * --font-size still wins; this is only the floor for the ones that do not.
+   */
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-size: inherit;
+  }
+
+  /*
    * Links inherit colour and decoration, as they did under Tailwind's preflight.
    * largen's reset does not speak to <a>, so without this the UA default returns
    * and every link on the site — nav, breadcrumbs, TOC, cards — is underlined.
