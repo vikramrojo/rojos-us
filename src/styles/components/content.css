@@ -6,7 +6,7 @@
   /* ── hero ─────────────────────────────────────────────────────────────── */
   .hero {
     --radius: var(--radius-lg);
-    --pad: 4rem 1.5rem;
+    --pad: 4rem var(--pad-box);
     position: relative;
     overflow: hidden;
   }
@@ -84,7 +84,7 @@
   .timeline {
     display: flex;
     flex-direction: column;
-    margin-inline-start: 0.75rem;
+    margin-inline-start: var(--rail-offset);
     border-inline-start: 1px solid var(--line);
     --pad: 0;
     list-style: none;
@@ -92,7 +92,7 @@
 
   .timeline > li {
     position: relative;
-    padding-inline-start: 1.5rem;
+    padding-inline-start: var(--pad-nest);
   }
 
   .timeline > li + li {
@@ -115,7 +115,7 @@
     --border-color: var(--line);
     --border-width: 1px;
     --border-style: solid;
-    --pad: 1.5rem;
+    --pad: var(--pad-box);
   }
 
   .timeline-head {
@@ -139,7 +139,7 @@
   /* Markdown body inside a timeline entry. */
   .timeline-prose ul {
     list-style: disc;
-    padding-inline-start: 1.25rem;
+    padding-inline-start: var(--pad-list);
   }
 
   .timeline-prose li {
@@ -194,7 +194,7 @@
   }
 
   .accordion summary {
-    --pad: 1rem 1.5rem;
+    --pad: 1rem var(--pad-box);
     --weight: 600;
     display: flex;
     align-items: center;
@@ -218,7 +218,7 @@
   }
 
   .accordion-body {
-    --pad: 0 1.5rem 1rem;
+    --pad: 0 var(--pad-box) 1rem;
   }
 
   .accordion-body > div {

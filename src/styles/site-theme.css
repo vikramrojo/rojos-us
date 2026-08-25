@@ -90,6 +90,22 @@
     --hue-gray: oklch(55.1% 0.027 264.364);
     --hue-gray-soft: oklch(70.7% 0.022 261.325);
 
+    /*
+     * Spacing that has to shrink on a phone.
+     *
+     * These nest: page gutter, then a card's padding, then whatever is
+     * indented inside that. At 390px the timeline stacked gutter 16 + rail 12
+     * + item 24 + card 24 + list 20 down the left and 16 + 24 down the right —
+     * 139px of 390, so body copy wrapped every three or four words. One token
+     * per role, shrunk once below, beats a media query in every component that
+     * happens to nest.
+     */
+    --pad-gutter: 1rem;
+    --pad-box: 1.5rem;
+    --pad-nest: 1.5rem;
+    --pad-list: 1.25rem;
+    --rail-offset: 0.75rem;
+
     /* Type */
     --font-ui:
       var(--font-azeret-mono), ui-sans-serif, system-ui, sans-serif,
@@ -143,6 +159,20 @@
     --warning-on: oklch(0.205 0 0);
     --danger: oklch(0.704 0.191 22.216);
     --danger-on: oklch(0.205 0 0);
+  }
+
+  /*
+   * Phone. One place to tune every nesting level at once. 40rem matches the
+   * threshold the cards and post meta already flip at.
+   */
+  @media (width <= 40rem) {
+    :root {
+      --pad-gutter: 0.75rem;
+      --pad-box: 1rem;
+      --pad-nest: 0.875rem;
+      --pad-list: 1.125rem;
+      --rail-offset: 0.375rem;
+    }
   }
 }
 

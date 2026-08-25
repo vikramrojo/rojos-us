@@ -112,7 +112,7 @@
 
   .toc-panel {
     --gap: 0.5rem;
-    --pad: 0 1rem;
+    --pad: 0 var(--pad-gutter);
     display: flex;
     flex-direction: column;
   }
@@ -192,7 +192,7 @@
   }
 
   .toc-header-bar {
-    --pad: 0.75rem 1rem;
+    --pad: 0.75rem var(--pad-gutter);
     display: flex;
     align-items: center;
     inline-size: 100%;

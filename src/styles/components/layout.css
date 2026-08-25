@@ -68,7 +68,7 @@
 
   .site-header-bar {
     --gap: 1rem;
-    --pad: 0.75rem 1rem;
+    --pad: 0.75rem var(--pad-gutter);
     --measure: 56rem;
     display: flex;
     align-items: center;
@@ -126,7 +126,7 @@
 
   .site-main {
     --gap: 1.5rem;
-    --pad: 0 1rem;
+    --pad: 0 var(--pad-gutter);
     --measure: 56rem;
     display: flex;
     flex-direction: column;
@@ -138,7 +138,7 @@
 
   .site-footer {
     --gap: 0.5rem;
-    --pad: 0 1rem;
+    --pad: 0 var(--pad-gutter);
     --measure: 56rem;
     display: flex;
     flex-direction: column;
@@ -261,7 +261,7 @@
   }
 
   .contact {
-    --pad: 1.5rem;
+    --pad: var(--pad-box);
   }
 
   .contact > * + * {
