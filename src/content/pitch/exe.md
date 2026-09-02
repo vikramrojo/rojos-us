@@ -1,8 +1,8 @@
 ---
-title: 'Founding Design Engineer at exe'
+title: 'Design Engineer at exe'
 pdf: '/pitch/exe-pitch.pdf'
 company: 'exe'
-role: 'Founding Design Engineer'
+role: 'Design Engineer'
 ---
 
 A short pre-read ahead of an interview — ten slides on why exe, what I've shipped
