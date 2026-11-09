@@ -5,6 +5,7 @@ import Breadcrumbs from '@/components/breadcrumbs.astro'
 import PageHead from '@/components/page-head.astro'
 import Layout from '@/layouts/layout.astro'
 import { getAllAuthors, getPostsByAuthor } from '@/lib/data-utils'
+import { User, Users } from '@lucide/astro'
 
 export async function getStaticPaths() {
   const authors = await getAllAuthors()
@@ -18,7 +19,7 @@ const { author } = Astro.props
 const authorPosts = await getPostsByAuthor(author.id)
 ---
 
-<Layout class="max-w-3xl">
+<Layout class="measure-md">
   <PageHead
     slot="head"
     title={`${author.data.name} (Author)`}
@@ -27,19 +28,19 @@ const authorPosts = await getPostsByAuthor(author.id)
   />
   <Breadcrumbs
     items={[
-      { href: '/authors', label: 'Authors', icon: 'lucide:users' },
-      { label: author.data.name, icon: 'lucide:user' },
+      { href: '/authors', label: 'Authors', icon: Users },
+      { label: author.data.name, icon: User },
     ]}
   />
 
   <section>
     <AuthorCard author={author} />
   </section>
-  <section class="flex flex-col gap-y-4">
-    <h2 class="font-medium">Posts by {author.data.name}</h2>
+  <section class="stack">
+    <h2 class="medium">Posts by {author.data.name}</h2>
     {
       authorPosts.length > 0 ? (
-        <ul class="flex flex-col gap-4">
+        <ul class="stack">
           {authorPosts
             .filter((post) => !post.data.draft)
             .map((post) => (
@@ -49,9 +50,7 @@ const authorPosts = await getPostsByAuthor(author.id)
             ))}
         </ul>
       ) : (
-        <p class="text-muted-foreground">
-          No posts available from this author.
-        </p>
+        <p class="muted">No posts available from this author.</p>
       )
     }
   </section>

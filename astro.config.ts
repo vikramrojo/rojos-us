@@ -1,9 +1,7 @@
 import { defineConfig, fontProviders, passthroughImageService } from 'astro/config'
 
 import mdx from '@astrojs/mdx'
-import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
-import icon from 'astro-icon'
 
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import rehypeExpressiveCode from 'rehype-expressive-code'
@@ -16,8 +14,6 @@ import remarkMath from 'remark-math'
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import type { ExpressiveCodeTheme } from 'rehype-expressive-code'
-
-import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   site: 'https://rojos.us',
@@ -34,12 +30,9 @@ export default defineConfig({
   },
   integrations: [
     mdx(),
-    react(),
     sitemap({ filter: (page) => !page.includes('/pitch/') }),
-    icon(),
   ],
   vite: {
-    plugins: [tailwindcss()],
     server: {
       allowedHosts: ['.trycloudflare.com'],
     },
@@ -83,14 +76,14 @@ export default defineConfig({
           },
           styleOverrides: {
             codeFontSize: '0.75rem',
-            borderColor: 'var(--border)',
+            borderColor: 'var(--line)',
             codeFontFamily: 'var(--font-mono)',
             codeBackground:
-              'color-mix(in oklab, var(--muted) 25%, transparent)',
+              'color-mix(in oklab, var(--surface) 25%, transparent)',
             frames: {
-              editorActiveTabForeground: 'var(--muted-foreground)',
+              editorActiveTabForeground: 'var(--ink-muted)',
               editorActiveTabBackground:
-                'color-mix(in oklab, var(--muted) 25%, transparent)',
+                'color-mix(in oklab, var(--surface) 25%, transparent)',
               editorActiveTabIndicatorBottomColor: 'transparent',
               editorActiveTabIndicatorTopColor: 'transparent',
               editorTabBorderRadius: '0',
@@ -98,15 +91,15 @@ export default defineConfig({
               editorTabBarBorderBottomColor: 'transparent',
               frameBoxShadowCssValue: 'none',
               terminalBackground:
-                'color-mix(in oklab, var(--muted) 25%, transparent)',
+                'color-mix(in oklab, var(--surface) 25%, transparent)',
               terminalTitlebarBackground: 'transparent',
               terminalTitlebarBorderBottomColor: 'transparent',
-              terminalTitlebarForeground: 'var(--muted-foreground)',
+              terminalTitlebarForeground: 'var(--ink-muted)',
             },
             lineNumbers: {
-              foreground: 'var(--muted-foreground)',
+              foreground: 'var(--ink-muted)',
             },
-            uiFontFamily: 'var(--font-sans)',
+            uiFontFamily: 'var(--font-ui)',
           },
         },
       ],

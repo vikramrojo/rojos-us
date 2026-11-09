@@ -1,61 +1,63 @@
 ---
-import PageHead from '@/components/page-head.astro'
-import Layout from '@/layouts/layout.astro'
-import Hero from '@/components/hero.astro'
 import AboutSections from '@/components/about-sections.astro'
-import WorkTimeline from '@/components/work-timeline.astro'
 import Contact from '@/components/contact.astro'
-import PdfViewer from '@/components/pdf-viewer'
+import Hero from '@/components/hero.astro'
+import PageHead from '@/components/page-head.astro'
+import Deck from '@/components/deck.astro'
+import WorkTimeline from '@/components/work-timeline.astro'
+import Layout from '@/layouts/layout.astro'
 ---
 
 <Layout>
   <PageHead slot="head" title="Home" />
   <Hero />
-  <div
-    class="flex items-center gap-4 text-sm uppercase tracking-widest text-muted-foreground"
-    id="about"
-  >
+  <div class="section-label" id="about">
     <span>Summary</span>
-    <div class="flex-1 border-t"></div>
   </div>
   <AboutSections />
-    <div
-    class="mt-8 flex items-center gap-4 text-sm uppercase tracking-widest text-muted-foreground md:mt-20"
-    id="portfolio"
-  >
+  <div class="section-label" id="portfolio">
     <span>Portfolio</span>
-    <div class="flex-1 border-t"></div>
   </div>
-  <div class="xl:-mx-48">
+  <div class="bleed">
     <div role="tablist" class="tabs">
-      <input type="radio" name="portfolio_tabs" class="tab" aria-label="Marketing" checked="checked" />
-      <div class="tab-content bg-base-100 border-base-300 border p-2 md:p-6">
-        <PdfViewer client:only="react" src="/pitch/minka-repositioning-deckset.pdf" />
+      <input
+        type="radio"
+        name="portfolio_tabs"
+        class="tab"
+        aria-label="Marketing"
+        checked="checked"
+      />
+      <div class="tab-content">
+        <Deck src="/pitch/minka-repositioning-deckset.pdf"
+        />
       </div>
-      <input type="radio" name="portfolio_tabs" class="tab" aria-label="Product" />
-      <div class="tab-content bg-base-100 border-base-300 border p-2 md:p-6">
-        <PdfViewer client:only="react" src="/pitch/workos-webhooks-deckset.pdf" />
+      <input
+        type="radio"
+        name="portfolio_tabs"
+        class="tab"
+        aria-label="Product"
+      />
+      <div class="tab-content">
+        <Deck src="/pitch/workos-webhooks-deckset.pdf"
+        />
       </div>
-      <input type="radio" name="portfolio_tabs" class="tab" aria-label="Engineering" />
-      <div class="tab-content bg-base-100 border-base-300 border p-2 md:p-6">
-        <PdfViewer client:only="react" src="/pitch/wondo-beta-deckset.pdf" />
+      <input
+        type="radio"
+        name="portfolio_tabs"
+        class="tab"
+        aria-label="Engineering"
+      />
+      <div class="tab-content">
+        <Deck src="/pitch/wondo-beta-deckset.pdf" />
       </div>
     </div>
   </div>
-  <div
-    class="mt-8 flex items-center gap-4 text-sm uppercase tracking-widest text-muted-foreground md:mt-20"
-    id="work"
-  >
+  <div class="section-label" id="work">
     <span>Experience</span>
-    <div class="flex-1 border-t"></div>
   </div>
   <WorkTimeline />
-  <div
-    class="mt-8 flex items-center gap-4 text-sm uppercase tracking-widest text-muted-foreground md:mt-20"
-    id="contact"
-  >
+  <div class="section-label" id="contact">
     <span>Contact</span>
-    <div class="flex-1 border-t"></div>
   </div>
   <Contact />
 </Layout>

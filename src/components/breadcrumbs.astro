@@ -1,18 +1,11 @@
 ---
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Icon } from 'astro-icon/components'
+import type { IconComponent } from '@/types'
+import { ChevronRight, House } from '@lucide/astro'
 
 export interface BreadcrumbItem {
   href?: string
   label: string
-  icon?: string
+  icon?: IconComponent
 }
 
 interface Props {
@@ -22,40 +15,36 @@ interface Props {
 const { items } = Astro.props
 ---
 
-<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="/">
-        <Icon name="lucide:home" class="size-4 shrink-0" />
-      </BreadcrumbLink>
-    </BreadcrumbItem>
+<nav aria-label="breadcrumb">
+  <ol class="crumbs">
+    <li>
+      <a href="/" aria-label="Home"><House class="icon-sm" /></a>
+    </li>
     {
-      items.map((item, index) => (
-        <>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            {index === items.length - 1 ? (
-              <BreadcrumbPage>
-                <span class="flex items-center gap-x-2">
-                  {item.icon && (
-                    <Icon name={item.icon} class="size-4 shrink-0" />
-                  )}
+      items.map((item, index) => {
+        const Icon = item.icon
+        const isLast = index === items.length - 1
+        return (
+          <>
+            <li data-crumb-separator aria-hidden="true">
+              <ChevronRight />
+            </li>
+            <li>
+              {isLast ? (
+                <span aria-current="page">
+                  {Icon && <Icon class="icon-sm" />}
                   <span>{item.label}</span>
                 </span>
-              </BreadcrumbPage>
-            ) : (
-              <BreadcrumbLink href={item.href}>
-                <span class="flex items-center gap-x-2">
-                  {item.icon && (
-                    <Icon name={item.icon} class="size-4 shrink-0" />
-                  )}
+              ) : (
+                <a href={item.href}>
+                  {Icon && <Icon class="icon-sm" />}
                   <span>{item.label}</span>
-                </span>
-              </BreadcrumbLink>
-            )}
-          </BreadcrumbItem>
-        </>
-      ))
+                </a>
+              )}
+            </li>
+          </>
+        )
+      })
     }
-  </BreadcrumbList>
-</Breadcrumb>
+  </ol>
+</nav>

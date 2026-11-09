@@ -1,6 +1,5 @@
 ---
-import '@/styles/global.css'
-import '@/styles/typography.css'
+import '@/styles/index.css'
 
 import Footer from '@/components/footer.astro'
 import Head from '@/components/head.astro'
@@ -16,26 +15,40 @@ const { class: className } = Astro.props
 ---
 
 <!doctype html>
-<html
-  class="bg-background text-foreground scheme-light-dark"
-  lang={SITE.locale}
->
+<html lang={SITE.locale}>
   <Head>
     <slot name="head" />
   </Head>
-  <body class="flex h-fit min-h-screen flex-col gap-y-6 font-sans font-light">
-    <header
-      class="bg-background/50 sticky top-0 z-50 divide-y backdrop-blur-sm xl:divide-none"
-    >
+  <body class="site-body">
+    <header class="site-header">
       <Header />
       <slot name="subposts-navigation" />
       <slot name="table-of-contents" />
     </header>
-    <main
-      class={cn('w-full mx-auto flex grow flex-col gap-y-6 px-4 max-w-4xl', className)}
-    >
+    <main class={cn('site-main', className)}>
       <slot />
     </main>
     <Footer />
+
+    {
+      /*
+       * agentation-vanilla — a visual annotation toolbar for pointing an agent
+       * at something on the page. Dev only.
+       *
+       * import.meta.env.DEV is a compile-time constant, so this whole block is
+       * eliminated from the production build rather than guarded at runtime.
+       * Nothing about it reaches dist/.
+       *
+       * Pinned to a commit rather than @main: the project has no tags and no
+       * npm package, and @main means the CDN serves whatever is on that branch
+       * whenever a page loads. Re-pin deliberately to pick up changes.
+       */
+      import.meta.env.DEV && (
+        <script
+          is:inline
+          src="https://cdn.jsdelivr.net/gh/mearnest-dev/agentation-vanilla@3f2fa160d176/agentation-vanilla.js"
+        />
+      )
+    }
   </body>
 </html>

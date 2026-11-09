@@ -1,7 +1,7 @@
 ---
 import PageHead from '@/components/page-head.astro'
+import Deck from '@/components/deck.astro'
 import Layout from '@/layouts/layout.astro'
-import PdfViewer from '@/components/pdf-viewer'
 import { getCollection, render } from 'astro:content'
 
 export async function getStaticPaths() {
@@ -19,14 +19,14 @@ const { Content } = await render(entry)
 <Layout>
   <PageHead
     slot="head"
-    title={`${entry.data.role} ??? ${entry.data.company}`}
+    title={`${entry.data.role} — ${entry.data.company}`}
     noindex
   />
-  <div class="flex flex-col gap-8">
-    <div class="lg:-mx-16 xl:-mx-48">
-      <PdfViewer client:only="react" src={entry.data.pdf} />
+  <div class="stack" style="--gap: 2rem">
+    <div class="bleed-wide">
+      <Deck src={entry.data.pdf} />
     </div>
-    <article class="prose max-w-none">
+    <article class="prose post-prose">
       <h1>{entry.data.title}</h1>
       <Content />
     </article>

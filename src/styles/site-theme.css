@@ -1,0 +1,281 @@
+/*
+ * Our theme: largen's tokens, given this site's values.
+ *
+ * largen ships a default palette; everything here overrides it so the site
+ * keeps the monochrome oklch scheme and Azeret Mono type it already had.
+ * Nothing in ./largen/ is edited — this file wins by loading after it.
+ */
+
+/* Not layerable, and moved here verbatim from global.css. */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMonoVF.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Token overrides, in largen's own token layer.
+ *
+ * These were unlayered for most of the migration: largen used to ship its light
+ * tokens inside @layer largen.tokens but theme-dark.css unlayered, so a dark
+ * override written in the layer was silently ignored while the light one
+ * applied. That asymmetry is fixed upstream, so these sit where they belong —
+ * later in the same layer, which wins by ordinary source order.
+ */
+@layer largen.tokens {
+  :root {
+    /* Surfaces and text. Left column is the shadcn name these replace. */
+    --canvas: oklch(1 0 0); /* was --background      */
+    --ink: oklch(0.145 0 0); /* was --foreground      */
+    --ink-muted: oklch(0.556 0 0); /* was --muted-foreground */
+    --surface: oklch(0.97 0 0); /* was --muted           */
+    --line: oklch(0.922 0 0); /* was --border          */
+
+    /*
+     * The tone ramp is deliberately monochrome. Only --danger carries chroma,
+     * so a stray data-tone cannot introduce a colour this site does not use.
+     * The --hue-* family (untouched, from largen) is the escape hatch for
+     * genuinely multi-hued things like callouts.
+     */
+    --neutral: oklch(0.205 0 0); /* was --primary            */
+    --neutral-on: oklch(0.985 0 0); /* was --primary-foreground */
+    --primary: oklch(0.205 0 0);
+    --primary-on: oklch(0.985 0 0);
+    --secondary: oklch(0.556 0 0);
+    --secondary-on: oklch(0.985 0 0);
+    --success: oklch(0.205 0 0);
+    --success-on: oklch(0.985 0 0);
+    --info: oklch(0.205 0 0);
+    --info-on: oklch(0.985 0 0);
+    --warning: oklch(0.205 0 0);
+    --warning-on: oklch(0.985 0 0);
+    --danger: oklch(0.577 0.245 27.325); /* was --destructive */
+    --danger-on: oklch(0.985 0 0);
+
+    /*
+     * The hue family — the escape hatch for things that carry a colour without
+     * carrying a meaning. Callouts are the only consumer: 24 variants encoding
+     * 18 distinct hues, none of them semantic (a lemma is sky, a corollary is
+     * cyan — that is decoration, not meaning).
+     *
+     * These are literals, and that is correct: the token layer is exactly where
+     * colour literals belong. Components never name one directly; they set
+     * `--tone: var(--hue-*)`, which feeds the tone axis so --tone-ink and
+     * --tone-line derive from it in both themes.
+     *
+     * Values are Tailwind's, so the callout borders stay exactly what they were.
+     */
+    --hue-blue: oklch(62.3% 0.214 259.815);
+    --hue-blue-soft: oklch(80.9% 0.105 251.813);
+    --hue-sky: oklch(68.5% 0.169 237.323);
+    --hue-sky-soft: oklch(74.6% 0.16 232.661);
+    --hue-cyan: oklch(71.5% 0.143 215.221);
+    --hue-teal: oklch(70.4% 0.14 182.503);
+    --hue-emerald: oklch(69.6% 0.17 162.48);
+    --hue-emerald-deep: oklch(59.6% 0.145 163.225);
+    --hue-green: oklch(72.3% 0.219 149.579);
+    --hue-lime: oklch(76.8% 0.233 130.85);
+    --hue-yellow: oklch(79.5% 0.184 86.047);
+    --hue-amber: oklch(76.9% 0.188 70.08);
+    --hue-orange: oklch(64.6% 0.222 41.116);
+    --hue-red: oklch(63.7% 0.237 25.331);
+    --hue-pink: oklch(65.6% 0.241 354.308);
+    --hue-purple: oklch(62.7% 0.265 303.9);
+    --hue-violet: oklch(54.1% 0.281 293.009);
+    --hue-indigo: oklch(58.5% 0.233 277.117);
+    --hue-slate: oklch(55.4% 0.046 257.417);
+    --hue-slate-soft: oklch(70.4% 0.04 256.788);
+    --hue-gray: oklch(55.1% 0.027 264.364);
+    --hue-gray-soft: oklch(70.7% 0.022 261.325);
+
+    /*
+     * Spacing that has to shrink on a phone.
+     *
+     * These nest: page gutter, then a card's padding, then whatever is
+     * indented inside that. At 390px the timeline stacked gutter 16 + rail 12
+     * + item 24 + card 24 + list 20 down the left and 16 + 24 down the right —
+     * 139px of 390, so body copy wrapped every three or four words. One token
+     * per role, shrunk once below, beats a media query in every component that
+     * happens to nest.
+     */
+    --pad-gutter: 1rem;
+    --pad-box: 1.5rem;
+    --pad-nest: 1.5rem;
+    --pad-list: 1.25rem;
+    --rail-offset: 0.75rem;
+
+    /* Type */
+    --font-ui:
+      var(--font-azeret-mono), ui-sans-serif, system-ui, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
+    --font-mono:
+      'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      'Liberation Mono', 'Courier New', monospace;
+    --weight-light: 300;
+
+    /*
+     * largen's reset sets var(--line-height-base) on <body>. Tailwind's
+     * preflight used to set 1.5 on <html>; matching it kept body leading
+     * identical across the migration, and there is no reason to move it now.
+     *
+     * Renamed from --leading upstream, which freed that name for the
+     * --line-height slot. The pair now mirrors --text-base / --font-size.
+     */
+    --line-height-base: 1.5;
+
+    /*
+     * Matched to Tailwind's scale, not largen's (largen's md/lg sit one step
+     * larger). Keeping Tailwind's values means radii do not shift when Tailwind
+     * is removed, and means it does not matter which of the two wins while both
+     * are loaded.
+     */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+  }
+
+  [data-theme='dark'] {
+    --canvas: oklch(0.145 0 0);
+    --ink: oklch(0.985 0 0);
+    --ink-muted: oklch(0.708 0 0);
+    --surface: oklch(0.269 0 0);
+    --line: oklch(1 0 0 / 10%);
+
+    --neutral: oklch(0.922 0 0);
+    --neutral-on: oklch(0.205 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-on: oklch(0.205 0 0);
+    --secondary: oklch(0.708 0 0);
+    --secondary-on: oklch(0.205 0 0);
+    --success: oklch(0.922 0 0);
+    --success-on: oklch(0.205 0 0);
+    --info: oklch(0.922 0 0);
+    --info-on: oklch(0.205 0 0);
+    --warning: oklch(0.922 0 0);
+    --warning-on: oklch(0.205 0 0);
+    --danger: oklch(0.704 0.191 22.216);
+    --danger-on: oklch(0.205 0 0);
+  }
+
+  /*
+   * Phone. One place to tune every nesting level at once. 40rem matches the
+   * threshold the cards and post meta already flip at.
+   */
+  @media (width <= 40rem) {
+    :root {
+      --pad-gutter: 0.75rem;
+      --pad-box: 1rem;
+      --pad-nest: 0.875rem;
+      --pad-list: 1.125rem;
+      --rail-offset: 0.375rem;
+    }
+  }
+}
+
+@layer site-base {
+  /*
+   * Replaces global.css's `@layer base { * { @apply tracking-tighter font-light } }`.
+   *
+   * Both are slots now — largen grew --line-height and --letter-spacing, taking
+   * the paint rule from twelve properties to fourteen. Both need the `*`
+   * selector because slots are registered inherits:false. This layer sits
+   * before largen.elements, so buttons (medium) and prose headings still
+   * override it.
+   */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    --letter-spacing: -0.05em;
+    --weight: var(--weight-light);
+  }
+
+  /* Was typography.css's `@layer base` block. */
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  /*
+   * The rest of what Tailwind's preflight did and largen's reset does not.
+   *
+   * largen.reset covers box-sizing and <body>; it deliberately leaves every
+   * other element to the UA so that an unset slot can revert to something
+   * sensible. That is right for a greenfield document and wrong for one whose
+   * spacing was authored against a preflight — without this every heading,
+   * paragraph and list outside `.prose` picks up UA margins and the whole page
+   * grows.
+   *
+   * largen.paint sorts after this layer, so `--pad` still wins wherever a
+   * component sets it; this is only the floor for the elements that do not.
+   */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+
+  /*
+   * Headings take the surrounding size, as they did under Tailwind's preflight
+   * (`h1-h6 { font-size: inherit }`). largen's reset does not speak to them, so
+   * without this the UA defaults return and every heading outside `.prose`
+   * jumps — a post title from 1rem to 2em, a card title to 1.17em.
+   *
+   * largen.paint sorts after this layer, so any component that sets
+   * --font-size still wins; this is only the floor for the ones that do not.
+   */
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-size: inherit;
+  }
+
+  /*
+   * Links inherit colour and decoration, as they did under Tailwind's preflight.
+   * largen's reset does not speak to <a>, so without this the UA default returns
+   * and every link on the site — nav, breadcrumbs, TOC, cards — is underlined.
+   * Components that do want an underline (.prose a, .link[data-underline],
+   * .toc-link) set it themselves, and sort after this.
+   */
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  /* KaTeX needs normal tracking to align. */
+  :where(.katex-display) {
+    --letter-spacing: normal;
+  }
+}
+
+@layer site-overrides {
+  /*
+   * largen's reset opts into antialiased smoothing; this site never did, and it
+   * visibly thins every glyph on the page. Lives here rather than in site-base
+   * because site-base sorts before largen.reset — putting it there loses.
+   */
+  body {
+    -webkit-font-smoothing: auto;
+  }
+}

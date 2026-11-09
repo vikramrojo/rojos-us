@@ -1,0 +1,30 @@
+/*
+ * The stylesheet. Imported once, from layouts/layout.astro.
+ *
+ * `site-base` and `site-overrides` are flat, not `site.base` / `site.overrides`.
+ * As sublayers they would belong to a `site` parent whose position is fixed at
+ * its first mention, so every `largen.*` sublayer would sort before every
+ * `site.*` one regardless of the order written here — which silently let a
+ * global `* { --weight }` outrank a component that set it.
+ *
+ * site-base holds global type defaults and sits before largen so element and
+ * component rules both win over it. site-overrides sits last, for the few rules
+ * that must beat a variant.
+ */
+@layer site-base, largen.reset, largen.tokens, largen.paint, largen.tone,
+  largen.elements, largen.components, largen.modifiers, site-overrides;
+
+@import 'largen';
+@import 'largen/themes/dark.css';
+@import './site-theme.css';
+@import './components/prose.css';
+@import './components/controls.css';
+@import './components/cards.css';
+@import './components/nav.css';
+@import './components/tabs.css';
+@import './components/callout.css';
+@import './components/toc.css';
+@import './components/layout.css';
+@import './components/content.css';
+@import './components/post.css';
+@import './components/media.css';

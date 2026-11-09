@@ -1,0 +1,121 @@
+/*
+ * crumbs and pagination — replacing ui/breadcrumb.tsx (seven React sub-parts
+ * for an <ol> of links) and ui/pagination.tsx (195 lines wrapping Button).
+ *
+ * Both are plain lists of links; nothing about them needed a component library.
+ */
+
+@layer largen.components {
+  .crumbs {
+    --fg: var(--ink-muted);
+    --font-size: calc(0.875rem * var(--scale));
+    --gap: 0.375rem;
+    --pad: 0;
+    --line-height: calc(1.25 / 0.875);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    list-style: none;
+    overflow-wrap: break-word;
+  }
+
+  @media (min-width: 40rem) {
+    .crumbs {
+      --gap: 0.625rem;
+    }
+  }
+
+  /*
+   * Both the <li> and the link/span inside it need to be flex: the crumb holds
+   * an icon beside a label, and the original wrapped that pair in its own
+   * flex container.
+   */
+  .crumbs li,
+  .crumbs li > a,
+  .crumbs li > [aria-current] {
+    --gap: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .crumbs li {
+    --gap: 0.375rem;
+  }
+
+  /*
+   * --fg is registered inherits:false, so setting it on .crumbs does not reach
+   * the links inside — and largen.elements' `a { --fg: var(--tone-ink) }` fills
+   * the gap with a tone-derived colour. Every element that renders text needs
+   * its own --fg.
+   */
+  .crumbs li,
+  .crumbs a {
+    --fg: var(--ink-muted);
+  }
+
+  .crumbs a {
+    --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .crumbs a:hover {
+    --fg: var(--ink);
+  }
+
+  /* The current page: styled, but not a link. */
+  .crumbs [aria-current='page'] {
+    --fg: var(--ink);
+    --weight: var(--weight-normal);
+  }
+
+  .crumbs [data-crumb-separator] > svg {
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+  }
+
+  .pagination {
+    --gap: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    margin-inline: auto;
+    list-style: none;
+    --pad: 0;
+  }
+
+  /* Disabled prev/next. aria-disabled is the real state; largen dims it. */
+  .pagination [aria-disabled='true'] {
+    pointer-events: none;
+  }
+}
+
+@layer largen.components {
+  .pagination-nav {
+    display: flex;
+    inline-size: 100%;
+    justify-content: center;
+    margin-inline: auto;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .pagination-edge {
+    --gap: 0.25rem;
+    --pad: 0.5rem 0.625rem;
+    inline-size: auto;
+  }
+
+  .pagination-edge-label {
+    display: none;
+  }
+
+  @media (min-width: 40rem) {
+    .pagination-edge-label {
+      display: block;
+    }
+  }
+}

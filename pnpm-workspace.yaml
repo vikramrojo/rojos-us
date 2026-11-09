@@ -3,6 +3,8 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+minimumReleaseAgeExclude:
+  - largen
 onlyBuiltDependencies:
   - esbuild
   - sharp

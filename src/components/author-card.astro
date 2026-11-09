@@ -1,7 +1,5 @@
 ---
 import Link from '@/components/link.astro'
-import AvatarComponent from '@/components/ui/avatar'
-import { cn } from '@/lib/utils'
 import type { SocialLink } from '@/types'
 import type { CollectionEntry } from 'astro:content'
 import SocialIcons from './social-icons.astro'
@@ -24,37 +22,28 @@ const socialLinks: SocialLink[] = [
 ].filter(Boolean) as SocialLink[]
 ---
 
-<div
-  class="has-[a:hover]:bg-muted/50 overflow-hidden rounded-xl border p-4 transition-colors duration-300 ease-in-out"
->
-  <div class="flex flex-wrap gap-4">
+<div class="entry-card entry-card-overflow">
+  <div class="author-card-layout">
     <Link
       href={`/authors/${author.id}`}
-      class={cn('block', isAuthorPage && 'pointer-events-none')}
+      style={isAuthorPage ? 'pointer-events: none' : undefined}
     >
-      <AvatarComponent
-        client:load
-        src={avatar}
-        alt={`Avatar of ${name}`}
-        fallback={name[0]}
-        className={cn(
-          'size-32 rounded-md *:data-[slot="avatar-fallback"]:rounded-md',
-          !isAuthorPage &&
-            'hover:ring-primary transition-shadow duration-300 hover:cursor-pointer hover:ring-2',
-        )}
-      />
+      <span
+        class="avatar"
+        data-interactive={!isAuthorPage ? '' : undefined}
+        style="--avatar-size: 8rem; --radius: var(--radius-md)"
+      >
+        {avatar && <img src={avatar} alt={`Avatar of ${name}`} />}
+        <span>{name[0]}</span>
+      </span>
     </Link>
-    <div class="flex grow flex-col justify-between gap-y-4">
+    <div class="author-card-body">
       <div>
-        <div class="flex flex-wrap items-center gap-x-2">
-          <h3 class="font-medium">{name}</h3>
-          {
-            pronouns && (
-              <span class="text-muted-foreground text-sm">({pronouns})</span>
-            )
-          }
+        <div class="author-name-row">
+          <h3 class="entry-card-title">{name}</h3>
+          {pronouns && <span class="author-pronouns">({pronouns})</span>}
         </div>
-        <p class="text-muted-foreground">{bio}</p>
+        <p class="author-bio">{bio}</p>
       </div>
       <SocialIcons links={socialLinks} />
     </div>
