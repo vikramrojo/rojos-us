@@ -24,8 +24,17 @@ import Layout from '@/layouts/layout.astro'
         type="radio"
         name="portfolio_tabs"
         class="tab"
-        aria-label="Marketing"
+        aria-label="Engineering"
         checked="checked"
+      />
+      <div class="tab-content">
+        <Deck src="/pitch/design-eng-deckset.pdf" />
+      </div>
+      <input
+        type="radio"
+        name="portfolio_tabs"
+        class="tab"
+        aria-label="Marketing"
       />
       <div class="tab-content">
         <Deck src="/pitch/minka-repositioning-deckset.pdf"
@@ -40,15 +49,6 @@ import Layout from '@/layouts/layout.astro'
       <div class="tab-content">
         <Deck src="/pitch/workos-webhooks-deckset.pdf"
         />
-      </div>
-      <input
-        type="radio"
-        name="portfolio_tabs"
-        class="tab"
-        aria-label="Engineering"
-      />
-      <div class="tab-content">
-        <Deck src="/pitch/wondo-beta-deckset.pdf" />
       </div>
     </div>
   </div>
