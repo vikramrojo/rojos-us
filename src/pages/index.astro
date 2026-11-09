@@ -3,6 +3,7 @@ import AboutSections from '@/components/about-sections.astro'
 import Contact from '@/components/contact.astro'
 import Hero from '@/components/hero.astro'
 import PageHead from '@/components/page-head.astro'
+import Products from '@/components/products.astro'
 import Deck from '@/components/deck.astro'
 import WorkTimeline from '@/components/work-timeline.astro'
 import Layout from '@/layouts/layout.astro'
@@ -11,6 +12,10 @@ import Layout from '@/layouts/layout.astro'
 <Layout>
   <PageHead slot="head" title="Home" />
   <Hero />
+  <div class="section-label" id="postbyte">
+    <span>Projects</span>
+  </div>
+  <Products />
   <div class="section-label" id="about">
     <span>Summary</span>
   </div>

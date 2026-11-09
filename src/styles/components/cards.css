@@ -147,3 +147,72 @@
     block-size: 0.75rem;
   }
 }
+
+@layer largen.components {
+  /*
+   * The Postbyte products on the home page: one hairline box split into
+   * quadrants. The 1px gap shows the --line background through as the
+   * dividers, so the rules stay single-width at every breakpoint.
+   */
+  .products {
+    --bg: var(--line);
+    --border-color: var(--line);
+    --border-width: 1px;
+    --border-style: solid;
+    --radius: var(--radius-xl);
+    --gap: 1px;
+    --pad: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+    list-style: none;
+  }
+
+  @media (min-width: 40rem) {
+    .products {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .products > li {
+    --bg: var(--canvas);
+    --pad: var(--pad-box);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-head {
+    --gap: 0.25rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .product-link {
+    --fg: var(--ink-muted);
+    --font-size: 0.875rem;
+    --line-height: calc(1.25 / 0.875);
+    --gap: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    text-decoration-line: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
+  }
+
+  .product-link:hover {
+    --fg: var(--ink);
+    text-decoration-color: var(--ink-muted);
+  }
+
+  .products .entry-tags {
+    margin-block-start: auto;
+  }
+
+  .product-challenge {
+    --font-size: 0.875rem;
+    --line-height: calc(1.25 / 0.875);
+    margin-block-end: 1rem;
+  }
+}

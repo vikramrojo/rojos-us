@@ -1,0 +1,123 @@
+---
+import { ArrowUpRight } from '@lucide/astro'
+
+/**
+ * The Postbyte products and open-source work, in brief: what each is, what
+ * it's built on, and the one design problem it was a test of. The first four
+ * track the engineering deck (public/pitch/design-eng-deckset.md) — update
+ * both together.
+ */
+
+interface Product {
+  name: string
+  status: string
+  link?: { href: string; label: string }
+  summary: string
+  stack: string[]
+  challenge: string
+}
+
+const products: Product[] = [
+  {
+    name: 'Finsum',
+    status: 'Live',
+    link: { href: 'https://finsum.app', label: 'finsum.app' },
+    summary:
+      "For people who've quit every budgeting app. You set a weekly budget and text what you spend in WhatsApp, and every reply tells you what's left.",
+    stack: ['WhatsApp', 'TanStack', 'Hono', 'Cloudflare'],
+    challenge:
+      'Tracking money with nothing but plain messages and one cheap LLM. The design lives in the grammar, the reply copy and a one-word undo, and there is no bank login to breach.',
+  },
+  {
+    name: 'Langol',
+    status: 'TestFlight',
+    link: {
+      href: 'https://testflight.apple.com/join/M8dBg9Uw',
+      label: 'Join beta',
+    },
+    summary:
+      'For Romance-language and ESL learners who want conversation practice. Graded speaking and writing with coaching between sessions, private and fully offline.',
+    stack: ['SwiftUI', 'FoundationModels', 'CloudKit'],
+    challenge:
+      'Building on on-device models alongside deterministic systems. Swift decides grammar from bundled data, the model judges only meaning, and it abstains when unsure: 0 false positives in 260 judgements.',
+  },
+  {
+    name: 'Sinfon',
+    status: 'Beta',
+    link: { href: 'https://sinfon.app', label: 'sinfon.app' },
+    summary:
+      'For composers working with maqam and other quarter-tone music, which mainstream notation tools treat as an edge case. Sketch on a 24-tone grid on Mac and iPad, and every sketch is a real LilyPond score.',
+    stack: ['SwiftUI', 'LilyPond', 'MCP'],
+    challenge:
+      "Letting Claude edit safely. The grid, the inspector and Claude share one set of edit commands, so every Claude edit is a single attributed undo step. It's off by default.",
+  },
+  {
+    name: 'Wondo',
+    status: 'Beta',
+    link: { href: 'https://wondo.app', label: 'wondo.app' },
+    summary:
+      'For interactive-fiction authors and their readers. Authors publish Ink stories and own their store, while readers browse, play, tip and subscribe on mobile.',
+    stack: ['Emdash', 'Ink', 'Stripe Connect', 'Capacitor'],
+    challenge:
+      'Fitting a two-sided marketplace into one harness by descoping every feature, and making sign-in and checkout feel like one surface across providers.',
+  },
+  {
+    name: 'Largen',
+    status: 'Open source',
+    link: { href: 'https://largen.dev', label: 'largen.dev' },
+    summary:
+      'For front-end teams, and their coding agents, who want a design system without a framework. A property algebra for CSS in 2.35 kB with no build step. This site runs on it.',
+    stack: ['CSS', '@layer', '@property', 'MCP'],
+    challenge:
+      'One universal paint rule. Every element is painted by a single rule, and an unset slot falls back to revert-layer, so it stays inert until a component opts in. An MCP server lets agents resolve the cascade, check component CSS and validate specs against that contract.',
+  },
+  {
+    name: 'dsd4',
+    status: 'Open source',
+    link: {
+      href: 'https://github.com/vikramrojo/dimage-scan-dual-iv',
+      label: 'GitHub',
+    },
+    summary:
+      'For film photographers with a Konica Minolta DiMAGE Scan Dual IV, whose software only ever ran on PowerPC Macs. A native macOS driver that puts it back in Image Capture and Preview, with raw DNG, multi-sampled and HDR scans.',
+    stack: ['C', 'Ghidra', 'Unicorn', 'USB'],
+    challenge:
+      "Rebuilding Minolta's scanner software from PowerPC binaries. Diffed against the original running in an emulator: all 327 scanner commands match, and the exposure and negative film curves are bit-identical.",
+  },
+]
+---
+
+<ul class="products">
+  {
+    products.map((p) => (
+      <li>
+        <div class="product-head">
+          <h3 class="entry-card-title">
+            {p.name}
+            <span class="timeline-meta"> — {p.status}</span>
+          </h3>
+          {p.link && (
+            <a
+              class="product-link"
+              href={p.link.href}
+              target="_blank"
+              rel="noopener"
+            >
+              {p.link.label}
+              <ArrowUpRight class="icon-inline" />
+            </a>
+          )}
+        </div>
+        <p class="entry-card-desc">{p.summary}</p>
+        <p class="product-challenge">
+          <strong>Design challenge:</strong> {p.challenge}
+        </p>
+        <div class="entry-tags">
+          {p.stack.map((tech) => (
+            <span class="badge">{tech}</span>
+          ))}
+        </div>
+      </li>
+    ))
+  }
+</ul>
